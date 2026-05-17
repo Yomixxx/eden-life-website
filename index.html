@@ -1,0 +1,1261 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eden Life Experience Centre | Church in Lagos, Nigeria</title>
+  <meta name="description" content="Eden Life Experience Centre is a Christ-centred church in Lagos, Nigeria. We meet at Ogudu (Mainland) and Ajah (Island). Join us for worship, discipleship, and community.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://www.edenlifeng.org/">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.edenlifeng.org/">
+  <meta property="og:title" content="Eden Life Experience Centre | Church in Lagos">
+  <meta property="og:description" content="We Equip People for Christ and a Life of Exploits.">
+  <meta property="og:image" content="https://www.edenlifeng.org/assets/photos/service-wide.jpg">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,700&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
+
+  <style>
+    /* ─────────────────────────────────────────────────────────
+       TOKENS
+    ───────────────────────────────────────────────────────── */
+    :root {
+      --bg-0:    #080f0e;   /* deepest — OLED black   */
+      --bg-1:    #0d1917;   /* primary surface        */
+      --bg-2:    #111f1d;   /* section alt            */
+      --bg-3:    #162421;   /* panels / cards         */
+      --bg-4:    #1c2e2b;   /* hover states           */
+      --eden:    #5ec957;   /* brand green            */
+      --eden-hover: #4ec948;
+      --eden-dim: rgba(94,201,87,.12);
+      --eden-glow: rgba(94,201,87,.28);
+      --border:  rgba(255,255,255,.07);
+      --border-hi: rgba(255,255,255,.12);
+      --text-hi:   #ffffff;
+      --text-md:   rgba(255,255,255,.78);
+      --text-lo:   rgba(255,255,255,.45);
+      --text-dim:  rgba(255,255,255,.28);
+      --nav-h:   68px;
+      --max-w:   1240px;
+      --px:      1.5rem;
+      --section-py: 6rem;
+      --font-display: 'Montserrat', system-ui, sans-serif;
+      --font-body:    'Poppins',    system-ui, sans-serif;
+    }
+
+    /* ─────────────────────────────────────────────────────────
+       RESET
+    ───────────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; color-scheme: dark; }
+    body {
+      font-family: var(--font-body);
+      font-size: 1rem;
+      line-height: 1.65;
+      color: var(--text-md);
+      background: var(--bg-1);
+      -webkit-font-smoothing: antialiased;
+      animation: heroFadeIn 220ms ease both;
+    }
+    @keyframes heroFadeIn { from { opacity: 0; } to { opacity: 1; } }
+    img, video { display: block; max-width: 100%; height: auto; }
+    a { color: inherit; text-decoration: none; }
+    button { cursor: pointer; border: none; background: none; font-family: inherit; }
+    ul, ol { list-style: none; }
+    ::selection { background: rgba(94,201,87,.22); color: #fff; }
+    [id] { scroll-margin-top: calc(var(--nav-h) + 1.5rem); }
+
+    :focus { outline: none; }
+    :focus-visible { outline: 2px solid var(--eden); outline-offset: 3px; border-radius: 2px; }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+      .reveal { opacity: 1 !important; transform: none !important; }
+    }
+    address { font-style: normal; }
+
+    /* ─────────────────────────────────────────────────────────
+       SKIP LINK
+    ───────────────────────────────────────────────────────── */
+    .skip-link {
+      position: absolute; top: -100%; left: 1rem;
+      padding: .5rem 1rem; background: var(--eden);
+      color: var(--bg-0); z-index: 999; font-size: .875rem;
+      font-weight: 600; transition: top 180ms ease;
+    }
+    .skip-link:focus { top: 1rem; }
+
+    /* ─────────────────────────────────────────────────────────
+       LAYOUT HELPERS
+    ───────────────────────────────────────────────────────── */
+    .inner {
+      max-width: var(--max-w);
+      margin-inline: auto;
+      padding-inline: var(--px);
+    }
+    .section-label {
+      display: block;
+      font-family: var(--font-body);
+      font-size: .6875rem; font-weight: 600;
+      letter-spacing: .2em; text-transform: uppercase;
+      color: var(--eden); margin-bottom: 1rem;
+    }
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 800; color: var(--text-hi);
+      line-height: 1.02; letter-spacing: -0.03em;
+    }
+    .sr-only {
+      position: absolute; width: 1px; height: 1px;
+      padding: 0; margin: -1px; overflow: hidden;
+      clip: rect(0,0,0,0); border: 0;
+    }
+
+    /* ─────────────────────────────────────────────────────────
+       BUTTONS
+    ───────────────────────────────────────────────────────── */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
+      padding: .875rem 2rem; min-height: 48px;
+      font-family: var(--font-body);
+      font-size: .9rem; font-weight: 600;
+      letter-spacing: .04em; cursor: pointer;
+      transition: background 180ms ease, color 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+      border: 1.5px solid transparent;
+      white-space: nowrap; text-decoration: none; line-height: 1.3;
+    }
+    .btn:focus-visible { outline: 3px solid var(--eden); outline-offset: 3px; }
+    .btn-primary  { background: var(--eden); color: var(--bg-0); border-color: var(--eden); }
+    .btn-primary:hover { background: #4ec948; box-shadow: 0 6px 24px var(--eden-glow); transform: translateY(-1px); }
+    .btn-primary:active { transform: scale(.97) !important; box-shadow: none !important; }
+    .btn:active { transform: scale(.97) !important; box-shadow: none !important; }
+    .btn-ghost    { background: transparent; color: var(--text-hi); border-color: var(--border-hi); }
+    .btn-ghost:hover { background: rgba(255,255,255,.07); border-color: rgba(255,255,255,.25); }
+    .btn-eden-outline { background: transparent; color: var(--eden); border-color: rgba(94,201,87,.4); }
+    .btn-eden-outline:hover { background: var(--eden-dim); border-color: var(--eden); }
+    .btn-sm { padding: .5rem 1.375rem; font-size: .8125rem; min-height: 40px; }
+    .btn-lg { padding: 1.1rem 2.75rem; font-size: .9375rem; min-height: 54px; }
+
+    /* ─────────────────────────────────────────────────────────
+       NAVIGATION
+    ───────────────────────────────────────────────────────── */
+    .site-header {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 30;
+      height: var(--nav-h);
+      background: rgba(8,15,14,.9);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid transparent;
+      transition: border-color 200ms ease, box-shadow 200ms ease;
+    }
+    .site-header.scrolled {
+      border-color: var(--border);
+      box-shadow: 0 2px 40px rgba(0,0,0,.55);
+    }
+    .nav-container {
+      max-width: var(--max-w); margin-inline: auto;
+      padding-inline: var(--px);
+      height: var(--nav-h);
+      display: flex; align-items: center;
+      justify-content: space-between; gap: 2rem;
+    }
+    .nav-logo {
+      font-family: var(--font-display);
+      font-size: 1.25rem; font-weight: 800;
+      color: var(--text-hi); letter-spacing: -0.02em;
+      flex-shrink: 0;
+    }
+    .nav-logo span { color: var(--eden); }
+    .nav-logo:focus-visible { outline: 3px solid var(--eden); border-radius: 2px; }
+
+    .nav-menu {
+      display: flex; align-items: center;
+      gap: 1.25rem; flex: 1; justify-content: flex-end;
+    }
+    .nav-list { display: flex; align-items: center; gap: .125rem; }
+    .nav-link {
+      display: inline-flex; align-items: center; gap: .25rem;
+      padding: .5rem .75rem; min-height: 44px;
+      font-family: var(--font-body);
+      font-size: .8125rem; font-weight: 500;
+      letter-spacing: .01em;
+      color: var(--text-md);
+      transition: color 180ms ease; cursor: pointer;
+    }
+    .nav-link:hover, .nav-link.active { color: var(--text-hi); }
+    .nav-link:focus-visible { outline: 3px solid var(--eden); outline-offset: 2px; border-radius: 3px; }
+
+    .nav-dropdown { position: relative; }
+    .nav-dropdown .dropdown-trigger::after {
+      content: ''; display: inline-block;
+      width: .35em; height: .35em;
+      border-right: 1.5px solid currentColor;
+      border-bottom: 1.5px solid currentColor;
+      transform: rotate(45deg) translateY(-2px);
+      transition: transform 180ms ease; margin-left: .3rem;
+    }
+    .nav-dropdown.open .dropdown-trigger::after { transform: rotate(-135deg) translateY(-2px); }
+
+    .dropdown-menu {
+      position: absolute; top: calc(100% + .625rem);
+      left: 50%; transform: translateX(-50%) translateY(-6px);
+      background: var(--bg-3); border: 1px solid var(--border-hi);
+      min-width: 210px; padding: .375rem;
+      opacity: 0; visibility: hidden; pointer-events: none;
+      transition: opacity 180ms ease, transform 180ms ease, visibility 180ms ease;
+      z-index: 20; border-radius: 2px;
+      box-shadow: 0 16px 48px rgba(0,0,0,.5);
+    }
+    .nav-dropdown.open .dropdown-menu {
+      opacity: 1; visibility: visible; pointer-events: auto;
+      transform: translateX(-50%) translateY(0);
+    }
+    .dropdown-menu.align-right { left: auto !important; right: 0 !important; transform: translateY(-6px) !important; }
+    .nav-dropdown.open .dropdown-menu.align-right { transform: translateY(0) !important; }
+    .dropdown-menu a {
+      display: block; padding: .625rem 1rem;
+      font-family: var(--font-body);
+      font-size: .8125rem; font-weight: 400;
+      color: var(--text-lo);
+      transition: color 180ms ease, background 180ms ease;
+      border-radius: 2px;
+    }
+    .dropdown-menu a:hover { color: var(--text-hi); background: rgba(255,255,255,.05); }
+
+    .nav-cta {
+      flex-shrink: 0;
+      font-family: var(--font-body);
+      font-size: .8125rem; font-weight: 700;
+      letter-spacing: .05em;
+      background: var(--eden); color: var(--bg-0);
+      border: none; padding: .6rem 1.625rem;
+      transition: background 180ms ease, box-shadow 180ms ease; cursor: pointer;
+    }
+    .nav-cta:hover { background: #4ec948; box-shadow: 0 4px 20px var(--eden-glow); transform: translateY(-1px); }
+    .nav-cta:active { transform: scale(.97); box-shadow: none; }
+
+    .nav-toggle {
+      display: none; flex-direction: column;
+      justify-content: center; align-items: center;
+      width: 44px; height: 44px; cursor: pointer; gap: 5px; flex-shrink: 0;
+    }
+    .nav-toggle span,
+    .nav-toggle span::before,
+    .nav-toggle span::after {
+      display: block; width: 22px; height: 2px;
+      background: var(--text-hi); position: relative;
+      transition: transform 180ms ease, opacity 180ms ease;
+    }
+    .nav-toggle span::before,
+    .nav-toggle span::after { content: ''; position: absolute; left: 0; }
+    .nav-toggle span::before { top: -7px; }
+    .nav-toggle span::after  { top:  7px; }
+    .nav-toggle[aria-expanded="true"] span { background: transparent; }
+    .nav-toggle[aria-expanded="true"] span::before { transform: rotate(45deg) translate(5px,5px); }
+    .nav-toggle[aria-expanded="true"] span::after  { transform: rotate(-45deg) translate(5px,-5px); }
+    .nav-toggle:focus-visible { outline: 3px solid var(--eden); }
+
+    .page-body { padding-top: var(--nav-h); }
+
+    /* ─────────────────────────────────────────────────────────
+       HERO
+    ───────────────────────────────────────────────────────── */
+    .hero {
+      position: relative;
+      min-height: calc(100svh - var(--nav-h));
+      display: flex; align-items: flex-end;
+      overflow: hidden; background: var(--bg-0);
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center 30%;
+    }
+    .hero-veil {
+      position: absolute; inset: 0;
+      background: linear-gradient(
+        to top,
+        rgba(8,15,14,.97) 0%,
+        rgba(8,15,14,.68) 40%,
+        rgba(8,15,14,.2)  100%
+      );
+      z-index: 1;
+    }
+    .hero-body {
+      position: relative; z-index: 2;
+      padding: 0 var(--px) 5.5rem;
+      max-width: var(--max-w); margin-inline: auto; width: 100%;
+    }
+    .hero-pre {
+      font-family: var(--font-body);
+      font-size: .6875rem; font-weight: 600;
+      letter-spacing: .22em; text-transform: uppercase;
+      color: var(--eden); margin-bottom: 1.5rem;
+    }
+    .hero-h1 {
+      font-family: var(--font-display);
+      font-size: clamp(4.5rem, 12vw, 10.5rem);
+      font-weight: 900; line-height: .93;
+      letter-spacing: -0.04em; color: var(--text-hi);
+    }
+    .hero-h1 .hl {
+      text-decoration: underline;
+      text-decoration-color: var(--eden);
+      text-underline-offset: clamp(6px, 1.4vw, 16px);
+      text-decoration-thickness: 3px;
+    }
+    .hero-foot {
+      display: flex; align-items: flex-end;
+      justify-content: space-between; gap: 3rem;
+      margin-top: 2.75rem;
+    }
+    .hero-desc {
+      font-family: var(--font-body);
+      font-size: clamp(.9rem, 1.6vw, 1.05rem);
+      font-weight: 300; color: rgba(255,255,255,.6);
+      max-width: 42ch; line-height: 1.8;
+    }
+    .hero-btns { display: flex; flex-wrap: wrap; gap: .875rem; flex-shrink: 0; }
+
+    /* ── ENTRANCE ANIMATIONS ── */
+    @keyframes heroFadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes twBlink {
+      0%, 49% { opacity: 1; }
+      50%, 100% { opacity: 0; }
+    }
+    .hero-pre  { animation: heroFadeUp .65s ease         both .10s; }
+    .hero-h1   { animation: heroFadeUp .80s cubic-bezier(.16,1,.3,1) both .24s; }
+    .hero-foot { animation: heroFadeUp .65s ease         both .54s; }
+    .tw-cursor {
+      display: inline-block; width: 3px; height: .82em;
+      background: var(--eden); margin-left: 4px;
+      vertical-align: middle; border-radius: 1px;
+      animation: twBlink .9s step-end infinite;
+    }
+
+    /* ─────────────────────────────────────────────────────────
+       SCRIPTURE
+    ───────────────────────────────────────────────────────── */
+    .scripture {
+      background: var(--bg-2);
+      padding: 6rem var(--px);
+      border-top: 1px solid var(--border);
+      position: relative; overflow: hidden;
+    }
+    .scripture-ghost {
+      position: absolute; top: -0.08em; right: -0.06em;
+      font-family: var(--font-display);
+      font-size: clamp(14rem, 30vw, 26rem);
+      font-weight: 900; line-height: 1;
+      color: rgba(94,201,87,.035);
+      user-select: none; pointer-events: none;
+      letter-spacing: -0.06em; white-space: nowrap;
+    }
+    .scripture-inner {
+      max-width: var(--max-w); margin-inline: auto;
+      position: relative; z-index: 1;
+    }
+    .scripture blockquote {
+      border-left: 3px solid var(--eden);
+      padding-left: 2rem;
+      font-family: var(--font-body);
+      font-size: clamp(1.2rem, 2.5vw, 1.875rem);
+      font-style: italic; font-weight: 300;
+      color: rgba(255,255,255,.88);
+      line-height: 1.55; max-width: 30ch;
+    }
+    .scripture cite {
+      display: block; margin-top: 1.5rem;
+      padding-left: 2.25rem;
+      font-family: var(--font-body);
+      font-size: .6875rem; font-style: normal;
+      font-weight: 600; letter-spacing: .18em;
+      text-transform: uppercase; color: var(--eden);
+    }
+
+    /* ─────────────────────────────────────────────────────────
+       COMMUNITY SLIDESHOW
+    ───────────────────────────────────────────────────────── */
+    .collage {
+      background: var(--bg-0);
+      border-top: 1px solid var(--border);
+      padding: var(--section-py) var(--px);
+    }
+    .collage-inner {
+      max-width: var(--max-w); margin-inline: auto;
+      display: grid; grid-template-columns: 1fr 1.55fr;
+      gap: 4.5rem; align-items: center;
+    }
+    .collage-text .section-title { margin-bottom: 1rem; }
+    .collage-text p {
+      font-family: var(--font-body);
+      font-size: .9375rem; font-weight: 300;
+      color: var(--text-lo); max-width: 38ch; line-height: 1.8;
+      margin-bottom: 2rem;
+    }
+    /* Slideshow */
+    .slideshow {
+      position: relative; border-radius: 4px; overflow: hidden;
+      aspect-ratio: 4/3; background: var(--bg-1);
+      flex-shrink: 0;
+    }
+    .slideshow-track {
+      display: flex; height: 100%;
+      transition: transform 560ms cubic-bezier(.4,0,.2,1);
+      will-change: transform;
+    }
+    .slide { flex: 0 0 100%; height: 100%; margin: 0; }
+    .slide img {
+      width: 100%; height: 100%; object-fit: cover;
+      object-position: center; display: block;
+    }
+    .slide-btn {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      width: 40px; height: 40px;
+      background: rgba(8,15,14,.7); border: 1px solid rgba(255,255,255,.14);
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      color: var(--text-hi); cursor: pointer;
+      transition: background 180ms ease, border-color 180ms ease; z-index: 2;
+    }
+    .slide-btn:hover { background: var(--eden); border-color: var(--eden); color: var(--bg-0); }
+    .slide-btn:focus-visible { outline: 2px solid var(--eden); outline-offset: 3px; }
+    .slide-prev { left: .75rem; }
+    .slide-next { right: .75rem; }
+    .slide-dots {
+      position: absolute; bottom: .875rem; left: 50%; transform: translateX(-50%);
+      display: flex; gap: .45rem; z-index: 2;
+    }
+    .dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: rgba(255,255,255,.28); border: none; padding: 0; cursor: pointer;
+      transition: background 220ms, width 220ms, border-radius 220ms;
+    }
+    .dot.active { background: var(--eden); width: 22px; border-radius: 3px; }
+    .dot:focus-visible { outline: 2px solid var(--eden); outline-offset: 2px; }
+
+    /* ─────────────────────────────────────────────────────────
+       PATHWAY
+    ───────────────────────────────────────────────────────── */
+    .pathway {
+      padding: var(--section-py) var(--px);
+      background: var(--bg-1);
+      border-top: 1px solid var(--border);
+    }
+    .pathway-inner { max-width: var(--max-w); margin-inline: auto; }
+    .pathway-top {
+      display: flex; align-items: flex-end;
+      justify-content: space-between; gap: 2.5rem;
+      margin-bottom: 4rem;
+    }
+    .pathway-top p {
+      font-family: var(--font-body);
+      font-size: .9375rem; font-weight: 300;
+      color: var(--text-lo); max-width: 32ch;
+      text-align: right; line-height: 1.8;
+    }
+    .pathway-steps {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      border: 1px solid var(--border);
+    }
+    .pathway-step {
+      padding: 2.75rem 2rem 3rem;
+      border-right: 1px solid var(--border);
+      position: relative; overflow: hidden;
+      transition: background 200ms ease;
+      text-decoration: none; display: block;
+    }
+    .pathway-step:last-child { border-right: none; }
+    .pathway-step:hover { background: rgba(94,201,87,.04); }
+    .pathway-step-ghost {
+      position: absolute; bottom: -0.08em; right: -0.04em;
+      font-family: var(--font-display);
+      font-size: 11rem; font-weight: 900; line-height: 1;
+      color: rgba(94,201,87,.06);
+      user-select: none; pointer-events: none;
+      letter-spacing: -0.04em;
+    }
+    .pathway-num {
+      display: block;
+      font-family: var(--font-display);
+      font-size: 3rem; font-weight: 900;
+      color: rgba(94,201,87,.5);
+      line-height: 1; margin-bottom: 1.5rem;
+      letter-spacing: -0.04em;
+    }
+    .pathway-step h3 {
+      font-family: var(--font-display);
+      font-size: 1rem; font-weight: 700;
+      color: var(--text-hi);
+      margin-bottom: .75rem;
+      position: relative; z-index: 1;
+      letter-spacing: -0.01em;
+    }
+    .pathway-step p {
+      font-family: var(--font-body);
+      font-size: .875rem; font-weight: 300;
+      color: var(--text-lo); line-height: 1.75;
+      position: relative; z-index: 1;
+    }
+    .pathway-step .tag {
+      display: inline-block; margin-top: 1.5rem;
+      font-family: var(--font-body);
+      font-size: .65rem; font-weight: 600;
+      letter-spacing: .14em; text-transform: uppercase;
+      padding: .3rem .875rem;
+      position: relative; z-index: 1;
+    }
+    .tag-free   { border: 1px solid rgba(94,201,87,.4);  color: rgba(94,201,87,.85); }
+    .tag-struct { border: 1px solid rgba(94,201,87,.25); color: rgba(94,201,87,.6); }
+    .tag-min    { border: 1px solid rgba(200,120,40,.35); color: #c97a40; }
+    .tag-adv    { border: 1px solid var(--border-hi);    color: var(--text-lo); }
+
+    /* ─────────────────────────────────────────────────────────
+       CAMPUSES
+    ───────────────────────────────────────────────────────── */
+    .campuses {
+      padding: var(--section-py) var(--px);
+      background: var(--bg-2);
+      border-top: 1px solid var(--border);
+    }
+    .campuses-inner { max-width: var(--max-w); margin-inline: auto; }
+    .campuses-inner .section-title { margin-bottom: 3.5rem; }
+    .campuses-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 4px;
+    }
+    .campus-tile { position: relative; overflow: hidden; }
+    .campus-tile-img {
+      width: 100%; aspect-ratio: 4/5;
+      object-fit: cover; object-position: center 20%;
+      display: block;
+      transition: transform 550ms ease;
+    }
+    .campus-tile:hover .campus-tile-img { transform: scale(1.04); }
+    .campus-tile-veil {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top,
+        rgba(8,15,14,.94) 0%, rgba(8,15,14,.28) 55%, transparent 100%);
+    }
+    .campus-tile-body {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 2.5rem 2.25rem;
+    }
+    .campus-tag {
+      display: inline-block;
+      border: 1px solid rgba(94,201,87,.6); color: var(--eden);
+      font-family: var(--font-body);
+      font-size: .65rem; font-weight: 700;
+      letter-spacing: .16em; text-transform: uppercase;
+      padding: .3rem 1rem; margin-bottom: 1rem;
+    }
+    .campus-tile-name {
+      font-family: var(--font-display);
+      font-size: clamp(1.5rem, 3vw, 2.25rem);
+      font-weight: 800; color: var(--text-hi);
+      line-height: 1; margin-bottom: .5rem;
+      letter-spacing: -0.025em;
+    }
+    .campus-tile-time {
+      font-family: var(--font-body);
+      font-size: .875rem; color: var(--text-lo); font-weight: 300;
+    }
+    .campus-tile-link {
+      display: inline-flex; align-items: center; gap: .5rem;
+      margin-top: 1.25rem;
+      font-family: var(--font-body);
+      font-size: .8125rem; font-weight: 600;
+      color: var(--eden); letter-spacing: .04em;
+      transition: gap 180ms ease;
+    }
+    .campus-tile-link:hover { gap: .75rem; }
+
+    /* ─────────────────────────────────────────────────────────
+       PASTOR
+    ───────────────────────────────────────────────────────── */
+    .pastor {
+      display: grid; grid-template-columns: 55% 45%;
+      min-height: 660px;
+      border-top: 1px solid var(--border);
+    }
+    .pastor-photo { position: relative; overflow: hidden; }
+    .pastor-photo img {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center 15%; display: block;
+    }
+    .pastor-panel {
+      background: var(--bg-3);
+      padding: 5.5rem 4.5rem;
+      display: flex; flex-direction: column;
+      justify-content: center;
+      position: relative; overflow: hidden;
+    }
+    .pastor-ghost {
+      position: absolute; bottom: -0.15em; right: -0.06em;
+      font-family: var(--font-display);
+      font-size: clamp(12rem, 20vw, 22rem);
+      font-weight: 900; line-height: 1;
+      color: rgba(94,201,87,.05);
+      user-select: none; pointer-events: none;
+      letter-spacing: -0.05em;
+    }
+    .pastor-panel .section-label { position: relative; z-index: 1; }
+    .pastor-name {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 3.5vw, 2.875rem);
+      font-weight: 800; color: var(--text-hi);
+      line-height: 1.05; letter-spacing: -0.03em;
+      margin-bottom: 1.75rem;
+      position: relative; z-index: 1;
+    }
+    .pastor-panel p {
+      font-family: var(--font-body);
+      font-size: .9375rem; font-weight: 300;
+      color: var(--text-lo);
+      line-height: 1.82; max-width: 40ch;
+      position: relative; z-index: 1;
+    }
+    .pastor-panel p + p { margin-top: .875rem; }
+    .pastor-panel .btn {
+      margin-top: 2.75rem; position: relative; z-index: 1; align-self: flex-start;
+    }
+
+    /* ─────────────────────────────────────────────────────────
+       EVENTS
+    ───────────────────────────────────────────────────────── */
+    .events {
+      padding: var(--section-py) var(--px);
+      background: var(--bg-0);
+      border-top: 1px solid var(--border);
+    }
+    .events-inner { max-width: var(--max-w); margin-inline: auto; }
+    .events-top {
+      display: flex; align-items: flex-end;
+      justify-content: space-between; gap: 2rem;
+      margin-bottom: 3.5rem;
+    }
+    .events-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1px; background: var(--border);
+    }
+    .event-card {
+      background: var(--bg-1);
+      overflow: hidden;
+      transition: background 200ms ease, transform 220ms ease, box-shadow 220ms ease;
+      display: flex; flex-direction: column; cursor: pointer;
+    }
+    .event-card:hover { background: var(--bg-4); transform: translateY(-3px); box-shadow: 0 12px 40px rgba(0,0,0,.4); }
+    .event-card img {
+      width: 100%; aspect-ratio: 16/9;
+      object-fit: cover; display: block;
+      transition: transform 500ms ease;
+    }
+    .event-card:hover img { transform: scale(1.03); }
+    .event-card-body {
+      padding: 1.75rem 2rem 2.25rem;
+      display: flex; flex-direction: column; flex: 1;
+    }
+    .event-date {
+      font-family: var(--font-body);
+      font-size: .65rem; font-weight: 700;
+      color: var(--eden); text-transform: uppercase;
+      letter-spacing: .18em; margin-bottom: .875rem;
+    }
+    .event-card h3 {
+      font-family: var(--font-display);
+      font-size: 1.05rem; font-weight: 700;
+      color: var(--text-hi); margin-bottom: .625rem;
+      line-height: 1.25; letter-spacing: -0.015em;
+    }
+    .event-card p {
+      font-family: var(--font-body);
+      font-size: .875rem; color: var(--text-lo);
+      font-weight: 300; margin-bottom: 1.5rem;
+      line-height: 1.75; flex: 1;
+    }
+    .event-link {
+      display: inline-flex; align-items: center; gap: .5rem;
+      font-family: var(--font-body);
+      font-size: .8rem; font-weight: 600;
+      color: var(--text-lo);
+      transition: gap 160ms ease, color 160ms ease;
+    }
+    .event-link:hover { gap: .75rem; color: var(--eden); }
+    .btn-outline-events {
+      font-family: var(--font-body);
+      border: 1px solid var(--border-hi); color: var(--text-lo);
+      background: transparent; padding: .625rem 1.625rem;
+      font-size: .75rem; font-weight: 600;
+      letter-spacing: .1em; text-transform: uppercase;
+      cursor: pointer; transition: border-color 180ms, color 180ms;
+      display: inline-flex; align-items: center;
+      text-decoration: none; white-space: nowrap; flex-shrink: 0;
+    }
+    .btn-outline-events:hover { border-color: var(--eden); color: var(--eden); }
+
+    /* ─────────────────────────────────────────────────────────
+       FULL-BLEED CTA
+    ───────────────────────────────────────────────────────── */
+    .fullcta {
+      position: relative; overflow: hidden;
+      min-height: 520px; display: flex; align-items: center;
+      border-top: 1px solid var(--border);
+    }
+    .fullcta-bg {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center 40%; display: block;
+    }
+    .fullcta-veil {
+      position: absolute; inset: 0;
+      background: linear-gradient(
+        135deg,
+        rgba(8,15,14,.92) 0%,
+        rgba(8,15,14,.75) 100%
+      );
+    }
+    .fullcta-body {
+      position: relative; z-index: 1;
+      text-align: center;
+      padding: 5rem var(--px);
+      max-width: var(--max-w); margin-inline: auto; width: 100%;
+    }
+    .fullcta-h {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 7vw, 5.25rem);
+      font-weight: 900; color: var(--text-hi);
+      line-height: .97;
+      letter-spacing: -0.035em; margin-bottom: 1.75rem;
+    }
+    .fullcta-h em {
+      font-style: normal;
+      text-decoration: underline;
+      text-decoration-color: var(--eden);
+      text-underline-offset: 10px;
+      text-decoration-thickness: 3px;
+    }
+    .fullcta-desc {
+      font-family: var(--font-body);
+      font-size: 1rem; font-weight: 300;
+      color: rgba(255,255,255,.6);
+      max-width: 44ch; margin: 0 auto 3rem;
+      line-height: 1.8;
+    }
+    .fullcta-btns { display: flex; flex-wrap: wrap; gap: .875rem; justify-content: center; }
+
+    /* ─────────────────────────────────────────────────────────
+       FOOTER
+    ───────────────────────────────────────────────────────── */
+    .site-footer {
+      background: var(--bg-0);
+      border-top: 1px solid var(--border);
+      padding-top: 5.5rem;
+    }
+    .footer-grid {
+      max-width: var(--max-w); margin-inline: auto;
+      padding-inline: var(--px);
+      display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr;
+      gap: 3rem 3rem;
+    }
+    .footer-brand img { height: 40px; width: auto; margin-bottom: 1.25rem; }
+    .footer-brand p {
+      font-family: var(--font-body);
+      font-size: .875rem; line-height: 1.8;
+      color: var(--text-dim); max-width: 27ch; font-weight: 300;
+    }
+    .footer-social { display: flex; gap: .75rem; margin-top: 2rem; }
+    .footer-social a {
+      width: 44px; height: 44px;
+      background: rgba(255,255,255,.06);
+      display: flex; align-items: center; justify-content: center;
+      transition: background 180ms ease;
+    }
+    .footer-social a:hover { background: rgba(255,255,255,.12); }
+    .footer-social svg { color: var(--text-lo); }
+
+    .footer-col h3 {
+      font-family: var(--font-body);
+      color: var(--text-hi); font-size: .65rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .2em;
+      margin-bottom: 1.75rem;
+    }
+    .footer-col ul { display: flex; flex-direction: column; gap: .875rem; }
+    .footer-col a {
+      font-family: var(--font-body);
+      font-size: .875rem; color: var(--text-dim); font-weight: 300;
+      transition: color 180ms ease;
+    }
+    .footer-col a:hover { color: var(--eden); }
+    .footer-col address { display: flex; flex-direction: column; gap: 1.25rem; }
+    .footer-col address p {
+      font-family: var(--font-body);
+      font-size: .875rem; color: var(--text-dim);
+      line-height: 1.75; font-weight: 300;
+    }
+    .footer-col address strong { color: var(--text-lo); font-weight: 600; }
+    .footer-col address a { color: var(--text-dim); }
+    .footer-col address a:hover { color: var(--eden); }
+
+    .footer-bottom {
+      max-width: var(--max-w); margin-inline: auto;
+      padding-inline: var(--px);
+      border-top: 1px solid var(--border);
+      padding-block: 1.75rem; margin-top: 4.5rem;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1rem;
+      font-family: var(--font-body);
+      font-size: .75rem; color: var(--text-dim);
+    }
+    .footer-bottom-links { display: flex; gap: 2rem; }
+    .footer-bottom-links a { color: var(--text-dim); transition: color 180ms ease; }
+    .footer-bottom-links a:hover { color: var(--eden); }
+
+    /* ─────────────────────────────────────────────────────────
+       SCROLL REVEAL
+    ───────────────────────────────────────────────────────── */
+    .reveal { opacity: 0; transform: translateY(18px); transition: opacity 600ms ease, transform 600ms ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 100ms; }
+    .reveal-delay-2 { transition-delay: 200ms; }
+
+    /* ─────────────────────────────────────────────────────────
+       RESPONSIVE
+    ───────────────────────────────────────────────────────── */
+    @media (max-width: 1024px) {
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 2.5rem 2rem; }
+    }
+    @media (max-width: 900px) {
+      :root { --section-py: 4.5rem; }
+      .hero-foot { flex-direction: column; align-items: flex-start; gap: 1.75rem; }
+      .pastor { grid-template-columns: 1fr; }
+      .pastor-photo { height: 480px; }
+      .pastor-panel { padding: 3.5rem 2rem; }
+      .pastor-ghost { font-size: 10rem; }
+      .campuses-grid { grid-template-columns: 1fr; }
+      .campus-tile-img { aspect-ratio: 3/2; }
+      .pathway-steps { grid-template-columns: 1fr 1fr; }
+      .pathway-step:nth-child(2) { border-right: none; }
+      .pathway-step:nth-child(3) { border-right: 1px solid var(--border); }
+      .pathway-step:nth-child(4) { border-right: none; }
+      .events-grid { grid-template-columns: 1fr 1fr; }
+      .collage-inner { gap: 3rem; }
+      .pathway-top p { text-align: left; }
+    }
+    @media (max-width: 768px) {
+      :root { --nav-h: 62px; --px: 1.25rem; }
+      .btn-group { flex-direction: column; align-items: stretch; }
+      .btn-group .btn, .btn-group a.btn { width: 100%; justify-content: center; }
+      .btn-group.centered { align-items: center; }
+      .hero-foot { flex-direction: column; align-items: flex-start; gap: 1.5rem; }
+      .nav-toggle { display: flex; }
+      .nav-menu {
+        display: none; position: fixed;
+        top: var(--nav-h); left: 0; right: 0;
+        height: calc(100dvh - var(--nav-h));
+        background: var(--bg-0);
+        flex-direction: column; align-items: stretch; justify-content: flex-start;
+        padding: 1.5rem var(--px) 3rem; gap: 0; overflow-y: auto;
+        border-top: 1px solid var(--border);
+      }
+      .nav-menu.open { display: flex; overscroll-behavior: contain; }
+      .nav-list { flex-direction: column; align-items: stretch; gap: 0; }
+      .nav-link { min-height: 52px; font-size: .9375rem; color: var(--text-md); padding-inline: 0; border-bottom: 1px solid var(--border); }
+      .nav-cta { margin-top: 1.5rem; text-align: center; padding: 1rem; width: 100%; justify-content: center; }
+      .dropdown-menu {
+        position: static; transform: none; box-shadow: none;
+        border: none; background: transparent; padding: 0;
+        opacity: 1; visibility: visible; pointer-events: auto; display: none;
+      }
+      .nav-dropdown.open .dropdown-menu { display: block; }
+      .dropdown-menu a { color: var(--text-md); padding: .75rem 1.25rem; font-size: .9rem; border-bottom: 1px solid var(--border); }
+      .footer-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .events-grid { grid-template-columns: 1fr; }
+      .pathway-top { flex-direction: column; align-items: flex-start; gap: 1.5rem; }
+      .events-top { flex-direction: column; align-items: flex-start; }
+      .collage-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+      .footer-bottom { flex-direction: column; align-items: flex-start; }
+    }
+    @media (max-width: 640px) {
+      :root { --section-py: 3.5rem; }
+      .pathway-steps { grid-template-columns: 1fr; border: none; }
+      .pathway-step { border: 1px solid var(--border) !important; margin-bottom: -1px; }
+      .slideshow { aspect-ratio: 3/2; }
+      .section-title { font-size: clamp(1.625rem, 7.5vw, 2.25rem); }
+      .section-header { margin-bottom: 1.75rem; }
+    }
+    @media (max-width: 480px) {
+      :root { --px: 1rem; --section-py: 2.75rem; }
+      .hero-h1 { font-size: clamp(2rem, 11vw, 3rem) !important; line-height: 1.0; letter-spacing: -0.035em; }
+      .hero-sub { font-size: .875rem; line-height: 1.75; }
+      .hero-foot { gap: 1rem; }
+      .hero-foot .btn { width: 100%; justify-content: center; }
+      .pastor-photo { height: 280px; }
+      .pastor-ghost { font-size: 5rem; }
+      .pastor-panel { padding: 2.5rem 1.25rem; }
+      .campus-tile-body { padding: 1.5rem 1.25rem; }
+      .pathway-step { padding: 1.75rem 1.25rem; }
+      .event-card-body { padding: 1.25rem; }
+      .collage-stat .num { font-size: clamp(2.5rem, 12vw, 4rem); }
+      .slideshow { aspect-ratio: 4/3; }
+      .footer-col h3 { margin-bottom: 1.25rem; }
+      .footer-col ul { gap: .75rem; }
+      .site-footer { padding-top: 3.5rem; }
+      .footer-bottom { margin-top: 3rem; padding-block: 1.25rem; }
+    }
+  </style>
+</head>
+<body class="page-body">
+
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- ── NAVIGATION ──────────────────────────────────────── -->
+  <header class="site-header" id="site-header">
+    <nav class="nav-container" aria-label="Main navigation">
+      <a href="/" class="nav-logo" aria-label="Eden Life Experience Centre – Home">
+        Eden<span>Life</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="Open navigation menu" aria-expanded="false" aria-controls="navMenu">
+        <span aria-hidden="true"></span>
+      </button>
+      <div class="nav-menu" id="navMenu">
+        <ul class="nav-list" role="list">
+          <li class="nav-dropdown">
+            <button class="nav-link dropdown-trigger" aria-expanded="false" aria-haspopup="true">About</button>
+            <ul class="dropdown-menu" role="list">
+              <li><a href="/about/who-we-are.html">Who We Are</a></li>
+              <li><a href="/about/leadership.html">Leadership</a></li>
+              <li><a href="/about/online-church.html">Online Church</a></li>
+              <li><a href="/about/campuses/mainland.html">Mainland Campus</a></li>
+              <li><a href="/about/campuses/island.html">Island Campus</a></li>
+            </ul>
+          </li>
+          <li class="nav-dropdown">
+            <button class="nav-link dropdown-trigger" aria-expanded="false" aria-haspopup="true">New Here</button>
+            <ul class="dropdown-menu" role="list">
+              <li><a href="/new-here/plan-your-visit.html">Plan Your Visit</a></li>
+              <li><a href="/new-here/what-to-expect.html">What to Expect</a></li>
+              <li><a href="/new-here/children.html">Children</a></li>
+              <li><a href="/new-here/youth.html">Youth</a></li>
+            </ul>
+          </li>
+          <li class="nav-dropdown">
+            <button class="nav-link dropdown-trigger" aria-expanded="false" aria-haspopup="true">Watch</button>
+            <ul class="dropdown-menu" role="list">
+              <li><a href="/watch/watch-live.html">Watch Live</a></li>
+              <li><a href="/watch/sermons.html">Sermons</a></li>
+            </ul>
+          </li>
+          <li class="nav-dropdown">
+            <button class="nav-link dropdown-trigger" aria-expanded="false" aria-haspopup="true">Connect</button>
+            <ul class="dropdown-menu" role="list">
+              <li><a href="/connect/community-groups.html">Belong Groups</a></li>
+              <li><a href="/connect/interest-groups.html">Interest Groups</a></li>
+            </ul>
+          </li>
+          <li class="nav-dropdown">
+            <button class="nav-link dropdown-trigger" aria-expanded="false" aria-haspopup="true">Grow</button>
+            <ul class="dropdown-menu" role="list">
+              <li><a href="/grow/growth-steps.html">Growth Steps</a></li>
+              <li><a href="/grow/academy.html">Edenlife Academy</a></li>
+              <li><a href="/grow/basic-leadership.html">Basic Leadership</a></li>
+              <li><a href="/grow/advanced-leadership.html">Advanced Leadership</a></li>
+            </ul>
+          </li>
+          <li><a href="/events/" class="nav-link">Events</a></li>
+        </ul>
+        <a href="/give.html" class="nav-cta">Give</a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main-content">
+
+    <!-- ── HERO ────────────────────────────────────────────── -->
+    <section class="hero" aria-label="Welcome to Eden Life">
+      <img src="assets/photos/service-wide.jpg" alt="Eden Life congregation gathered in worship" class="hero-bg">
+      <div class="hero-veil" aria-hidden="true"></div>
+      <div class="hero-body">
+        <h1 class="hero-h1">We<br>Equip<br><span class="hl">People.</span></h1>
+        <div class="hero-foot">
+          <p class="hero-desc">A Christ-centred church in Lagos. We exist to raise a generation of disciples who live fully surrendered and make a lasting impact.</p>
+          <div class="hero-btns">
+            <a href="/new-here/plan-your-visit.html" class="btn btn-primary btn-lg">Plan Your Visit</a>
+            <a href="/watch/watch-live.html" class="btn btn-ghost btn-lg">Watch Live →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── SCRIPTURE ──────────────────────────────────────── -->
+    <section class="scripture" aria-label="Scripture">
+      <div aria-hidden="true" class="scripture-ghost">2:20</div>
+      <div class="scripture-inner">
+        <blockquote>
+          "I have been crucified with Christ. It is no longer I who live, but Christ who lives in me."
+          <cite>— Galatians 2:20</cite>
+        </blockquote>
+      </div>
+    </section>
+
+    <!-- ── COMMUNITY SLIDESHOW ──────────────────────────────── -->
+    <section class="collage" aria-labelledby="community-heading">
+      <div class="collage-inner">
+        <div class="collage-text">
+          <span class="section-label">Our Community</span>
+          <h2 class="section-title" id="community-heading">Real People.<br>Real Faith.</h2>
+          <p>Eden Life is not just a church service — it is a family. Our community spans Lagos and the globe, united by a commitment to Christ and one another.</p>
+          <a href="/connect/community-groups.html" class="btn btn-primary">Join a Belong Group</a>
+        </div>
+        <div class="slideshow" role="region" aria-label="Community photos slideshow" aria-roledescription="carousel">
+          <div class="slideshow-track" id="slideshowTrack" aria-live="off">
+            <figure class="slide" aria-label="Slide 1 of 5">
+              <img src="assets/photos/pastor-preaching.jpg" alt="Pastor Gbenga Ajibola preaching" loading="lazy">
+            </figure>
+            <figure class="slide" aria-label="Slide 2 of 5">
+              <img src="assets/photos/snow-bw-stage.jpg" alt="Eden Life worship service" loading="lazy">
+            </figure>
+            <figure class="slide" aria-label="Slide 3 of 5">
+              <img src="assets/photos/worship-woman.jpg" alt="Worshipper at Eden Life" loading="lazy">
+            </figure>
+            <figure class="slide" aria-label="Slide 4 of 5">
+              <img src="assets/photos/worship-singer.jpg" alt="Worship at Eden Life" loading="lazy">
+            </figure>
+            <figure class="slide" aria-label="Slide 5 of 5">
+              <img src="assets/photos/community-arrivals.jpg" alt="Eden Life community" loading="lazy">
+            </figure>
+          </div>
+          <button class="slide-btn slide-prev" aria-label="Previous photo">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+          </button>
+          <button class="slide-btn slide-next" aria-label="Next photo">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+          <div class="slide-dots" role="list" aria-label="Slideshow navigation">
+            <button class="dot active" role="listitem" aria-label="Slide 1" aria-current="true"></button>
+            <button class="dot" role="listitem" aria-label="Slide 2"></button>
+            <button class="dot" role="listitem" aria-label="Slide 3"></button>
+            <button class="dot" role="listitem" aria-label="Slide 4"></button>
+            <button class="dot" role="listitem" aria-label="Slide 5"></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── DISCIPLESHIP PATHWAY ───────────────────────────── -->
+    <section class="pathway" aria-labelledby="pathway-heading">
+      <div class="pathway-inner">
+        <div class="pathway-top">
+          <div>
+            <span class="section-label">Discipleship</span>
+            <h2 class="section-title" id="pathway-heading">Four Steps to a<br>Flourishing Life.</h2>
+          </div>
+          <p>Growth is intentional. Our pathway takes you from foundational faith to missional leadership.</p>
+        </div>
+        <div class="pathway-steps">
+          <a href="/grow/growth-steps.html" class="pathway-step">
+            <span aria-hidden="true" class="pathway-step-ghost">01</span>
+            <span class="pathway-num">01</span>
+            <h3>Growth Steps</h3>
+            <p>Foundations of Christian faith and life at Eden Life. Free, fully online, open to everyone.</p>
+            <span class="tag tag-free">Free · Online</span>
+          </a>
+          <a href="/grow/academy.html" class="pathway-step">
+            <span aria-hidden="true" class="pathway-step-ghost">02</span>
+            <span class="pathway-num">02</span>
+            <h3>Edenlife Academy</h3>
+            <p>Deeper theological training and biblical literacy for believers serious about the Word.</p>
+            <span class="tag tag-struct">Structured</span>
+          </a>
+          <a href="/grow/basic-leadership.html" class="pathway-step">
+            <span aria-hidden="true" class="pathway-step-ghost">03</span>
+            <span class="pathway-num">03</span>
+            <h3>Basic Leadership</h3>
+            <p>Foundations of servant leadership. Equipping you to serve effectively in ministry and community.</p>
+            <span class="tag tag-min">Ministry Track</span>
+          </a>
+          <a href="/grow/advanced-leadership.html" class="pathway-step">
+            <span aria-hidden="true" class="pathway-step-ghost">04</span>
+            <span class="pathway-num">04</span>
+            <h3>Advanced Leadership</h3>
+            <p>For leaders ready to multiply impact, build teams, and pursue Kingdom purposes at scale.</p>
+            <span class="tag tag-adv">Advanced</span>
+          </a>
+        </div>
+        <div style="margin-top:2.75rem;">
+          <a href="/grow/growth-steps.html" class="btn btn-primary">Start Your Journey</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── CAMPUSES ───────────────────────────────────────── -->
+    <section class="campuses" aria-labelledby="campuses-heading">
+      <div class="campuses-inner">
+        <span class="section-label">Two Locations</span>
+        <h2 class="section-title" id="campuses-heading">Find Your Campus.</h2>
+        <div class="campuses-grid">
+          <div class="campus-tile reveal">
+            <img src="assets/photos/worship-joy.jpg" alt="Mainland campus Sunday service" class="campus-tile-img" loading="lazy">
+            <div class="campus-tile-veil" aria-hidden="true"></div>
+            <div class="campus-tile-body">
+              <span class="campus-tag">Mainland</span>
+              <h3 class="campus-tile-name">Ogudu Campus</h3>
+              <p class="campus-tile-time">Sundays 8:00 AM &amp; 10:30 AM · Galaxy Event Centre</p>
+              <a href="/about/campuses/mainland.html" class="campus-tile-link">
+                Campus details
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              </a>
+            </div>
+          </div>
+          <div class="campus-tile reveal reveal-delay-1">
+            <img src="assets/photos/worship-singer.jpg" alt="Island campus Sunday service" class="campus-tile-img" loading="lazy">
+            <div class="campus-tile-veil" aria-hidden="true"></div>
+            <div class="campus-tile-body">
+              <span class="campus-tag">Island</span>
+              <h3 class="campus-tile-name">Ajah Campus</h3>
+              <p class="campus-tile-time">Sundays 9:00 AM · KWA Event Centre</p>
+              <a href="/about/campuses/island.html" class="campus-tile-link">
+                Campus details
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── PASTOR ─────────────────────────────────────────── -->
+    <section class="pastor" aria-labelledby="pastor-heading">
+      <div class="pastor-photo">
+        <img src="assets/photos/pastor-preaching.jpg" alt="Pastor Gbenga Ajibola preaching" loading="lazy">
+      </div>
+      <div class="pastor-panel">
+        <span aria-hidden="true" class="pastor-ghost">G</span>
+        <span class="section-label">Our Founder</span>
+        <h2 class="pastor-name" id="pastor-heading">Pastor<br>Gbenga<br>Ajibola</h2>
+        <p>Over 15 years of ministry. A deep burden for raising disciples who live fully surrendered to Christ and make a measurable difference in their communities.</p>
+        <p>He and his wife lead Eden Life with one clear vision: a generation of Spirit-filled men and women who excel in every sphere of life.</p>
+        <a href="/about/leadership.html" class="btn btn-eden-outline">Meet the Team</a>
+      </div>
+    </section>
+
+    <!-- ── EVENTS ─────────────────────────────────────────── -->
+    <section class="events" aria-labelledby="events-heading">
+      <div class="events-inner">
+        <div class="events-top">
+          <div>
+            <span class="section-label">What's On</span>
+            <h2 class="section-title" id="events-heading">Upcoming Events</h2>
+          </div>
+          <a href="/events/" class="btn-outline-events">View All Events</a>
+        </div>
+        <div class="events-grid">
+          <div class="event-card reveal">
+            <img src="assets/photos/snow-smoke-stage.jpg" alt="SNOW – Supernatural Night of Wonders" loading="lazy">
+            <div class="event-card-body">
+              <p class="event-date">Annual Event</p>
+              <h3>SNOW — Supernatural Night of Wonders</h3>
+              <p>An extended night of worship, prayer, and encounter with the presence of God.</p>
+              <a href="/events/snow.html" class="event-link">Learn more <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+            </div>
+          </div>
+          <div class="event-card reveal reveal-delay-1">
+            <img src="assets/photos/speaker-navy.jpg" alt="Soar Leadership Conference" loading="lazy">
+            <div class="event-card-body">
+              <p class="event-date">Annual Conference</p>
+              <h3>Soar Conference</h3>
+              <p>A premier leadership conference for professionals, entrepreneurs, and ministry leaders.</p>
+              <a href="/events/soar.html" class="event-link">Learn more <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+            </div>
+          </div>
+          <div class="event-card reveal reveal-delay-2">
+            <img src="assets/photos/community-arrivals.jpg" alt="El-SAP Skill Acquisition" loading="lazy">
+            <div class="event-card-body">
+              <p class="event-date">Community Programme</p>
+              <h3>El-SAP — Skill Acquisition</h3>
+              <p>Empowering community members with practical vocational training and economic development.</p>
+              <a href="/events/elsap.html" class="event-link">Learn more <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── FULL-BLEED CTA ─────────────────────────────────── -->
+    <section class="fullcta" aria-labelledby="cta-heading">
+      <img src="assets/photos/intercession.jpg" alt="" class="fullcta-bg" aria-hidden="true">
+      <div class="fullcta-veil" aria-hidden="true"></div>
+      <div class="fullcta-body">
+        <h2 class="fullcta-h" id="cta-heading">Ready to Experience<br><em>Eden Life?</em></h2>
+        <p class="fullcta-desc">Visit us for the first time, watch from wherever you are, or take your first step in discipleship — we are ready to welcome you.</p>
+        <div class="fullcta-btns">
+          <a href="/new-here/plan-your-visit.html" class="btn btn-primary btn-lg">Plan My Visit</a>
+          <a href="/new-here/what-to-expect.html" class="btn btn-ghost btn-lg">What to Expect</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ── FOOTER ─────────────────────────────────────────── -->
+  <footer class="site-footer" aria-labelledby="footer-heading">
+    <h2 id="footer-heading" class="sr-only">Site footer</h2>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <img src="assets/logo.jpg" alt="Eden Life Experience Centre" width="100">
+        <p>We Equip People for Christ and a Life of Exploits</p>
+        <div class="footer-social">
+          <a href="https://www.youtube.com/@Edenlifeglobal" target="_blank" rel="noopener noreferrer" aria-label="Eden Life on YouTube">
+            <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M10 15V9l5 3-5 3zm11.56-7.83c.28 1.05.44 2.18.44 3.83s-.16 2.78-.44 3.83a2.74 2.74 0 0 1-1.93 1.94C18.5 17 12 17 12 17s-6.5 0-7.63-.31a2.74 2.74 0 0 1-1.93-1.94C2.16 13.78 2 12.65 2 11s.16-2.78.44-3.83A2.74 2.74 0 0 1 4.37 5.2C5.5 4.89 12 4.89 12 4.89s6.5 0 7.63.31a2.74 2.74 0 0 1 1.93 1.97z"/></svg>
+          </a>
+          <a href="https://www.instagram.com/edenlifeglobal" target="_blank" rel="noopener noreferrer" aria-label="Eden Life on Instagram">
+            <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h3>About Us</h3>
+        <ul>
+          <li><a href="/about/who-we-are.html">Who We Are</a></li>
+          <li><a href="/about/leadership.html">Leadership</a></li>
+          <li><a href="/about/campuses/mainland.html">Mainland Campus</a></li>
+          <li><a href="/about/campuses/island.html">Island Campus</a></li>
+          <li><a href="/about/online-church.html">Online Church</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h3>Ministries</h3>
+        <ul>
+          <li><a href="/new-here/plan-your-visit.html">Visit Us</a></li>
+          <li><a href="/watch/sermons.html">Sermons</a></li>
+          <li><a href="/connect/community-groups.html">Belong Groups</a></li>
+          <li><a href="/grow/growth-steps.html">Grow</a></li>
+          <li><a href="/events/">Events</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h3>Contact</h3>
+        <address>
+          <p><strong>Mainland Campus</strong><br>Galaxy Event Centre,<br>6a Emmanuel High Street,<br>Ogudu Road, Lagos</p>
+          <p><strong>Island Campus</strong><br>KWA Event Centre,<br>Providence Street, Olokonla,<br>Ajah, Lagos</p>
+          <p><a href="tel:+2349097209484">+234 909 7209 484</a></p>
+          <p><a href="mailto:info@edenlifeng.org">info@edenlifeng.org</a></p>
+        </address>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Eden Life Experience Centre. All rights reserved.</p>
+      <nav class="footer-bottom-links" aria-label="Legal links">
+        <a href="/privacy.html">Privacy Policy</a>
+        <a href="/contact.html">Contact Us</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script src="assets/site.js" defer></script>
+</body>
+</html>
+
