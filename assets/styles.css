@@ -609,3 +609,44 @@ address { font-style: normal; }
   .footer-bottom { margin-top: 3rem; padding-block: 1.25rem; }
 }
 
+/* ── WHATSAPP FLOAT ──────────────────────────────────────── */
+.wa-float {
+  position: fixed; bottom: 1.75rem; right: 1.5rem; z-index: 40;
+  width: 56px; height: 56px; border-radius: 50%;
+  background: #25d366;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 24px rgba(37,211,102,.45);
+  transition: transform 200ms ease, box-shadow 200ms ease;
+  cursor: pointer; text-decoration: none;
+}
+.wa-float:hover { transform: scale(1.1); box-shadow: 0 8px 36px rgba(37,211,102,.55); }
+.wa-float:active { transform: scale(.95); }
+.wa-float svg { width: 30px; height: 30px; fill: #fff; }
+@media (max-width: 480px) {
+  .wa-float { bottom: 1.25rem; right: 1rem; width: 50px; height: 50px; }
+  .wa-float svg { width: 26px; height: 26px; }
+}
+
+/* ── MAPS GRID ───────────────────────────────────────────── */
+.maps-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 2.5rem; }
+.map-card { background: var(--bg-3); border: 1px solid var(--border); border-radius: 2px; overflow: hidden; }
+.map-label-bar {
+  display: flex; align-items: center; gap: .625rem;
+  padding: .875rem 1.125rem; background: var(--bg-4);
+  border-bottom: 1px solid var(--border);
+  font-family: var(--font-body); font-size: .8rem; font-weight: 600;
+  color: var(--text-md);
+}
+.map-label-bar svg { color: var(--eden); flex-shrink: 0; }
+.map-frame { position: relative; width: 100%; height: 280px; }
+.map-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; }
+.map-directions-link {
+  display: inline-flex; align-items: center; gap: .5rem;
+  padding: .875rem 1.125rem; width: 100%;
+  font-family: var(--font-body); font-size: .8rem; font-weight: 600;
+  color: var(--eden); border-top: 1px solid var(--border);
+  transition: background 180ms ease, gap 160ms ease; cursor: pointer;
+}
+.map-directions-link:hover { background: var(--eden-dim); gap: .75rem; }
+@media (max-width: 768px) { .maps-grid { grid-template-columns: 1fr; } }
+@media (max-width: 480px) { .map-frame { height: 220px; } }
