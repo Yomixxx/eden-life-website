@@ -204,7 +204,7 @@ address { font-style: normal; }
   font-size: .8125rem; font-weight: 700; letter-spacing: .05em;
   background: var(--eden); color: #fff; border: none;
   padding: .6rem 1.625rem; display: inline-flex; align-items: center;
-  transition: background 180ms ease, box-shadow 180ms ease; cursor: pointer; text-decoration: none;
+  transition: background 180ms ease, box-shadow 180ms ease, transform 150ms ease; cursor: pointer; text-decoration: none;
   border-radius: 4px;
 }
 .nav-cta:hover { background: var(--eden-hover); box-shadow: 0 4px 20px var(--eden-glow); transform: translateY(-1px); }
@@ -609,24 +609,6 @@ address { font-style: normal; }
   .footer-bottom { margin-top: 3rem; padding-block: 1.25rem; }
 }
 
-/* ── WHATSAPP FLOAT ──────────────────────────────────────── */
-.wa-float {
-  position: fixed; bottom: 1.75rem; right: 1.5rem; z-index: 40;
-  width: 56px; height: 56px; border-radius: 50%;
-  background: #25d366;
-  display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 4px 24px rgba(37,211,102,.45);
-  transition: transform 200ms ease, box-shadow 200ms ease;
-  cursor: pointer; text-decoration: none;
-}
-.wa-float:hover { transform: scale(1.1); box-shadow: 0 8px 36px rgba(37,211,102,.55); }
-.wa-float:active { transform: scale(.95); }
-.wa-float svg { width: 30px; height: 30px; fill: #fff; }
-@media (max-width: 480px) {
-  .wa-float { bottom: 1.25rem; right: 1rem; width: 50px; height: 50px; }
-  .wa-float svg { width: 26px; height: 26px; }
-}
-
 /* ── MAPS GRID ───────────────────────────────────────────── */
 .maps-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 2.5rem; }
 .map-card { background: var(--bg-3); border: 1px solid var(--border); border-radius: 2px; overflow: hidden; }
@@ -650,3 +632,47 @@ address { font-style: normal; }
 .map-directions-link:hover { background: var(--eden-dim); gap: .75rem; }
 @media (max-width: 768px) { .maps-grid { grid-template-columns: 1fr; } }
 @media (max-width: 480px) { .map-frame { height: 220px; } }
+
+/* ── WHATSAPP FLOAT ──────────────────────────────────────── */
+.wa-float {
+  position: fixed; bottom: 1.75rem; right: 1.5rem; z-index: 40;
+  width: 56px; height: 56px; border-radius: 50%;
+  background: #25d366;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 24px rgba(37,211,102,.45);
+  transition: transform 200ms ease, box-shadow 200ms ease;
+  cursor: pointer; text-decoration: none;
+}
+.wa-float:hover { transform: scale(1.1); box-shadow: 0 8px 36px rgba(37,211,102,.55); }
+.wa-float:active { transform: scale(.95); }
+.wa-float svg { width: 30px; height: 30px; }
+@media (max-width: 480px) {
+  .wa-float { bottom: 1.25rem; right: 1rem; width: 50px; height: 50px; }
+  .wa-float svg { width: 26px; height: 26px; }
+}
+
+/* ── CUSTOM CURSOR ───────────────────────────────────────── */
+.el-cur-dot {
+  position: fixed; top: 0; left: 0; z-index: 9999;
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--eden); pointer-events: none;
+  will-change: transform;
+}
+.el-cur-ring {
+  position: fixed; top: 0; left: 0; z-index: 9998;
+  width: 30px; height: 30px; border-radius: 50%;
+  border: 1.5px solid rgba(94,201,87,.5);
+  pointer-events: none; will-change: transform;
+}
+.has-custom-cursor,
+.has-custom-cursor * { cursor: none !important; }
+@media (hover: none), (pointer: coarse) {
+  .el-cur-dot, .el-cur-ring { display: none !important; }
+}
+
+/* ── REVEAL: performance hint ────────────────────────────── */
+.reveal { will-change: opacity, transform; }
+
+/* ── IMAGE containers: clip scale overflow ───────────────── */
+.event-card, .sermon-card, .map-card,
+.campus-tile, .pastor-photo { overflow: hidden; }
