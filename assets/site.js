@@ -532,12 +532,11 @@
     document.body.appendChild(wa);
   }());
 
-  /* ── GSAP + SCROLLTRIGGER + LENIS ──────────────────────── */
+  /* ── GSAP + SCROLLTRIGGER ───────────────────────────────── */
   (function initMotion() {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
     const SRCS = [
-      'https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js',
       'https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js',
       'https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js',
     ];
@@ -547,26 +546,16 @@
       const s = document.createElement('script');
       s.src = SRCS[i];
       s.onload = () => loadSeq(i + 1);
+      s.onerror = () => {}; // fail silently — IO handles reveals anyway
       document.head.appendChild(s);
     }(0));
 
     function onReady() {
       gsap.registerPlugin(ScrollTrigger);
 
-      /* ── Lenis smooth scroll ────────────────────────── */
-      const lenis = new Lenis({
-        duration: 1.4,
-        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-        smoothTouch: false,
-      });
-      lenis.on('scroll', ScrollTrigger.update);
-      gsap.ticker.add((time) => lenis.raf(time * 1000));
-      gsap.ticker.lagSmoothing(0);
-
       /* ── IO owns all .reveal fades; GSAP handles images, parallax, cursor ── */
-      // IO reliably handles every .reveal element on every page via CSS transitions.
-      // Keeping IO running avoids any gap where a .reveal container could stay hidden.
-      // GSAP only enhances with effects IO cannot produce (scale, scrub, cursor).
+      // Native scroll is kept — Lenis was removed as it caused page freeze on
+      // slower devices by overriding native scroll with heavy RAF easing.
       const E = 'power3.out';
 
       /* Images — scale expansion reveal */
