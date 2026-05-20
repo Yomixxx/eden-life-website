@@ -563,53 +563,11 @@
       gsap.ticker.add((time) => lenis.raf(time * 1000));
       gsap.ticker.lagSmoothing(0);
 
-      /* ── Hand reveals from IO → GSAP ───────────────── */
-      if (window._edenIO) window._edenIO.disconnect();
-
-      // Immediately show anything already in the viewport so nothing stays invisible
-      document.querySelectorAll('.reveal:not(.visible)').forEach((el) => {
-        const r = el.getBoundingClientRect();
-        if (r.top < window.innerHeight && r.bottom > 0) {
-          el.classList.add('visible');
-        } else {
-          el.style.transition = 'none';
-        }
-      });
-
+      /* ── IO owns all .reveal fades; GSAP handles images, parallax, cursor ── */
+      // IO reliably handles every .reveal element on every page via CSS transitions.
+      // Keeping IO running avoids any gap where a .reveal container could stay hidden.
+      // GSAP only enhances with effects IO cannot produce (scale, scrub, cursor).
       const E = 'power3.out';
-
-      // Only animate elements NOT already revealed by IO to prevent re-animation flash
-      function batch(sel, from, to) {
-        const els = gsap.utils.toArray(sel).filter((el) => !el.classList.contains('visible'));
-        if (!els.length) return;
-        ScrollTrigger.batch(els, {
-          onEnter: (b) => gsap.fromTo(b, from, {
-            ...to, stagger: to.stagger ?? 0.1, ease: E, overwrite: true,
-          }),
-          start: 'top 91%',
-          once: true,
-        });
-      }
-
-      /* Labels */
-      batch('.section-label', { opacity: 0, x: -22 }, { opacity: 1, x: 0, duration: 0.9 });
-      /* Headings */
-      batch('.section-title, .section-header h2', { opacity: 0, y: 44 }, { opacity: 1, y: 0, duration: 1.25 });
-      /* Subtext */
-      batch('.section-header p', { opacity: 0, y: 26 }, { opacity: 1, y: 0, duration: 1.1, stagger: 0.08 });
-      /* Cards */
-      batch('.info-card, .mv-card',    { opacity: 0, y: 44 }, { opacity: 1, y: 0, duration: 1.1, stagger: 0.11 });
-      batch('.sermon-card',             { opacity: 0, y: 44 }, { opacity: 1, y: 0, duration: 1.1, stagger: 0.1  });
-      batch('.event-card',              { opacity: 0, y: 36 }, { opacity: 1, y: 0, duration: 1.0, stagger: 0.09 });
-      batch('.schedule-item',           { opacity: 0, y: 22 }, { opacity: 1, y: 0, duration: 0.85, stagger: 0.07 });
-      batch('.pathway-step',            { opacity: 0, y: 38 }, { opacity: 1, y: 0, duration: 1.1, stagger: 0.1  });
-      batch('.checklist li',            { opacity: 0, x: -18 }, { opacity: 1, x: 0, duration: 0.8, stagger: 0.06 });
-      batch('.accordion-item',          { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.75, stagger: 0.06 });
-      batch('.bank-card',               { opacity: 0, y: 26 }, { opacity: 1, y: 0, duration: 0.9  });
-      batch('.btn-group',               { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.9  });
-      batch('.notice',                  { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.8  });
-      batch('.scripture-quote blockquote', { opacity: 0, y: 32 }, { opacity: 1, y: 0, duration: 1.5 });
-      batch('.scripture-quote cite',       { opacity: 0        }, { opacity: 1,       duration: 1.2 });
 
       /* Images — scale expansion reveal */
       gsap.utils.toArray('img').forEach((img) => {
