@@ -49,7 +49,7 @@
        RESET
     ───────────────────────────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; color-scheme: dark; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; color-scheme: dark; overflow-x: hidden; }
     body {
       font-family: var(--font-body);
       font-size: 1rem;
@@ -941,9 +941,12 @@
     @media (max-width: 480px) {
       :root { --px: 1rem; --section-py: 2.75rem; }
       .hero-h1 { font-size: clamp(2rem, 11vw, 3rem) !important; line-height: 1.0; letter-spacing: -0.035em; }
+      .hero-body { padding-bottom: 3.5rem; }
       .hero-sub { font-size: .875rem; line-height: 1.75; }
       .hero-foot { gap: 1rem; }
-      .hero-foot .btn { width: 100%; justify-content: center; }
+      /* Hero CTA buttons — full width and stacked on small screens */
+      .hero-btns { width: 100%; flex-direction: column; }
+      .hero-btns .btn, .hero-foot .btn { width: 100%; justify-content: center; }
       .pastor-photo { height: 280px; }
       .pastor-ghost { font-size: 5rem; }
       .pastor-panel { padding: 2.5rem 1.25rem; }
@@ -958,6 +961,17 @@
       .footer-bottom { margin-top: 3rem; padding-block: 1.25rem; }
       .wa-float { bottom: 1.25rem; right: 1rem; width: 50px; height: 50px; }
       .wa-float svg { width: 26px; height: 26px; }
+      /* section titles smaller on mobile */
+      .section-title { font-size: clamp(1.5rem, 8vw, 2rem); }
+      /* events top */
+      .events-top { gap: 1rem; }
+      /* fullcta */
+      .fullcta-h { font-size: clamp(2rem, 9vw, 3rem); }
+      .fullcta-desc { font-size: .9rem; margin-bottom: 2rem; }
+    }
+    @media (max-width: 375px) {
+      .hero-h1 { font-size: clamp(1.875rem, 12vw, 2.5rem) !important; }
+      .hero-desc { font-size: .875rem; }
     }
     /* ── WHATSAPP FLOAT ── */
     .wa-float {

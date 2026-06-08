@@ -558,15 +558,14 @@
       // slower devices by overriding native scroll with heavy RAF easing.
       const E = 'power3.out';
 
-      /* Images — scale expansion reveal */
+      /* Images — scale expansion reveal (scale only, no opacity — avoids blank images on slow mobile) */
       gsap.utils.toArray('img').forEach((img) => {
         const wrap = img.closest('.page-section, .page-hero, .event-card, .sermon-card, [class*="card"], [class*="tile"], [class*="photo"], [class*="collage"], [class*="pastor"]');
         if (!wrap) return;
-        gsap.fromTo(img,
-          { scale: 1.08, opacity: 0 },
-          { scale: 1, opacity: 1, duration: 1.65, ease: 'power2.out',
-            scrollTrigger: { trigger: img, start: 'top 93%', once: true } }
-        );
+        gsap.from(img, {
+          scale: 1.08, duration: 1.65, ease: 'power2.out',
+          scrollTrigger: { trigger: img, start: 'top 93%', once: true },
+        });
       });
 
       /* Hero bg parallax */

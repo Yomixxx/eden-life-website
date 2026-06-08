@@ -39,7 +39,7 @@
 
 /* ── RESET ───────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; color-scheme: dark; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; color-scheme: dark; overflow-x: hidden; }
 body {
   font-family: var(--font-body);
   font-size: 1rem; line-height: 1.65;
@@ -607,6 +607,16 @@ address { font-style: normal; }
   .footer-col ul { gap: .75rem; }
   .site-footer { padding-top: 3.5rem; }
   .footer-bottom { margin-top: 3rem; padding-block: 1.25rem; }
+  /* Content grids — ensure proper padding on mobile */
+  .content-2col { gap: 2rem; }
+  /* section titles smaller */
+  .section-title { font-size: clamp(1.5rem, 8vw, 2rem); }
+  /* CTA section tighter */
+  .cta-section { padding: 2.5rem var(--px); }
+  .cta-section h2 { font-size: clamp(1.5rem, 8vw, 2rem); }
+  /* btn-group always full width on small screens */
+  .btn-group { flex-direction: column; align-items: stretch; }
+  .btn-group .btn { width: 100%; justify-content: center; }
 }
 
 /* ── MAPS GRID ───────────────────────────────────────────── */
