@@ -394,6 +394,36 @@
     });
   }
 
+  /* ---- EVENT REGISTRATION + PRAYER FORMS ----
+     Moved out of inline <script> blocks so pages run under a CSP with no
+     'unsafe-inline' for scripts. Submission is simulated, same as before. */
+  function simulateSubmit(formId, busyText, doneHTML) {
+    const form = document.getElementById(formId);
+    if (!form) return;
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      const btn = this.querySelector('button[type="submit"]');
+      if (btn) { btn.disabled = true; btn.textContent = busyText; }
+      setTimeout(() => { this.innerHTML = doneHTML; }, 1000);
+    });
+  }
+
+  const CHECK_SVG = '<svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#5ec957" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+
+  function registeredHTML(eventName) {
+    return '<div style="text-align:center;padding:2.5rem 1rem">' + CHECK_SVG +
+      '<h3 style="font-family:var(--font-display);font-size:1.5rem;font-weight:800;color:#fff;margin:1.25rem 0 .75rem">You\'re Registered!</h3>' +
+      '<p style="font-family:var(--font-body);color:rgba(255,255,255,.6);font-size:.9rem">We\'ll send details to your email. See you at ' + eventName + '!</p></div>';
+  }
+
+  simulateSubmit('regForm',      'Registering…', registeredHTML('SOAR'));
+  simulateSubmit('regFormEquip', 'Registering…', registeredHTML('EQUIP'));
+  simulateSubmit('regFormSnow',  'Registering…', registeredHTML('SNOW'));
+  simulateSubmit('prayerForm',   'Submitting…',
+    '<div style="text-align:center;padding:3rem 1rem">' + CHECK_SVG +
+    '<h3 style="font-family:var(--font-display);font-size:1.5rem;font-weight:800;color:#fff;margin-top:1.25rem;margin-bottom:.75rem">Prayer Received</h3>' +
+    '<p style="font-family:var(--font-body);color:rgba(255,255,255,.6);font-size:.9rem">Thank you for sharing. Our prayer team will lift you up.</p></div>');
+
   /* ---- COMMUNITY SLIDESHOW ---- */
   const slideshowTrack = document.getElementById('slideshowTrack');
   if (slideshowTrack) {
@@ -536,9 +566,11 @@
   (function initMotion() {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
+    // Self-hosted (gsap 3.12.5) — no third-party CDN in the supply chain,
+    // and script-src in the CSP can stay locked to 'self' + Paystack.
     const SRCS = [
-      'https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js',
-      'https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js',
+      '/assets/vendor/gsap.min.js',
+      '/assets/vendor/ScrollTrigger.min.js',
     ];
 
     (function loadSeq(i) {

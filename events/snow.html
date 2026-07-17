@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://js.paystack.co; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; frame-src https://www.youtube.com https://www.google.com https://*.paystack.co; connect-src 'self' https://*.paystack.co; form-action 'self' https://formsubmit.co; object-src 'none'; base-uri 'self'">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
   <title>SNOW – Supernatural Night of Wonders | Eden Life Experience Centre</title>
   <meta name="description" content="SNOW is Eden Life's annual extended worship and prayer night — an encounter with God through extended praise, intercession, and the supernatural.">
   <link rel="canonical" href="https://www.edenlifeng.org/events/snow.html">
@@ -151,16 +153,6 @@
                 </div>
                 <button type="submit" class="btn btn-primary full-width" style="width:100%;justify-content:center;margin-top:.5rem">Register Now</button>
               </form>
-              <script>
-                document.getElementById('regFormSnow').addEventListener('submit', function(e) {
-                  e.preventDefault();
-                  const btn = this.querySelector('button[type="submit"]');
-                  btn.disabled = true; btn.textContent = 'Registering…';
-                  setTimeout(() => {
-                    this.innerHTML = '<div style="text-align:center;padding:2.5rem 1rem"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#5ec957" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><h3 style="font-family:var(--font-display);font-size:1.5rem;font-weight:800;color:#fff;margin:1.25rem 0 .75rem">You\'re Registered!</h3><p style="font-family:var(--font-body);color:rgba(255,255,255,.6);font-size:.9rem">We\'ll send details to your email. See you at SNOW!</p></div>';
-                  }, 1000);
-                });
-              </script>
             </div>
             <div class="reveal reveal-delay-2">
               <div class="info-card accent" style="margin-bottom:1rem">
