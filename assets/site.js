@@ -490,12 +490,16 @@
   if (twTarget) {
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (!reducedMotion) {
-      const words = ['People.', 'Disciples.', 'Leaders.', 'Communities.'];
-      let wIdx    = 0;
+      const phrases = [
+        'We Equip Disciples.',
+        'Encounter Christ.',
+        'Destined for Exploits.'
+      ];
+      let pIdx    = 0;
       let cIdx    = 0;
       let erasing = false;
 
-      // Empty the span — we'll type the first word in
+      // Empty the span — we'll type the first phrase in
       twTarget.textContent = '';
 
       // Cursor element (after the span, so underline stays on typed text)
@@ -506,34 +510,34 @@
 
       // Keep a static accessible label so screen readers aren't confused
       const h1 = twTarget.closest('h1');
-      if (h1) h1.setAttribute('aria-label', 'We Equip People, Disciples, Leaders, Communities');
+      if (h1) h1.setAttribute('aria-label', 'We Equip Disciples. Encounter Christ. Destined for Exploits.');
 
       function twTick() {
-        const word = words[wIdx];
+        const phrase = phrases[pIdx];
         if (!erasing) {
           cIdx++;
-          twTarget.textContent = word.slice(0, cIdx);
-          if (cIdx === word.length) {
+          twTarget.textContent = phrase.slice(0, cIdx);
+          if (cIdx === phrase.length) {
             erasing = true;
-            setTimeout(twTick, 1900);   // pause before erasing
+            setTimeout(twTick, 2200);   // pause before erasing
           } else {
-            setTimeout(twTick, 88);     // typing speed
+            setTimeout(twTick, 65);     // typing speed
           }
         } else {
           cIdx--;
-          twTarget.textContent = word.slice(0, cIdx);
+          twTarget.textContent = phrase.slice(0, cIdx);
           if (cIdx === 0) {
             erasing = false;
-            wIdx    = (wIdx + 1) % words.length;
-            setTimeout(twTick, 320);    // pause before next word
+            pIdx    = (pIdx + 1) % phrases.length;
+            setTimeout(twTick, 350);    // pause before next phrase
           } else {
-            setTimeout(twTick, 48);     // erasing speed
+            setTimeout(twTick, 35);     // erasing speed
           }
         }
       }
 
       // Start after hero entrance animation finishes (~hero-foot delay 0.54s + duration 0.65s)
-      setTimeout(twTick, 1000);
+      setTimeout(twTick, 800);
     }
   }
 
