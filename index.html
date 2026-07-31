@@ -3,10 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://js.paystack.co; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; frame-src https://www.youtube.com https://www.google.com https://*.paystack.co; connect-src 'self' https://*.paystack.co; form-action 'self' https://formsubmit.co; object-src 'none'; base-uri 'self'">
-  <meta name="referrer" content="strict-origin-when-cross-origin">
   <title>Eden Life Experience Centre | Church in Lagos, Nigeria</title>
-  <meta name="description" content="Eden Life Experience Centre is a Christ-centred church in Lagos, Nigeria. We meet at Ogudu (Mainland) and Ajah (Island). Join us for worship, discipleship, and community.">
+  <meta name="description" content="Eden Life Experience Centre is a Christ-centred church in Lagos, Nigeria with campuses on Lagos Island (Ajah) and Lagos Mainland (Ogudu). Join us Sundays for worship, discipleship, and community.">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://www.edenlifeng.org/">
   <meta property="og:type" content="website">
@@ -301,12 +299,12 @@
       font-family: var(--font-display);
       font-size: clamp(3rem, 7vw, 6.5rem);
       font-weight: 900; line-height: 1.05;
-      letter-spacing: -0.035em; color: var(--text-hi);
+      letter-spacing: -0.04em; color: var(--text-hi);
     }
     .hero-h1 .hl {
       text-decoration: underline;
       text-decoration-color: var(--eden);
-      text-underline-offset: clamp(6px, 1.2vw, 14px);
+      text-underline-offset: clamp(6px, 1.4vw, 16px);
       text-decoration-thickness: 3px;
     }
     .hero-foot {
@@ -889,7 +887,7 @@
       .pastor-panel { padding: 3.5rem 2rem; }
       .pastor-ghost { font-size: 10rem; }
       .campuses-grid { grid-template-columns: 1fr; }
-      .campus-tile-img { aspect-ratio: 3/2; }
+      .campus-tile-img { aspect-ratio: 4/5; }
       .pathway-steps { grid-template-columns: 1fr 1fr; }
       .pathway-step:nth-child(2) { border-right: none; }
       .pathway-step:nth-child(3) { border-right: 1px solid var(--border); }
@@ -917,18 +915,22 @@
       .nav-menu.open { display: flex; overscroll-behavior: contain; }
       .nav-list { flex-direction: column; align-items: stretch; gap: 0; }
       .nav-link { min-height: 52px; font-size: .9375rem; color: var(--text-md); padding-inline: 0; border-bottom: 1px solid var(--border); }
+      .dropdown-trigger { width: 100%; justify-content: space-between; }
       .nav-cta { margin-top: 1.5rem; text-align: center; padding: 1rem; width: 100%; justify-content: center; }
       .dropdown-menu {
         position: static; transform: none; box-shadow: none;
-        border: none; background: transparent; padding: 0;
-        opacity: 1; visibility: visible; pointer-events: auto; display: none;
+        border: none; min-width: 0; width: 100%; background: transparent; padding: 0;
+        opacity: 1; visibility: visible; pointer-events: auto; display: none; border-radius: 0;
       }
-      .nav-dropdown.open .dropdown-menu { display: block; }
-      .dropdown-menu a { color: var(--text-md); padding: .75rem 1.25rem; font-size: .9rem; border-bottom: 1px solid var(--border); }
+      .nav-dropdown.open .dropdown-menu { display: block; transform: none; opacity: 1; visibility: visible; }
+      .dropdown-menu a { color: var(--eden); padding: .65rem 1rem .65rem 1.5rem; font-size: .875rem; border-bottom: 1px solid var(--border); border-radius: 0; }
+      .dropdown-menu a:last-child { border-bottom: none; }
       .footer-grid { grid-template-columns: 1fr; gap: 2.5rem; }
-      .events-grid { grid-template-columns: 1fr; }
+      .events-grid { display: flex; flex-direction: row; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; gap: 1rem; background: transparent; padding-bottom: 1rem; margin-inline: calc(-1 * var(--px)); padding-inline: var(--px); scrollbar-width: none; }
+      .events-grid::-webkit-scrollbar { display: none; }
+      .event-card { flex: 0 0 78%; scroll-snap-align: start; border: none; border-radius: 14px; overflow: hidden; background: var(--bg-1); box-shadow: 0 6px 28px rgba(0,0,0,.45); }
+      .events-top { flex-direction: column; align-items: flex-start; margin-bottom: 2rem; }
       .pathway-top { flex-direction: column; align-items: flex-start; gap: 1.5rem; }
-      .events-top { flex-direction: column; align-items: flex-start; }
       .collage-inner { grid-template-columns: 1fr; gap: 2.5rem; }
       .footer-bottom { flex-direction: column; align-items: flex-start; }
     }
@@ -954,7 +956,11 @@
       .pastor-panel { padding: 2.5rem 1.25rem; }
       .campus-tile-body { padding: 1.5rem 1.25rem; }
       .pathway-step { padding: 1.75rem 1.25rem; }
-      .event-card-body { padding: 1.25rem; }
+      .event-card img { aspect-ratio: 16/10; }
+      .event-card-body { padding: 1rem 1.125rem 1.375rem; }
+      .event-card h3 { font-size: .9375rem; margin-bottom: .5rem; }
+      .event-card p:not(.event-date) { display: none; }
+      .event-link { color: var(--eden); font-size: .75rem; }
       .collage-stat .num { font-size: clamp(2.5rem, 12vw, 4rem); }
       .slideshow { aspect-ratio: 4/3; }
       .footer-col h3 { margin-bottom: 1.25rem; }
@@ -1006,6 +1012,91 @@
     .event-card, .campus-tile, .pastor-photo { overflow: hidden; }
     .reveal { will-change: opacity, transform; }
   </style>
+
+  <!-- ── STRUCTURED DATA (Schema.org) — feeds Google rich results + AI answer engines ── -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": ["Church", "Organization"],
+        "@id": "https://www.edenlifeng.org/#organization",
+        "name": "Eden Life Experience Centre",
+        "alternateName": "Eden Life Global",
+        "url": "https://www.edenlifeng.org/",
+        "logo": "https://www.edenlifeng.org/assets/logo.jpg",
+        "image": "https://www.edenlifeng.org/assets/photos/service-wide.jpg",
+        "description": "Eden Life Experience Centre is a Christ-centred church in Lagos, Nigeria, with campuses on the Lagos Mainland (Ogudu) and Lagos Island (Ajah). We equip people for Christ and a life of exploits through worship, discipleship, and community.",
+        "slogan": "We Equip People for Christ and a Life of Exploits",
+        "email": "info@edenlifeng.org",
+        "telephone": "+234-909-7209-484",
+        "areaServed": { "@type": "City", "name": "Lagos", "containedInPlace": { "@type": "Country", "name": "Nigeria" } },
+        "founder": { "@id": "https://www.edenlifeng.org/#founder" },
+        "sameAs": [
+          "https://www.youtube.com/@Edenlifeglobal",
+          "https://www.instagram.com/edenlifeglobal"
+        ],
+        "subOrganization": [
+          { "@id": "https://www.edenlifeng.org/#campus-mainland" },
+          { "@id": "https://www.edenlifeng.org/#campus-island" }
+        ]
+      },
+      {
+        "@type": "Person",
+        "@id": "https://www.edenlifeng.org/#founder",
+        "name": "Pastor Gbenga Ajibola",
+        "jobTitle": "Founder & Lead Pastor",
+        "worksFor": { "@id": "https://www.edenlifeng.org/#organization" }
+      },
+      {
+        "@type": ["Church", "PlaceOfWorship"],
+        "@id": "https://www.edenlifeng.org/#campus-mainland",
+        "name": "Eden Life Experience Centre — Mainland Campus (Ogudu)",
+        "url": "https://www.edenlifeng.org/about/campuses/mainland.html",
+        "parentOrganization": { "@id": "https://www.edenlifeng.org/#organization" },
+        "telephone": "+234-909-7209-484",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Galaxy Event Centre, 6a Emmanuel High Street, Ogudu Road",
+          "addressLocality": "Ogudu",
+          "addressRegion": "Lagos",
+          "addressCountry": "NG"
+        },
+        "hasMap": "https://maps.google.com/?q=Galaxy+Event+Centre+Ogudu+Lagos",
+        "openingHoursSpecification": [
+          { "@type": "OpeningHoursSpecification", "dayOfWeek": "Sunday", "opens": "10:00", "closes": "12:00" }
+        ]
+      },
+      {
+        "@type": ["Church", "PlaceOfWorship"],
+        "@id": "https://www.edenlifeng.org/#campus-island",
+        "name": "Eden Life Experience Centre — Island Campus (Ajah)",
+        "url": "https://www.edenlifeng.org/about/campuses/island.html",
+        "parentOrganization": { "@id": "https://www.edenlifeng.org/#organization" },
+        "telephone": "+234-909-7209-484",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "KWA Event Centre, Providence Street, Olokonla Bus Stop, Ajah",
+          "addressLocality": "Ajah",
+          "addressRegion": "Lagos",
+          "addressCountry": "NG"
+        },
+        "hasMap": "https://maps.google.com/?q=KWA+Event+Centre+Ajah+Lagos",
+        "openingHoursSpecification": [
+          { "@type": "OpeningHoursSpecification", "dayOfWeek": "Sunday", "opens": "10:00", "closes": "12:00" }
+        ]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://www.edenlifeng.org/#website",
+        "url": "https://www.edenlifeng.org/",
+        "name": "Eden Life Experience Centre",
+        "publisher": { "@id": "https://www.edenlifeng.org/#organization" },
+        "inLanguage": "en"
+      }
+    ]
+  }
+  </script>
 </head>
 <body class="page-body">
 
@@ -1051,7 +1142,7 @@
           <li class="nav-dropdown">
             <button class="nav-link dropdown-trigger" aria-expanded="false" aria-haspopup="true">Connect</button>
             <ul class="dropdown-menu" role="list">
-              <li><a href="/connect/community-groups.html">Belong Groups</a></li>
+              <li><a href="/connect/community-groups.html">Small Groups</a></li>
               <li><a href="/connect/interest-groups.html">Interest Groups</a></li>
               <li><a href="/connect/prayer-request.html">Prayer Request</a></li>
             </ul>
@@ -1060,9 +1151,6 @@
             <button class="nav-link dropdown-trigger" aria-expanded="false" aria-haspopup="true">Grow</button>
             <ul class="dropdown-menu" role="list">
               <li><a href="/grow/growth-steps.html">Growth Steps</a></li>
-              <li><a href="/grow/academy.html">Edenlife Academy</a></li>
-              <li><a href="/grow/basic-leadership.html">Basic Leadership</a></li>
-              <li><a href="/grow/advanced-leadership.html">Advanced Leadership</a></li>
             </ul>
           </li>
           <li><a href="/events/" class="nav-link">Events</a></li>
@@ -1076,7 +1164,7 @@
 
     <!-- ── HERO ────────────────────────────────────────────── -->
     <section class="hero" aria-label="Welcome to Eden Life">
-      <img src="assets/photos/service-wide.jpg" alt="Eden Life congregation gathered in worship" class="hero-bg">
+      <img src="assets/photos/hero-congregation.jpg" alt="Eden Life congregation gathered in worship" class="hero-bg">
       <div class="hero-veil" aria-hidden="true"></div>
       <div class="hero-body">
         <p class="hero-pre">Encounters &nbsp;•&nbsp; Equipping &nbsp;•&nbsp; Exploits</p>
@@ -1098,7 +1186,7 @@
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
         <div>
           <span class="times-label">Sunday Services</span>
-          <span class="times-val">8:00 AM &amp; 10:30 AM</span>
+          <span class="times-val">10:00 AM</span>
         </div>
       </div>
       <div class="times-divider" aria-hidden="true"></div>
@@ -1141,12 +1229,12 @@
           <span class="section-label">Our Community</span>
           <h2 class="section-title" id="community-heading">Real People.<br>Real Faith.</h2>
           <p>Eden Life is not just a church service — it is a family. Our community spans Lagos and the globe, united by a commitment to Christ and one another.</p>
-          <a href="/connect/community-groups.html" class="btn btn-primary">Join a Belong Group</a>
+          <a href="/connect/community-groups.html" class="btn btn-primary">Join a Small Group</a>
         </div>
         <div class="slideshow" role="region" aria-label="Community photos slideshow" aria-roledescription="carousel">
           <div class="slideshow-track" id="slideshowTrack" aria-live="off">
             <figure class="slide" aria-label="Slide 1 of 5">
-              <img src="assets/photos/pastor-preaching.jpg" alt="Pastor Gbenga Ajibola preaching" loading="lazy">
+              <img src="assets/photos/community-mother-baby.jpg" alt="A mother and child in the Eden Life community" loading="lazy">
             </figure>
             <figure class="slide" aria-label="Slide 2 of 5">
               <img src="assets/photos/snow-bw-stage.jpg" alt="Eden Life worship service" loading="lazy">
@@ -1155,7 +1243,7 @@
               <img src="assets/photos/worship-woman.jpg" alt="Worshipper at Eden Life" loading="lazy">
             </figure>
             <figure class="slide" aria-label="Slide 4 of 5">
-              <img src="assets/photos/worship-singer.jpg" alt="Worship at Eden Life" loading="lazy">
+              <img src="assets/photos/community-woman-brown.jpg" alt="An Eden Life member in worship" loading="lazy">
             </figure>
             <figure class="slide" aria-label="Slide 5 of 5">
               <img src="assets/photos/community-arrivals.jpg" alt="Eden Life community" loading="lazy">
@@ -1196,21 +1284,21 @@
             <p>Foundations of Christian faith and life at Eden Life. Free, fully online, open to everyone.</p>
             <span class="tag tag-free">Free · Online</span>
           </a>
-          <a href="/grow/academy.html" class="pathway-step">
+          <a href="/grow/growth-steps.html" class="pathway-step">
             <span aria-hidden="true" class="pathway-step-ghost">02</span>
             <span class="pathway-num">02</span>
             <h3>Edenlife Academy</h3>
             <p>Deeper theological training and biblical literacy for believers serious about the Word.</p>
             <span class="tag tag-struct">Structured</span>
           </a>
-          <a href="/grow/basic-leadership.html" class="pathway-step">
+          <a href="/grow/growth-steps.html" class="pathway-step">
             <span aria-hidden="true" class="pathway-step-ghost">03</span>
             <span class="pathway-num">03</span>
             <h3>Basic Leadership</h3>
             <p>Foundations of servant leadership. Equipping you to serve effectively in ministry and community.</p>
             <span class="tag tag-min">Ministry Track</span>
           </a>
-          <a href="/grow/advanced-leadership.html" class="pathway-step">
+          <a href="/grow/growth-steps.html" class="pathway-step">
             <span aria-hidden="true" class="pathway-step-ghost">04</span>
             <span class="pathway-num">04</span>
             <h3>Advanced Leadership</h3>
@@ -1231,12 +1319,12 @@
         <h2 class="section-title" id="campuses-heading">Find Your Campus.</h2>
         <div class="campuses-grid">
           <div class="campus-tile reveal">
-            <img src="assets/photos/worship-joy.jpg" alt="Mainland campus Sunday service" class="campus-tile-img" loading="lazy">
+            <img src="assets/photos/pastor-gbenga-founder.jpg" alt="Pastor Gbenga Ajibola, Mainland (Ogudu) Campus" class="campus-tile-img" loading="lazy" style="object-position:center 18%;">
             <div class="campus-tile-veil" aria-hidden="true"></div>
             <div class="campus-tile-body">
               <span class="campus-tag">Mainland</span>
               <h3 class="campus-tile-name">Ogudu Campus</h3>
-              <p class="campus-tile-time">Sundays 8:00 AM &amp; 10:30 AM · Galaxy Event Centre</p>
+              <p class="campus-tile-time">Sundays 10:00 AM · Galaxy Event Centre</p>
               <a href="/about/campuses/mainland.html" class="campus-tile-link">
                 Campus details
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
@@ -1244,12 +1332,12 @@
             </div>
           </div>
           <div class="campus-tile reveal reveal-delay-1">
-            <img src="assets/photos/worship-singer.jpg" alt="Island campus Sunday service" class="campus-tile-img" loading="lazy">
+            <img src="assets/photos/pastor-lanre-idris-2.jpg" alt="Pastor Lanre Idris, Island (Ajah) Campus" class="campus-tile-img" loading="lazy" style="object-position:center 22%;">
             <div class="campus-tile-veil" aria-hidden="true"></div>
             <div class="campus-tile-body">
               <span class="campus-tag">Island</span>
               <h3 class="campus-tile-name">Ajah Campus</h3>
-              <p class="campus-tile-time">Sundays 9:00 AM · KWA Event Centre</p>
+              <p class="campus-tile-time">Sundays 10:00 AM · KWA Event Centre</p>
               <a href="/about/campuses/island.html" class="campus-tile-link">
                 Campus details
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
@@ -1263,7 +1351,7 @@
     <!-- ── PASTOR ─────────────────────────────────────────── -->
     <section class="pastor" aria-labelledby="pastor-heading">
       <div class="pastor-photo">
-        <img src="assets/photos/pastor-preaching.jpg" alt="Pastor Gbenga Ajibola preaching" loading="lazy">
+        <img src="assets/photos/pastor-gbenga-founder.jpg" alt="Pastor Gbenga Ajibola, Founder and Lead Pastor of Eden Life Experience Centre" loading="lazy" style="object-position:center 22%;">
       </div>
       <div class="pastor-panel">
         <span aria-hidden="true" class="pastor-ghost">G</span>
@@ -1305,12 +1393,12 @@
             </div>
           </div>
           <div class="event-card reveal reveal-delay-2">
-            <img src="assets/photos/community-arrivals.jpg" alt="El-SAP Skill Acquisition" loading="lazy">
+            <img src="assets/photos/pastor-joy.jpg" alt="Activate 2027 Conference" loading="lazy">
             <div class="event-card-body">
-              <p class="event-date">Community Programme</p>
-              <h3>El-SAP — Skill Acquisition</h3>
-              <p>Empowering community members with practical vocational training and economic development.</p>
-              <a href="/events/elsap.html" class="event-link">Learn more <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+              <p class="event-date">Upcoming Conference</p>
+              <h3>Activate 2027</h3>
+              <p>A landmark conference preparing Eden Life and the body of Christ for the decade ahead.</p>
+              <a href="/events/activate-2027.html" class="event-link">Learn more <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
             </div>
           </div>
         </div>
@@ -1365,7 +1453,7 @@
         <ul>
           <li><a href="/new-here/plan-your-visit.html">Visit Us</a></li>
           <li><a href="/watch/sermons.html">Sermons</a></li>
-          <li><a href="/connect/community-groups.html">Belong Groups</a></li>
+          <li><a href="/connect/community-groups.html">Small Groups</a></li>
           <li><a href="/grow/growth-steps.html">Grow</a></li>
           <li><a href="/events/">Events</a></li>
         </ul>
@@ -1392,4 +1480,6 @@
   <script src="assets/site.js" defer></script>
 </body>
 </html>
+
+
 
