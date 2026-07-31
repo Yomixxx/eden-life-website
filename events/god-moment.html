@@ -86,9 +86,9 @@
           <p style="color:var(--gold);font-family:var(--font-display);font-weight:700;font-size:clamp(1rem, 2vw, 1.25rem);text-transform:uppercase;letter-spacing:2px;margin-bottom:1.5rem;">Prayers | Prophecies | Possibilities</p>
           <p class="lead" style="color:rgba(255,255,255,0.9);max-width:600px;margin:0 0 2rem;">Join us for a 21-day journey of intense prayer, fasting, and divine encounters. <br><strong style="color:#fff;">3rd — 23rd August, 2026</strong></p>
           
-          <a href="../assets/docs/21-days-brochure.pdf" download class="btn btn-primary btn-lg" style="background:var(--gold);color:var(--eden-dark);border-color:var(--gold);display:inline-flex;align-items:center;gap:.5rem;">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-            Download 21 Days Brochure (PDF)
+          <a href="../assets/docs/21-days-brochure.pdf" download class="btn btn-primary btn-lg" style="background:var(--gold);color:var(--eden-dark);border-color:var(--gold);display:inline-flex;align-items:center;gap:.5rem; white-space: normal; height: auto; line-height: 1.4; text-align: left;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            <span>Download 21 Days Brochure (PDF)</span>
           </a>
         </div>
         <div>
@@ -97,7 +97,7 @@
       </div>
       <style>
         @media (max-width: 900px) {
-          .page-hero .inner { grid-template-columns: 1fr !important; text-align:center !important; }
+          .page-hero .inner { grid-template-columns: minmax(0, 1fr) !important; text-align:center !important; }
           .page-hero .inner > div:first-child { text-align:center !important; }
           .page-hero .breadcrumb { justify-content:center !important; }
         }
@@ -169,10 +169,10 @@
           <p style="color:var(--text-lo);">Break your fast at 6:00 PM daily following this schedule.</p>
         </div>
         
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:clamp(1.5rem, 5vw, 3rem);" class="guide-grid">
+        <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(1.5rem, 5vw, 3rem);" class="guide-grid">
           <style>
-            @media (max-width: 900px) { .guide-grid { grid-template-columns: 1fr !important; } }
-            @media (max-width: 480px) { .diet-list { grid-template-columns: 1fr !important; } }
+            @media (max-width: 900px) { .guide-grid { grid-template-columns: minmax(0, 1fr) !important; } }
+            @media (max-width: 480px) { .diet-list { grid-template-columns: minmax(0, 1fr) !important; } }
             .diet-list { display:grid; grid-template-columns:1fr 1fr; gap:.5rem; padding:0; margin:0; list-style:none; }
             .diet-list li { display:flex; align-items:center; gap:.5rem; font-family:var(--font-body); font-weight:600; color:#fff; }
             .diet-list li::before { content:''; display:block; width:8px; height:8px; border-radius:50%; background:var(--gold); flex-shrink:0; }
