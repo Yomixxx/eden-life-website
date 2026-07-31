@@ -570,11 +570,10 @@
   (function initMotion() {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-    // Self-hosted (gsap 3.12.5) — no third-party CDN in the supply chain,
-    // and script-src in the CSP can stay locked to 'self' + Paystack.
+    // Self-hosted relative paths
     const SRCS = [
-      '/assets/vendor/gsap.min.js',
-      '/assets/vendor/ScrollTrigger.min.js',
+      'assets/vendor/gsap.min.js',
+      'assets/vendor/ScrollTrigger.min.js',
     ];
 
     (function loadSeq(i) {
@@ -589,57 +588,61 @@
     function onReady() {
       gsap.registerPlugin(ScrollTrigger);
 
-      /* ── IO owns all .reveal fades; GSAP handles images, parallax, cursor ── */
-      // Native scroll is kept — Lenis was removed as it caused page freeze on
-      // slower devices by overriding native scroll with heavy RAF easing.
-      const E = 'power3.out';
-
-      /* Images — scale expansion reveal (scale only, no opacity — avoids blank images on slow mobile) */
+      /* Images — subtle scale reveal */
       gsap.utils.toArray('img').forEach((img) => {
         const wrap = img.closest('.page-section, .page-hero, .event-card, .sermon-card, [class*="card"], [class*="tile"], [class*="photo"], [class*="collage"], [class*="pastor"]');
         if (!wrap) return;
         gsap.from(img, {
-          scale: 1.08, duration: 1.65, ease: 'power2.out',
-          scrollTrigger: { trigger: img, start: 'top 93%', once: true },
+          scale: 1.05, duration: 1.2, ease: 'power2.out',
+          scrollTrigger: { trigger: img, start: 'top 95%', once: true },
         });
       });
 
       /* Hero bg parallax */
       gsap.utils.toArray('.page-hero-bg').forEach((bg) => {
-        gsap.to(bg, { yPercent: 20, ease: 'none',
-          scrollTrigger: { trigger: bg.closest('.page-hero'), start: 'top top', end: 'bottom top', scrub: 1.8 } });
+        gsap.to(bg, { yPercent: 15, ease: 'none',
+          scrollTrigger: { trigger: bg.closest('.page-hero'), start: 'top top', end: 'bottom top', scrub: 1 } });
       });
 
       /* Large image parallax depth */
       gsap.utils.toArray('.pastor-photo img, .campus-tile-img').forEach((img) => {
-        gsap.to(img, { yPercent: 10, ease: 'none',
+        gsap.to(img, { yPercent: 8, ease: 'none',
           scrollTrigger: { trigger: img.closest('section, .pastor, .campus-tile') || img,
-            start: 'top bottom', end: 'bottom top', scrub: 2 } });
+            start: 'top bottom', end: 'bottom top', scrub: 1 } });
       });
 
-      /* ── Custom cursor ──────────────────────────────── */
+      /* ── Custom cursor (High Performance, 60FPS) ──────────────── */
       if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
         const dot  = document.createElement('div'); dot.className  = 'el-cur-dot';
         const ring = document.createElement('div'); ring.className = 'el-cur-ring';
         document.body.append(dot, ring);
         document.body.classList.add('has-custom-cursor');
-        gsap.set([dot, ring], { xPercent: -50, yPercent: -50, x: -200, y: -200 });
+
+        let mouseX = -200, mouseY = -200;
+        let ringX = -200, ringY = -200;
+        let isAnimating = false;
+
+        function updateCursor() {
+          dot.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) translate(-50%, -50%)`;
+          ringX += (mouseX - ringX) * 0.25;
+          ringY += (mouseY - ringY) * 0.25;
+          ring.style.transform = `translate3d(${ringX}px, ${ringY}px, 0) translate(-50%, -50%)`;
+
+          if (Math.abs(mouseX - ringX) > 0.1 || Math.abs(mouseY - ringY) > 0.1) {
+            requestAnimationFrame(updateCursor);
+          } else {
+            isAnimating = false;
+          }
+        }
 
         window.addEventListener('mousemove', (e) => {
-          gsap.to(dot,  { x: e.clientX, y: e.clientY, duration: 0.08, ease: 'none',       overwrite: true });
-          gsap.to(ring, { x: e.clientX, y: e.clientY, duration: 0.55, ease: 'power3.out', overwrite: true });
-        });
-
-        document.querySelectorAll('a, button, .btn, .sermon-card, .event-card, .info-card, .campus-tile, .pathway-step, .card-link, .accordion-trigger, .amount-btn').forEach((el) => {
-          el.addEventListener('mouseenter', () => {
-            gsap.to(ring, { scale: 2.5, borderColor: 'rgba(94,201,87,.9)', duration: 0.3, ease: 'power2.out' });
-            gsap.to(dot,  { scale: 0.35, duration: 0.3, ease: 'power2.out' });
-          });
-          el.addEventListener('mouseleave', () => {
-            gsap.to(ring, { scale: 1, borderColor: 'rgba(94,201,87,.5)', duration: 0.4, ease: 'power2.out' });
-            gsap.to(dot,  { scale: 1, duration: 0.35, ease: 'power2.out' });
-          });
-        });
+          mouseX = e.clientX;
+          mouseY = e.clientY;
+          if (!isAnimating) {
+            isAnimating = true;
+            requestAnimationFrame(updateCursor);
+          }
+        }, { passive: true });
       }
     }
   }());
