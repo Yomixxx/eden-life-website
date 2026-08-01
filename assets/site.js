@@ -64,8 +64,9 @@
       const wouldOverflow = (centreX + menuW / 2) > (window.innerWidth - 12);
       menu.classList.toggle('align-right', wouldOverflow);
     };
-    const open  = () => { alignMenu(); dd.classList.add('open'); trigger.setAttribute('aria-expanded', 'true'); };
-    const close = () => { dd.classList.remove('open'); trigger.setAttribute('aria-expanded', 'false'); };
+    let closeTimeout;
+    const open  = () => { clearTimeout(closeTimeout); alignMenu(); dd.classList.add('open'); trigger.setAttribute('aria-expanded', 'true'); };
+    const close = () => { closeTimeout = setTimeout(() => { dd.classList.remove('open'); trigger.setAttribute('aria-expanded', 'false'); }, 200); };
 
     // Hover (desktop)
     dd.addEventListener('mouseenter', open);
