@@ -74,7 +74,7 @@
 
     // Click (touch + keyboard)
     trigger.addEventListener('click', (e) => {
-      if (window.innerWidth <= 768) {
+      if (window.innerWidth <= 900) {
         e.preventDefault();
         dd.classList.toggle('open');
         trigger.setAttribute('aria-expanded', dd.classList.contains('open'));
