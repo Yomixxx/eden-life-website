@@ -382,8 +382,13 @@
         btn.textContent = 'Sending…';
         btn.disabled = true;
       }
-      // Simulate submission — replace with real endpoint/FormSubmit/Netlify
-      setTimeout(() => {
+      const formData = new FormData(contactForm);
+      fetch('https://getform.io/f/193xsfzr8om', {
+        method: 'POST',
+        body: formData,
+        headers: { 'Accept': 'application/json' }
+      })
+      .then(response => {
         const area = document.getElementById('contactNotice');
         if (area) {
           area.innerHTML = '<div class="notice notice-success" role="alert">Thank you for your message! We will get back to you within 24–48 hours.</div>';
@@ -398,7 +403,10 @@
         } else {
           console.warn('gtag is not defined. Google Tag must be installed to track conversions.');
         }
-      }, 1200);
+      })
+      .catch(error => {
+        if (btn) { btn.textContent = 'Error. Try Again.'; btn.disabled = false; }
+      });
     });
   }
 
@@ -412,7 +420,20 @@
       e.preventDefault();
       const btn = this.querySelector('button[type="submit"]');
       if (btn) { btn.disabled = true; btn.textContent = busyText; }
-      setTimeout(() => { this.innerHTML = doneHTML; }, 1000);
+      const formData = new FormData(this);
+      formData.append('_form_id', formId);
+      
+      fetch('https://getform.io/f/193xsfzr8om', {
+        method: 'POST',
+        body: formData,
+        headers: { 'Accept': 'application/json' }
+      })
+      .then(response => {
+        this.innerHTML = doneHTML;
+      })
+      .catch(error => {
+        if (btn) { btn.disabled = false; btn.textContent = 'Error. Try again.'; }
+      });
     });
   }
 
