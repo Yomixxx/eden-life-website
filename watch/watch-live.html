@@ -96,10 +96,47 @@
     <section class="page-section">
       <div class="content-2col wide-left inner" style="padding-inline:0;">
         <div>
-          <div class="video-embed" style="margin-bottom:1.5rem;">
-            <iframe src="https://www.youtube.com/embed/live_stream?channel=UCELhHrNfHMKfhW4_pWQqfOg" title="Eden Life Live Stream" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+                    <div id="live-wrapper" style="margin-bottom:1.5rem;">
+            <!-- Placeholder -->
+            <div id="live-placeholder" style="aspect-ratio:16/9; background: var(--bg-1); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; border: 1px solid var(--border); padding: 2rem 1rem; border-radius: 8px;">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--text-lo)" stroke-width="1.5" style="margin-bottom:1rem;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+              <h3 style="font-family:var(--font-display);font-size:1.25rem;font-weight:700;color:var(--text-hi);margin-bottom:.5rem;">Live Stream Offline</h3>
+              <p style="font-family:var(--font-body);font-size:.9375rem;color:var(--text-lo);margin-bottom:1.5rem;max-width:45ch;">We stream our services every Sunday at 10:00 AM (WAT). If there is a special event happening now, you can load the player manually.</p>
+              <div style="display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap;">
+                <a href="sermons.html" class="btn btn-primary">Watch Past Sermons</a>
+                <button id="force-live-btn" class="btn btn-ghost">Load Live Player</button>
+              </div>
+            </div>
+            <!-- Player -->
+            <div id="live-player" class="video-embed" style="display:none; border-radius:8px; overflow:hidden;"></div>
           </div>
-          <p style="font-family:var(--font-body);font-size:.8125rem;font-weight:300;color:var(--text-lo);line-height:1.75;">If the live stream is not active, the most recent service will play automatically. Subscribe to <strong style="color:var(--text-md);">@Edenlifeglobal</strong> on YouTube for Sunday notifications.</p>
+          <script>
+            (function() {
+              const placeholder = document.getElementById('live-placeholder');
+              const player = document.getElementById('live-player');
+              const forceBtn = document.getElementById('force-live-btn');
+              const iframeHTML = '<iframe src="https://www.youtube.com/embed/live_stream?channel=UCELhHrNfHMKfhW4_pWQqfOg" title="Eden Life Live Stream" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>';
+
+              function loadPlayer() {
+                placeholder.style.display = 'none';
+                player.style.display = 'block';
+                player.innerHTML = iframeHTML;
+              }
+
+              forceBtn.addEventListener('click', loadPlayer);
+
+              const now = new Date();
+              const utcHour = now.getUTCHours();
+              const utcDay = now.getUTCDay();
+              let watHour = utcHour + 1;
+              let watDay = utcDay;
+              if (watHour >= 24) { watHour -= 24; watDay = (watDay + 1) % 7; }
+
+              if (watDay === 0 && watHour >= 9 && watHour < 14) {
+                loadPlayer();
+              }
+            })();
+          </script>
           <div style="margin-top:1.375rem;display:flex;gap:.875rem;flex-wrap:wrap;">
             <a href="https://www.youtube.com/@Edenlifeglobal" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Subscribe on YouTube</a>
             <a href="sermons.html" class="btn btn-ghost">Sermon Archive</a>
