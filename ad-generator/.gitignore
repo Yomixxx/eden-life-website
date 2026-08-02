@@ -2,4 +2,4 @@ node_modules/
 output/
 .font-cache/
 frames/
-run.log
+*.log
