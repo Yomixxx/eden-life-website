@@ -1,11 +1,13 @@
 {
+  "cleanUrls": true,
+  "trailingSlash": false,
   "headers": [
     {
       "source": "/(.*)",
       "headers": [
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self'; script-src 'self' https://js.paystack.co; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; frame-src https://www.youtube.com https://www.google.com https://*.paystack.co; connect-src 'self' https://*.paystack.co; form-action 'self' https://formsubmit.co; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; upgrade-insecure-requests"
+          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' https://js.flutterwave.com https://checkout.flutterwave.com https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://*.google-analytics.com https://*.googletagmanager.com; frame-src https://www.youtube.com https://www.google.com https://checkout.flutterwave.com; connect-src 'self' https://api.flutterwave.com https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://getform.io; form-action 'self' https://getform.io; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; upgrade-insecure-requests"
         },
         { "key": "X-Frame-Options", "value": "DENY" },
         { "key": "X-Content-Type-Options", "value": "nosniff" },
@@ -17,3 +19,4 @@
     }
   ]
 }
+
