@@ -1,0 +1,243 @@
+<template data-composition-id="05-come-as-you-are">
+  <style>
+    /* Root — sized to the 1920x1080 canvas, no background here (contract: ground lives on a .clip layer). */
+    #root {
+      position: relative;
+      width: 1920px;
+      height: 1080px;
+      overflow: hidden;
+      font-family: "Poppins", sans-serif;
+    }
+
+    /* Scene 1 — full-bleed closing backdrop, static camera, dimmed ~40% for legibility. */
+    .f05cay-bg {
+      position: absolute;
+      inset: 0;
+      background: #203b37;
+    }
+    .f05cay-bg-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .f05cay-bg-dim {
+      position: absolute;
+      inset: 0;
+      background: #080f0e;
+      opacity: 0.4;
+    }
+
+    /* Ambient glow bloom behind the lockup — soft radial bleed, fully contained in its own box. */
+    .f05cay-glow {
+      position: absolute;
+      left: 550px;
+      top: 42px;
+      width: 820px;
+      height: 820px;
+      border-radius: 50%;
+      background: radial-gradient(
+        circle,
+        rgba(94, 201, 87, 0.38) 0%,
+        rgba(94, 201, 87, 0.16) 42%,
+        rgba(94, 201, 87, 0) 72%
+      );
+      will-change: transform;
+    }
+
+    /* The lockup card — cream plate + logo image, brand-green hairline. */
+    .f05cay-card {
+      position: absolute;
+      left: 760px;
+      top: 252px;
+      width: 400px;
+      height: 400px;
+      background: #ffffff;
+      border: 2px solid #294b46;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: none;
+    }
+    .f05cay-logo-img {
+      width: 320px;
+      height: 320px;
+      object-fit: contain;
+      display: block;
+    }
+
+    /* Scene 2 — the pink-deep (brand green) accent underline that self-draws beneath the lockup. */
+    .f05cay-underline-wrap {
+      position: absolute;
+      left: 810px;
+      top: 682px;
+      width: 300px;
+      height: 10px;
+    }
+    .f05cay-underline-svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+    }
+    .f05cay-underline-path {
+      fill: none;
+      stroke: #5ec957;
+      stroke-width: 5;
+      stroke-linecap: round;
+    }
+
+    /* Scene 2 — the closing tagline. */
+    .f05cay-tagline {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 726px;
+      display: flex;
+      justify-content: center;
+    }
+    .f05cay-tagline span {
+      font-family: "Poppins", sans-serif;
+      font-weight: 400;
+      font-size: 34px;
+      line-height: 1.3;
+      letter-spacing: 0.04em;
+      color: #ffffff;
+      text-align: center;
+    }
+  </style>
+
+  <div id="root" data-composition-id="05-come-as-you-are" data-width="1920" data-height="1080" data-duration="3.371">
+    <div
+      id="f05cay-bg"
+      class="clip f05cay-bg"
+      data-start="0"
+      data-duration="3.371"
+      data-track-index="0"
+    >
+      <img class="f05cay-bg-img" src="assets/service-wide.jpg" alt="" />
+      <div class="f05cay-bg-dim"></div>
+    </div>
+
+    <div
+      class="clip f05cay-glow"
+      id="f05cay-glow"
+      data-start="0"
+      data-duration="3.371"
+      data-track-index="1"
+    ></div>
+
+    <div
+      class="clip f05cay-card"
+      id="f05cay-card"
+      data-start="0"
+      data-duration="3.371"
+      data-track-index="2"
+    >
+      <img class="f05cay-logo-img" src="assets/logo.jpg" alt="" />
+    </div>
+
+    <div
+      id="f05cay-underline-wrap"
+      class="clip f05cay-underline-wrap"
+      data-start="1.12"
+      data-duration="2.251"
+      data-track-index="3"
+    >
+      <svg
+        class="f05cay-underline-svg"
+        viewBox="0 0 300 10"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          id="f05cay-underline-path"
+          class="f05cay-underline-path"
+          d="M 0 5 L 300 5"
+        />
+      </svg>
+    </div>
+
+    <div
+      class="clip f05cay-tagline"
+      id="f05cay-tagline"
+      data-start="1.12"
+      data-duration="2.251"
+      data-track-index="4"
+    >
+      <span>Join us this Sunday</span>
+    </div>
+  </div>
+
+  <script src="assets/vendor/gsap.min.js"></script>
+  <script>
+    (function () {
+      var TOTAL_DURATION = 3.371;
+      var SCENE2_START = 1.12;
+      var SCENE3_START = 2.25;
+
+      // Measure the underline's real geometry — never a guessed length.
+      var underlinePath = document.getElementById("f05cay-underline-path");
+      var underlineLen = underlinePath.getTotalLength();
+      underlinePath.style.strokeDasharray = String(underlineLen);
+      underlinePath.style.strokeDashoffset = String(underlineLen);
+
+      var card = document.getElementById("f05cay-card");
+      var glow = document.getElementById("f05cay-glow");
+      var tagline = document.getElementById("f05cay-tagline");
+      var bgDim = document.querySelector(".f05cay-bg");
+
+      window.__timelines = window.__timelines || {};
+      var tl = gsap.timeline({ paused: true });
+
+      // --- Scene 1 (0.0–1.12s): calm close, established immediately. ---
+      // Backdrop opens gently rather than snapping on.
+      tl.fromTo(bgDim, { opacity: 0 }, { opacity: 1, duration: 0.35, ease: "power1.out" }, 0);
+
+      // Glow bloom breathes on — steady ambient presence behind the lockup.
+      tl.fromTo(glow, { opacity: 0 }, { opacity: 1, duration: 0.4, ease: "power1.out" }, 0);
+
+      // Lockup is already centered at t=0 — a quiet settle, not an entrance from hidden.
+      tl.fromTo(
+        card,
+        { opacity: 0.9, scale: 1.03 },
+        { opacity: 1, scale: 1, duration: 0.35, ease: "power2.out" },
+        0,
+      );
+      gsap.set(tagline, { opacity: 0, y: 14 });
+
+      // --- Scene 2 (1.12–2.25s): "Come as you are" — accent underline sweeps in, tagline follows. ---
+      tl.to(
+        underlinePath,
+        { strokeDashoffset: 0, duration: 0.45, ease: "power2.out" },
+        SCENE2_START,
+      );
+
+      tl.to(
+        tagline,
+        { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" },
+        SCENE2_START + 0.2,
+      );
+
+      // --- Scene 3 (2.25–3.371s): "Eden Life" — the lockup holds fully still; only the glow carries a subtle jitter. ---
+      var jitter = { p: 0 };
+      tl.to(
+        jitter,
+        {
+          p: Math.PI * 1.5,
+          duration: TOTAL_DURATION - SCENE3_START,
+          ease: "none",
+          onUpdate: function () {
+            var s = 1 + Math.sin(jitter.p) * 0.015;
+            var dx = Math.sin(jitter.p * 1.3) * 3;
+            var dy = Math.cos(jitter.p * 0.9) * 2;
+            glow.style.transform = "translate(" + dx + "px, " + dy + "px) scale(" + s + ")";
+          },
+        },
+        SCENE3_START,
+      );
+
+      window.__timelines["05-come-as-you-are"] = tl;
+    })();
+  </script>
+</template>

@@ -1,6 +1,6 @@
 ---
 format: 1920x1080
-duration: 30s
+duration: 14.3s
 message: "Eden Life Church is a place to belong — come as you are"
 arc: Longing hook → message/intro → community proof → worship proof → CTA
 audience: prospective visitors and "new here" website browsers

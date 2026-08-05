@@ -1,5 +1,5 @@
 <template>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+  <script src="assets/vendor/gsap.min.js"></script>
   <style>
     #root {
       position: relative;
@@ -63,13 +63,13 @@
     data-composition-id="01-day-three"
     data-width="1080"
     data-height="1920"
-    data-duration="1.771"
+    data-duration="2.171"
   >
     <div
       id="day-three-bg-base"
       class="clip day-three-bg-base"
       data-start="0"
-      data-duration="1.771"
+      data-duration="2.171"
       data-track-index="0"
     ></div>
 
@@ -77,7 +77,7 @@
       id="day-three-bg-image"
       class="clip day-three-bg-image"
       data-start="0.8"
-      data-duration="0.971"
+      data-duration="1.371"
       data-track-index="1"
     >
       <img src="assets/god-moment-hero.png" alt="" />
@@ -90,15 +90,18 @@
       data-duration="0.8"
       data-track-index="2"
     >
-      <span>3</span>
+      <div id="day-three-numeral-3-inner">
+        <span>3</span>
+      </div>
     </div>
 
     <div
       id="day-three-numeral-21"
       class="clip day-three-numeral"
       data-start="0.8"
-      data-duration="0.971"
+      data-duration="1.371"
       data-track-index="3"
+      data-layout-allow-overlap
     >
       <span>21</span>
     </div>
@@ -111,7 +114,7 @@
 
       // Scene 1 (0.0–0.8s): "3" hard-cut flashes dead-center, punchy overshoot settle.
       tl.fromTo(
-        "#day-three-numeral-3",
+        "#day-three-numeral-3-inner",
         { opacity: 0, scale: 1.35, filter: "blur(0px)" },
         { opacity: 1, scale: 1, duration: 0.14, ease: "back.out(2.6)" },
         0
@@ -119,7 +122,7 @@
 
       // In-place token-swap cut at 0.8s: "3" exits fast (Z-scale + blur + opacity)...
       tl.to(
-        "#day-three-numeral-3",
+        "#day-three-numeral-3-inner",
         {
           opacity: 0,
           scale: 1.5,
@@ -129,6 +132,10 @@
         },
         0.71
       );
+
+      // Hard kill at the clip's boundary (0.8s) so non-linear seeking can't land
+      // on a stale post-exit visibility state once the framework hides the clip.
+      tl.set("#day-three-numeral-3-inner", { opacity: 0 }, 0.8);
 
       // ...and "21" swaps in at the same center, same size, on the VO cue "of twenty-one".
       tl.fromTo(

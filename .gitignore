@@ -7,3 +7,5 @@
 videos/*/capture/
 videos/*/.media/
 videos/*/.hyperframes/
+videos/*/node_modules/
+videos/*/snapshots/

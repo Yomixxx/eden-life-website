@@ -32,6 +32,11 @@
 
     .f04wmy-img {
       position: absolute;
+      inset: 0;
+    }
+
+    .f04wmy-img-inner {
+      position: absolute;
       top: -70px;
       left: -180px;
       width: calc(100% + 360px);
@@ -39,7 +44,7 @@
       will-change: transform, opacity;
     }
 
-    .f04wmy-img img {
+    .f04wmy-img-inner img {
       display: block;
       width: 100%;
       height: 100%;
@@ -74,37 +79,43 @@
     }
   </style>
 
-  <div id="root">
+  <div id="root" data-composition-id="04-worship-meets-you" data-width="1920" data-height="1080" data-duration="3.003">
     <div
+      id="f04wmy-ground"
       class="clip f04wmy-ground"
       data-start="0"
-      data-duration="2.603"
+      data-duration="3.003"
       data-track-index="0"
     ></div>
 
     <div class="f04wmy-camera" id="f04wmy-camera">
       <div class="f04wmy-stage">
         <div
-          class="clip f04wmy-img f04wmy-img-joy"
+          class="clip f04wmy-img"
           id="f04wmy-img-joy"
           data-start="0"
           data-duration="2.17"
           data-track-index="1"
         >
-          <img src="assets/worship-joy.jpg" alt="" />
+          <div class="f04wmy-img-inner" id="f04wmy-img-joy-inner">
+            <img src="assets/worship-joy.jpg" alt="" />
+          </div>
         </div>
 
         <div
-          class="clip f04wmy-img f04wmy-img-singer"
+          class="clip f04wmy-img"
           id="f04wmy-img-singer"
           data-start="2.17"
-          data-duration="0.433"
+          data-duration="0.833"
           data-track-index="2"
         >
-          <img src="assets/worship-singer.jpg" alt="" />
+          <div class="f04wmy-img-inner" id="f04wmy-img-singer-inner">
+            <img src="assets/worship-singer.jpg" alt="" />
+          </div>
         </div>
 
         <div
+          id="f04wmy-dim-joy"
           class="clip f04wmy-dim f04wmy-dim-joy"
           data-start="0"
           data-duration="2.17"
@@ -113,9 +124,10 @@
         ></div>
 
         <div
+          id="f04wmy-dim-singer"
           class="clip f04wmy-dim f04wmy-dim-singer"
           data-start="2.17"
-          data-duration="0.433"
+          data-duration="0.833"
           data-track-index="3"
           style="opacity: 0.32"
         ></div>
@@ -124,7 +136,7 @@
           class="clip f04wmy-caption"
           id="f04wmy-caption"
           data-start="2.2"
-          data-duration="0.403"
+          data-duration="0.803"
           data-track-index="4"
         >
           <span>Right where you are.</span>
@@ -133,7 +145,7 @@
     </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+  <script src="assets/vendor/gsap.min.js"></script>
   <script>
     (function () {
       const TOTAL_DURATION = 2.603;
@@ -143,8 +155,8 @@
       const tl = gsap.timeline({ paused: true });
 
       const camera = document.getElementById("f04wmy-camera");
-      const imgJoy = document.getElementById("f04wmy-img-joy");
-      const imgSinger = document.getElementById("f04wmy-img-singer");
+      const imgJoy = document.getElementById("f04wmy-img-joy-inner");
+      const imgSinger = document.getElementById("f04wmy-img-singer-inner");
       const caption = document.getElementById("f04wmy-caption");
 
       gsap.set(imgSinger, { x: -140, opacity: 0.35 });
@@ -180,6 +192,9 @@
       // Exit: worship-joy accelerates rightward into the cut.
       tl.to(imgJoy, { x: 140, duration: 0.24, ease: "power4.in" }, CUT_AT - 0.24);
       tl.to(imgJoy, { opacity: 0, duration: 0.2, ease: "power1.in" }, CUT_AT - 0.24);
+      // Hard kill at the clip's boundary so non-linear seeking can't land on a
+      // stale post-exit visibility state once the framework hides the clip.
+      tl.set(imgJoy, { opacity: 0 }, CUT_AT);
 
       // Entry: worship-singer continues the same rightward motion, decelerating.
       tl.to(

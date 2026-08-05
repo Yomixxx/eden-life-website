@@ -1,6 +1,6 @@
 ---
 format: 1080x1920
-duration: 15s
+duration: 10.5s
 message: "There's still time to join God Moment — 21 Days of Prayer & Fasting"
 arc: Curiosity hook → still-time message + proof → CTA
 audience: Eden Life Church members and prospective attendees, social feed viewers
