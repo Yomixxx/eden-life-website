@@ -97,46 +97,71 @@
       <div class="content-2col wide-left inner" style="padding-inline:0;">
         <div>
                     <div id="live-wrapper" style="margin-bottom:1.5rem;">
-            <!-- Placeholder -->
-            <div id="live-placeholder" style="aspect-ratio:16/9; background: var(--bg-1); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; border: 1px solid var(--border); padding: 2rem 1rem; border-radius: 8px;">
-              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--text-lo)" stroke-width="1.5" style="margin-bottom:1rem;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
-              <h3 style="font-family:var(--font-display);font-size:1.25rem;font-weight:700;color:var(--text-hi);margin-bottom:.5rem;">Live Stream Offline</h3>
-              <p style="font-family:var(--font-body);font-size:.9375rem;color:var(--text-lo);margin-bottom:1.5rem;max-width:45ch;">We stream our services every Sunday at 10:00 AM (WAT). If there is a special event happening now, you can load the player manually.</p>
-              <div style="display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap;">
-                <a href="sermons.html" class="btn btn-primary">Watch Past Sermons</a>
-                <button id="force-live-btn" class="btn btn-ghost">Load Live Player</button>
-              </div>
+
+            <!-- Live Badge -->
+            <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.875rem;">
+              <span id="live-badge" style="display:inline-flex;align-items:center;gap:.375rem;background:rgba(229,57,53,.15);color:#ef5350;font-family:var(--font-display);font-size:.75rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:.3rem .75rem;border-radius:2px;border:1px solid rgba(229,57,53,.3);">
+                <span id="live-dot" style="width:7px;height:7px;border-radius:50%;background:#ef5350;animation:livePulse 1.4s ease-in-out infinite;"></span>
+                <span id="live-label">Live Every Sunday 10:00 AM WAT</span>
+              </span>
             </div>
-            <!-- Player -->
-            <div id="live-player" class="video-embed" style="display:none; border-radius:8px; overflow:hidden;"></div>
+            <style>
+              @keyframes livePulse {
+                0%, 100% { opacity: 1; transform: scale(1); }
+                50% { opacity: 0.4; transform: scale(0.8); }
+              }
+            </style>
+
+            <!-- Always-visible live player -->
+            <div class="video-embed" style="border-radius:8px;overflow:hidden;border:1px solid var(--border);">
+              <iframe
+                id="live-iframe"
+                src="https://www.youtube.com/embed?listType=user_uploads&list=UCELhHrNfHMKfhW4_pWQqfOg&index=1&autoplay=0"
+                title="Eden Life Live Stream"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+                loading="lazy">
+              </iframe>
+            </div>
+
+            <!-- Smart label: update iframe src when live on Sunday -->
+            <script>
+              (function() {
+                const iframe = document.getElementById('live-iframe');
+                const liveLabel = document.getElementById('live-label');
+                const liveDot = document.getElementById('live-dot');
+
+                const now = new Date();
+                const utcHour = now.getUTCHours();
+                const utcMin  = now.getUTCMinutes();
+                const utcDay  = now.getUTCDay();
+
+                // WAT = UTC + 1
+                let watTotalMins = (utcHour + 1) * 60 + utcMin;
+                let watDay = utcDay;
+                if (watTotalMins >= 1440) { watTotalMins -= 1440; watDay = (watDay + 1) % 7; }
+                const watHour = Math.floor(watTotalMins / 60);
+
+                const isSundayService = (watDay === 0 && watHour >= 9 && watHour < 14);
+
+                if (isSundayService) {
+                  // Switch to the channel live URL which YouTube automatically resolves to the active livestream
+                  iframe.src = 'https://www.youtube.com/embed/live_stream?channel=UCELhHrNfHMKfhW4_pWQqfOg&autoplay=1';
+                  liveLabel.textContent = 'LIVE NOW';
+                  liveDot.style.background = '#ef5350';
+                } else {
+                  liveLabel.textContent = 'Live Every Sunday 10:00 AM WAT';
+                  liveDot.style.animation = 'none';
+                  liveDot.style.background = 'var(--text-lo)';
+                  document.getElementById('live-badge').style.background = 'rgba(255,255,255,.05)';
+                  document.getElementById('live-badge').style.color = 'var(--text-lo)';
+                  document.getElementById('live-badge').style.border = '1px solid var(--border)';
+                }
+              })();
+            </script>
+
           </div>
-          <script>
-            (function() {
-              const placeholder = document.getElementById('live-placeholder');
-              const player = document.getElementById('live-player');
-              const forceBtn = document.getElementById('force-live-btn');
-              const iframeHTML = '<iframe src="https://www.youtube.com/embed/live_stream?channel=UCELhHrNfHMKfhW4_pWQqfOg" title="Eden Life Live Stream" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>';
 
-              function loadPlayer() {
-                placeholder.style.display = 'none';
-                player.style.display = 'block';
-                player.innerHTML = iframeHTML;
-              }
-
-              forceBtn.addEventListener('click', loadPlayer);
-
-              const now = new Date();
-              const utcHour = now.getUTCHours();
-              const utcDay = now.getUTCDay();
-              let watHour = utcHour + 1;
-              let watDay = utcDay;
-              if (watHour >= 24) { watHour -= 24; watDay = (watDay + 1) % 7; }
-
-              if (watDay === 0 && watHour >= 9 && watHour < 14) {
-                loadPlayer();
-              }
-            })();
-          </script>
           <div style="margin-top:1.375rem;display:flex;gap:.875rem;flex-wrap:wrap;">
             <a href="https://www.youtube.com/@Edenlifeglobal" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Subscribe on YouTube</a>
             <a href="sermons.html" class="btn btn-ghost">Sermon Archive</a>
