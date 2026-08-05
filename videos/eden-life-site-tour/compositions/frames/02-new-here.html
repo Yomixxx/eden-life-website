@@ -1,4 +1,4 @@
-<template data-composition-id="02-new-here" data-duration="5.8">
+<template>
   <style>
     #root {
       width: 1920px;
@@ -95,33 +95,35 @@
     }
   </style>
 
-  <!-- Scene 1 (0.0-3.6s): real captured "Plan Your Visit" screenshot, full-bleed.
-       Dedicated class="clip" layer on the lowest content track — never painted on #root. -->
-  <div class="clip f2-bgA-layer" id="f2-bgA" data-start="0" data-duration="3.6" data-track-index="0">
-    <div class="f2-plate-inner" id="f2-bgA-inner">
-      <img class="f2-plate-img" src="assets/new-here-plan-your-visit.png" alt="" />
+  <div id="root" data-composition-id="02-new-here" data-width="1920" data-height="1080" data-duration="6.3">
+    <!-- Scene 1 (0.0-3.6s): real captured "Plan Your Visit" screenshot, full-bleed.
+         Dedicated class="clip" layer on the lowest content track — never painted on #root. -->
+    <div class="clip f2-bgA-layer" id="f2-bgA" data-start="0" data-duration="3.6" data-track-index="0">
+      <div class="f2-plate-inner" id="f2-bgA-inner">
+        <img class="f2-plate-img" src="assets/new-here-plan-your-visit.png" alt="" />
+      </div>
     </div>
-  </div>
 
-  <!-- Scene 2 (3.6-5.8s): real captured "What to Expect" screenshot, full-bleed.
-       Separate clip + track so the two plates can overlap during the cut-the-curve seam. -->
-  <div class="clip f2-bgB-layer" id="f2-bgB" data-start="3.6" data-duration="2.2" data-track-index="1">
-    <div class="f2-plate-inner" id="f2-bgB-inner">
-      <img class="f2-plate-img" src="assets/new-here-what-to-expect.png" alt="" />
+    <!-- Scene 2 (3.6-5.8s): real captured "What to Expect" screenshot, full-bleed.
+         Separate clip + track so the two plates can overlap during the cut-the-curve seam. -->
+    <div class="clip f2-bgB-layer" id="f2-bgB" data-start="3.6" data-duration="2.7" data-track-index="1">
+      <div class="f2-plate-inner" id="f2-bgB-inner">
+        <img class="f2-plate-img" src="assets/new-here-what-to-expect.png" alt="" />
+      </div>
     </div>
-  </div>
 
-  <!-- "New Here" caption card: fades in top-left once the VO names "New here?",
-       clear of the real checklist content lower on the page. -->
-  <div class="clip f2-chip-layer" data-start="0" data-duration="3.6" data-track-index="2">
-    <div class="f2-chip" id="f2-chip">
-      <span class="f2-chip-label">New Here</span>
+    <!-- "New Here" caption card: fades in top-left once the VO names "New here?",
+         clear of the real checklist content lower on the page. -->
+    <div class="clip f2-chip-layer" data-start="0" data-duration="3.6" data-track-index="2">
+      <div class="f2-chip" id="f2-chip">
+        <span class="f2-chip-label">New Here</span>
+      </div>
     </div>
-  </div>
 
-  <!-- Vignette: full-duration depth cue, its own clip layer, never on #root. -->
-  <div class="clip" data-start="0" data-duration="5.8" data-track-index="4">
-    <div class="f2-vignette"></div>
+    <!-- Vignette: full-duration depth cue, its own clip layer, never on #root. -->
+    <div class="clip" data-start="0" data-duration="6.3" data-track-index="4">
+      <div class="f2-vignette"></div>
+    </div>
   </div>
 
   <script src="assets/vendor/gsap.min.js"></script>
@@ -156,19 +158,17 @@
       // together at the hard cut to sell one continuous camera move across the swap.
 
       // Exit (Scene 1 plate): accelerates left, blurs and fades out, finishing exactly
-      // at the cut point (t=3.6).
-      tl.to(
+      // at the cut point (t=3.6). Explicit fromTo start values keep the tween
+      // deterministic regardless of seek order.
+      tl.fromTo(
         '#f2-bgA-inner',
-        { x: -130, duration: 0.3, ease: 'power4.in' },
+        { x: 0, filter: 'blur(0px)' },
+        { x: -130, filter: 'blur(20px)', duration: 0.3, ease: 'power4.in' },
         3.3
       );
-      tl.to(
+      tl.fromTo(
         '#f2-bgA-inner',
-        { filter: 'blur(20px)', duration: 0.3, ease: 'power4.in' },
-        3.3
-      );
-      tl.to(
-        '#f2-bgA-inner',
+        { opacity: 1 },
         { opacity: 0, duration: 0.22, ease: 'power1.in' },
         3.3
       );

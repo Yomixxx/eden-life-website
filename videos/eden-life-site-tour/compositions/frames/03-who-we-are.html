@@ -110,27 +110,27 @@
     }
   </style>
 
-  <div id="root" data-composition-id="03-who-we-are" data-duration="5.5">
+  <div id="root" data-composition-id="03-who-we-are" data-duration="6" data-width="1920" data-height="1080">
     <!-- Full-bleed background layer: the real captured About / Who We Are page screenshot.
          Dedicated class="clip" layer on the lowest track — never painted on #root. -->
-    <div class="clip f3-bg-layer" data-start="0" data-duration="5.5" data-track-index="0">
+    <div class="clip f3-bg-layer" data-start="0" data-duration="6" data-track-index="0">
       <div class="f3-bg-inner">
         <img class="f3-bg-img" src="assets/about-who-we-are.png" alt="" />
       </div>
     </div>
 
     <!-- Vignette: gentle, non-photographic depth cue over the real shot. -->
-    <div class="clip" data-start="0" data-duration="5.5" data-track-index="1">
+    <div class="clip" data-start="0" data-duration="6" data-track-index="1">
       <div class="f3-vignette"></div>
     </div>
 
     <!-- Legibility wash behind the caption card, top-left. -->
-    <div class="clip" data-start="0" data-duration="5.5" data-track-index="2">
+    <div class="clip" data-start="0" data-duration="6" data-track-index="2">
       <div class="f3-wash"></div>
     </div>
 
     <!-- Caption card: "Who We Are" — fades in once the VO reaches those words (~1.5s). -->
-    <div class="clip f3-card-layer" data-start="0" data-duration="5.5" data-track-index="3">
+    <div class="clip f3-card-layer" data-start="0" data-duration="6" data-track-index="3" data-layout-allow-overlap>
       <div class="f3-card">
         <p class="f3-card-label">About</p>
         <div class="f3-card-rule"></div>

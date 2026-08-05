@@ -96,24 +96,24 @@
     }
   </style>
 
-  <div id="root" data-composition-id="08-events" data-duration="5.5">
+  <div id="root" data-composition-id="08-events" data-duration="6" data-width="1920" data-height="1080">
     <!-- Full-bleed background: real captured Events listing screenshot (Ken Burns push-in only,
          no redrawn UI). Dedicated class="clip" layer on the lowest track — never on #root. -->
-    <div class="clip f8-bg-layer" data-start="0" data-duration="5.5" data-track-index="0">
+    <div class="clip f8-bg-layer" data-start="0" data-duration="6" data-track-index="0">
       <div class="f8-bg-inner">
         <img class="f8-bg-img" src="assets/events-index.png" alt="" />
       </div>
     </div>
 
     <!-- Vignette: gentle, non-photographic depth cue over the real shot -->
-    <div class="clip" data-start="0" data-duration="5.5" data-track-index="1">
+    <div class="clip" data-start="0" data-duration="6" data-track-index="1">
       <div class="f8-vignette"></div>
     </div>
 
     <!-- "Events" page-label caption card: fades in on the "always something happening" cue,
          then holds silently to the cut. Content wrapped in a non-clip inner div per project
          convention (only this inner div is ever tweened). -->
-    <div class="clip f8-tag-layer" data-start="0" data-duration="5.5" data-track-index="2">
+    <div class="clip f8-tag-layer" data-start="0" data-duration="6" data-track-index="2" data-layout-allow-overlap>
       <div class="f8-tag" id="f8-tag">
         <div class="f8-tag-kicker">On the calendar</div>
         <div class="f8-tag-rule"></div>
