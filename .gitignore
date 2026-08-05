@@ -1,0 +1,9 @@
+# Claude Code / HyperFrames agent tooling — not website content
+/.agents/
+/.claude/skills/
+/skills-lock.json
+
+# HyperFrames per-project working/cache dirs (regeneratable; duplicates of assets/)
+videos/*/capture/
+videos/*/.media/
+videos/*/.hyperframes/
