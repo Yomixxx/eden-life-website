@@ -1,6 +1,6 @@
 ---
 format: 1920x1080
-duration: 55.6s
+duration: 36.3s
 message: "Eden Life is a real, whole church — worship, community, growth, and a place to belong — and it's all right here"
 arc: Hook (this is us) → New Here → Who We Are → Grow → Connect → Watch → Give → Events → Testimonies → CTA
 audience: church congregation watching a promo ad played during a service/event
@@ -12,15 +12,16 @@ music: none
 
 - **Palette** (from `frame.md`, real site tokens): field = `cream` (#080F0E, the site's own near-black bg-0); panel = `green` (#162421, bg-3); accent = `pink-deep` (#5EC957, the site's real brand green — same swatch as the live `EdenLife` wordmark); secondary accent = `pink` (#25D366, WhatsApp green already used on-site); text = `ink` (#FFFFFF).
 - **Type**: Montserrat (bold/black weights) for section labels and headline chrome, Poppins for supporting copy — matching the live site's own font pairing exactly.
-- **Motion grammar**: `power3` long-tail everywhere; no bounce. Every frame is a real captured screenshot, full-bleed, under a slow continuous Ken Burns pan/zoom (one continuous move per frame, easing to a stop before the back ~30%) — never invented graphics, never a rebuilt UI. A small caption card names the site *section* (not a restatement of on-screen UI text) and enters after the screenshot is already visible, never blocking the real content at t=0.
-- **Rhythm**: Frame 1 (hero) and Frame 10 (CTA) are the two anchor beats — hero opens with the real animated homepage tagline already mid-cycle, CTA closes calm and held. The middle 8 frames keep a brisk, consistent pace (one section each) so the tour reads as a single confident walk through the site, not 8 separate ads stapled together.
-- **Negative list**: no invented illustrations, no stock photography, no browser chrome / cursor / address bar (full-bleed content only), no bouncy/elastic entrances, no lazy breathing, no back-half re-push on the Ken Burns move.
+- **Motion grammar — CORRECTED after a slideshow-feel review; read this before building.** Frame durations are now synced tight to the real voice line (2.2–5.2s each, no padding) — there is **no spare time to hold still**. The Ken Burns push/pan on every frame **runs continuously from t=0 to the cut, at a visibly faster rate than before — never easing to a stop early and never holding a static final position**. Motion must still be moving at the very last frame before the transition takes it. Layer a **second** motion beat on top of the camera move (the caption card's own entrance, an underline draw, a chip settle) landing in the back half so two things are visibly in motion across the shot, not one move-then-freeze. `power3`/`power2` long-tail easing on entrances only — the continuous pan itself is linear/`power1`-ish drift, not an ease-in/ease-out arc that visibly decelerates to zero. Real captured screenshots stay full-bleed — never invented graphics, never a rebuilt UI. The caption card names the site *section* and enters within the first ~0.5s (not after a long establishing beat) so there's no dead opening either.
+- **Rhythm**: with padding removed, the cut cadence itself carries the energy — frames now run 2.2–5.2s back to back, no breathing room. Frame 1 (hero) and Frame 10 (CTA) are the two anchor beats; Frame 10 alone is allowed a genuine settle at the very end (the video's real exit). Every other frame — including 3 (2.28s) and 7 (2.22s) — must feel like a fast confident glance, not a lingering look: get the caption on, keep the camera moving, cut.
+- **Transitions**: swap the plain 0.5s crossfades for snappier 0.3–0.35s crossfades, and use `zoom-through` at every 2–3rd boundary (not just the two end-boundaries) so the cut itself carries forward motion instead of a soft dissolve between two still images.
+- **Negative list**: no invented illustrations, no stock photography, no browser chrome / cursor / address bar (full-bleed content only), no bouncy/elastic entrances, no lazy breathing, **no easing the pan to a stop before the cut, no static hold once the caption has landed** — those two are exactly what read as a slideshow and must not recur.
 
 ## Frame 1 — This is Eden Life
 
 - scene: Real homepage hero screenshot — live-service photo, "ENCOUNTERS • EQUIPPING • EXPLOITS" tagline, animated headline, Plan Your Visit / Watch Live buttons
 - voiceover: "Encounters. Equipping. Exploits. This is Eden Life."
-- duration: 5.5s
+- duration: 3.392s
 - transition_in: cut
 - status: outline
 - src: compositions/frames/01-this-is-eden-life.html
@@ -37,16 +38,16 @@ focal: assets/home-hero.png
 roles: assets/home-hero.png = background (full-bleed, no dim — this is the vivid hero)
 sfx: none
 
-Scene 1 (0.0–5.5s): the real homepage hero screenshot fills the frame full-bleed; a slow continuous push-in (camera: push/focus/drift) begins at t=0 and eases to a stop by ~2.3s, holding still after — the VO ("Encounters. Equipping. Exploits. This is Eden Life.") finishes around 3.4s, then the frame holds silently on the screenshot for the rest of its duration so the real page is actually visible, not just glimpsed. No caption card on this frame — the real "ENCOUNTERS • EQUIPPING • EXPLOITS" tagline and buttons already visible in the screenshot ARE the opening statement.
+Scene 1 (0.0–3.392s): the real homepage hero screenshot fills the frame full-bleed; a continuous push-in (camera: push/focus/drift), visibly faster than a lazy establishing drift, runs from t=0 all the way to the cut — never decelerating to a stop. No caption card on this frame — the real "ENCOUNTERS • EQUIPPING • EXPLOITS" tagline and buttons already visible in the screenshot ARE the opening statement, and the push is still moving on the last visible frame before the cut.
 
-Timing note: this frame's duration is deliberately held at 5.5s — longer than the 3.392s voiceover — so the viewer has time to actually see the real page. Do not extend past 5.5s.
+Timing note: this frame's real duration is 3.392s (synced to voice) — no padding, no hold. Motion runs edge to edge.
 
 ## Frame 2 — New Here? Start here.
 
 - scene: Plan Your Visit page (campus cards, service times, come-as-you-are checklist), then What to Expect
 - voiceover: "New here? We've made it easy — two campuses, real service times, and come as you are."
-- duration: 5.8s
-- transition_in: crossfade
+- duration: 4.949s
+- transition_in: zoom-through
 - status: outline
 - src: compositions/frames/02-new-here.html
 - type: product_intro
@@ -62,16 +63,16 @@ focal: assets/new-here-plan-your-visit.png
 roles: assets/new-here-plan-your-visit.png = cutout (primary, first ~5s); assets/new-here-what-to-expect.png = supporting (second beat, ~3s)
 sfx: soft transition swish on the internal cut
 
-Scene 1 (0.0–3.6s): new-here-plan-your-visit.png full-bleed, slow push-in begins; a small caption card ("New Here") fades in top-left after ~0.6s, once the VO names "New here?" — never blocking the real checklist content. The VO's first half plays here; the extra hold time (beyond the ~3.1s original voice split) lets the checklist actually be read.
-Scene 2 (3.6–5.8s): velocity-matched cut (cut-the-curve) to new-here-what-to-expect.png as the VO says "come as you are"; holds silently on the page for the remainder.
+Scene 1 (0.0–2.4s): new-here-plan-your-visit.png full-bleed, a continuous, visibly-moving push-in begins at t=0 and is still running at the seam; a small caption card ("New Here") fades in top-left within the first ~0.35s, on the VO's "New here?" — never blocking the real checklist content, and never a static hold once it lands (it keeps drifting with the push).
+Scene 2 (2.4–4.949s): velocity-matched cut (cut-the-curve) to new-here-what-to-expect.png as the VO says "come as you are"; the push-in continues on this second plate too, still moving through to the cut — no settle, no hold.
 
-Timing note: this frame's duration is deliberately held at 5.8s — longer than the 4.949s voiceover — so both pages are actually visible. Do not extend past 5.8s.
+Timing note: this frame's real duration is 4.949s (synced to voice). The internal cut lands mid-line, near "come as you are" — motion continues on both sides of the cut.
 
 ## Frame 3 — Who We Are
 
 - scene: About / Who We Are page
 - voiceover: "Get to know who we are, and what we believe."
-- duration: 5.5s
+- duration: 2.283s
 - transition_in: crossfade
 - status: outline
 - src: compositions/frames/03-who-we-are.html
@@ -88,16 +89,16 @@ focal: assets/about-who-we-are.png
 roles: assets/about-who-we-are.png = background (full-bleed)
 sfx: none
 
-Scene 1 (0.0–5.5s): about-who-we-are.png full-bleed, slow continuous pan begins at t=0, easing to a stop by ~2.8s; caption card ("Who We Are") fades in once the VO says "who we are" (around 1.5s in); the VO ends near 2.3s and the frame holds silently on the real page for the rest of its duration.
+Scene 1 (0.0–2.283s): about-who-we-are.png full-bleed, a fast, clearly-visible continuous pan runs the entire 2.3s — this is the shortest frame in the tour and must read as a brisk glance, not a lingering look; caption card ("Who We Are") fades in within the first ~0.3s and itself drifts slightly rather than sitting static; the pan is still moving on the cut.
 
-Timing note: this frame's duration is deliberately held at 5.5s — longer than the 2.283s voiceover — so the page is actually visible. Do not extend past 5.5s.
+Timing note: this frame's real duration is 2.283s (synced to voice) — the tightest beat in the tour. No hold, no easing to a stop; the whole 2.3s is motion.
 
 ## Frame 4 — Grow
 
 - scene: Growth Steps discipleship pathway (Growth Steps → Academy → Basic Leadership → Advanced Leadership)
 - voiceover: "Four simple steps to a flourishing life — wherever you're starting from."
-- duration: 5.5s
-- transition_in: crossfade
+- duration: 3.861s
+- transition_in: zoom-through
 - status: outline
 - src: compositions/frames/04-grow.html
 - type: benefit_highlight
@@ -113,15 +114,15 @@ focal: assets/grow-growth-steps.png
 roles: assets/grow-growth-steps.png = background (full-bleed)
 sfx: none
 
-Scene 1 (0.0–5.5s): grow-growth-steps.png full-bleed, slow push-in begins at t=0, easing to a stop by ~2.8s; caption card ("Grow") fades in once the VO says "flourishing life"; the VO ends near 3.9s and the frame holds silently on the four-step pathway for the rest of its duration so it can actually be read.
+Scene 1 (0.0–3.861s): grow-growth-steps.png full-bleed, a continuous push-in runs from t=0 to the cut without decelerating to a stop; caption card ("Grow") fades in on "flourishing life" (~1.6s in) and keeps drifting with the push rather than parking still — the four-step pathway is glimpsed in motion, not frozen on for a static read.
 
-Timing note: this frame's duration is deliberately held at 5.5s — longer than the 3.861s voiceover. Do not extend past 5.5s.
+Timing note: this frame's real duration is 3.861s (synced to voice). Motion runs the full shot.
 
 ## Frame 5 — Connect
 
 - scene: Community Groups page
 - voiceover: "Community groups, where real relationships grow."
-- duration: 5.5s
+- duration: 2.731s
 - transition_in: crossfade
 - status: outline
 - src: compositions/frames/05-connect.html
@@ -138,16 +139,16 @@ focal: assets/connect-community-groups.png
 roles: assets/connect-community-groups.png = background (full-bleed)
 sfx: none
 
-Scene 1 (0.0–5.5s): connect-community-groups.png full-bleed, slow pan begins at t=0, easing to a stop by ~2.8s; caption card ("Connect") fades in on "community groups"; the VO ends near 2.7s and the frame holds silently on the page for the rest of its duration.
+Scene 1 (0.0–2.731s): connect-community-groups.png full-bleed, a fast continuous pan runs the entire shot, no stop; caption card ("Connect") fades in within the first ~0.4s on "community groups" and keeps drifting — another brisk beat, matched in pace to Frame 3.
 
-Timing note: this frame's duration is deliberately held at 5.5s — longer than the 2.731s voiceover. Do not extend past 5.5s.
+Timing note: this frame's real duration is 2.731s (synced to voice). Motion runs the full shot, no hold.
 
 ## Frame 6 — Watch
 
 - scene: Sermons library, then Watch Live
 - voiceover: "Can't make it in person? Watch every service, live or on demand."
-- duration: 5.8s
-- transition_in: crossfade
+- duration: 3.989s
+- transition_in: zoom-through
 - status: outline
 - src: compositions/frames/06-watch.html
 - type: benefit_highlight
@@ -163,16 +164,16 @@ focal: assets/watch-sermons.png
 roles: assets/watch-sermons.png = cutout (primary, first ~5s); assets/watch-live.png = supporting (second beat, ~3s)
 sfx: soft transition swish on the internal cut
 
-Scene 1 (0.0–3.5s): watch-sermons.png full-bleed, slow push-in begins; caption card ("Watch") fades in on "watch every service."
-Scene 2 (3.5–5.8s): cut-the-curve to watch-live.png as the VO says "live or on demand"; the VO ends near 4.0s and the frame holds silently on the page for the remainder.
+Scene 1 (0.0–2.0s): watch-sermons.png full-bleed, continuous push-in from t=0, still moving at the seam; caption card ("Watch") fades in within the first ~0.3s on "watch every service."
+Scene 2 (2.0–3.989s): cut-the-curve to watch-live.png as the VO says "live or on demand"; push-in continues on this plate too, right through to the cut — no settle.
 
-Timing note: this frame's duration is deliberately held at 5.8s — longer than the 3.989s voiceover — so both pages are actually visible. Do not extend past 5.8s.
+Timing note: this frame's real duration is 3.989s (synced to voice). Motion runs continuously across both plates and the internal cut.
 
 ## Frame 7 — Give
 
 - scene: Give / online giving page
 - voiceover: "Give online, anytime, from anywhere."
-- duration: 5.0s
+- duration: 2.219s
 - transition_in: crossfade
 - status: outline
 - src: compositions/frames/07-give.html
@@ -189,16 +190,16 @@ focal: assets/give.png
 roles: assets/give.png = background (full-bleed)
 sfx: none
 
-Scene 1 (0.0–5.0s): give.png full-bleed, slow pan begins at t=0, eases to a stop by ~2.5s; caption card ("Give") fades in on "give online"; the VO ends near 2.2s and the frame holds silently on the page for the rest of its duration.
+Scene 1 (0.0–2.219s): give.png full-bleed, a fast continuous pan runs the entire brief shot, no stop; caption card ("Give") fades in within the first ~0.3s on "give online" and keeps drifting — the shortest, plainest beat in the tour, meant to pass quickly.
 
-Timing note: this frame's duration is deliberately held at 5.0s — longer than the 2.219s voiceover. Do not extend past 5.0s.
+Timing note: this frame's real duration is 2.219s (synced to voice). No hold — the whole shot is in motion.
 
 ## Frame 8 — Events
 
 - scene: Events listing, featuring the current God Moment: 21 Days event
 - voiceover: "And there's always something happening — like God Moment, twenty-one days of prayer and fasting."
-- duration: 5.5s
-- transition_in: crossfade
+- duration: 5.227s
+- transition_in: zoom-through
 - status: outline
 - src: compositions/frames/08-events.html
 - type: social_proof
@@ -214,15 +215,15 @@ focal: assets/events-index.png
 roles: assets/events-index.png = background (full-bleed)
 sfx: none
 
-Scene 1 (0.0–5.5s): events-index.png full-bleed, slow push-in begins at t=0, eases to a stop by ~3.5s; caption card ("Events") fades in on "always something happening"; holds to the cut (VO runs nearly the whole frame here).
+Scene 1 (0.0–5.227s): events-index.png full-bleed, continuous push-in runs from t=0 to the cut, never stopping; caption card ("Events") fades in within the first ~0.4s on "always something happening" — this frame's real VO already fills almost the whole shot, so the fix here is purely: keep the push moving all the way through instead of stopping at ~3.5s as before.
 
-Timing note: this frame's duration is 5.5s, close to the 5.227s voiceover. Do not extend past 5.5s.
+Timing note: this frame's real duration is 5.227s (synced to voice, effectively unchanged). The camera move must now run the FULL 5.227s, not stop early.
 
 ## Frame 9 — Testimonies
 
 - scene: Testimonies page — real member stories
 - voiceover: "Real stories, from real people, about what God has done here."
-- duration: 5.5s
+- duration: 3.627s
 - transition_in: crossfade
 - status: outline
 - src: compositions/frames/09-testimonies.html
@@ -239,15 +240,15 @@ focal: assets/testimonies.png
 roles: assets/testimonies.png = background (full-bleed)
 sfx: none
 
-Scene 1 (0.0–5.5s): testimonies.png full-bleed, slow pan begins at t=0, eases to a stop by ~2.8s; caption card ("Testimonies") fades in on "real stories"; the VO ends near 3.6s and the frame holds silently on the page for the rest of its duration.
+Scene 1 (0.0–3.627s): testimonies.png full-bleed, continuous pan runs from t=0 to the cut, no stop; caption card ("Testimonies") fades in within the first ~0.4s on "real stories" and keeps drifting through to the seam.
 
-Timing note: this frame's duration is deliberately held at 5.5s — longer than the 3.627s voiceover. Do not extend past 5.5s.
+Timing note: this frame's real duration is 3.627s (synced to voice). Motion runs the full shot.
 
 ## Frame 10 — Come see for yourself
 
 - scene: Plan Your Visit revisited, Eden Life logo lockup, service times card
 - voiceover: "Come see for yourself. Plan your visit — we'll see you Sunday."
-- duration: 6.0s
+- duration: 4.0s
 - transition_in: zoom-through
 - status: outline
 - src: compositions/frames/10-come-see.html
@@ -264,8 +265,8 @@ focal: assets/logo.jpg
 roles: assets/new-here-plan-your-visit.png = background (full-bleed, dimmed ~45% under the lockup); assets/logo.jpg = cutout (centered lockup)
 sfx: soft glow-bloom swell
 
-Scene 1 (0.0–1.9s): new-here-plan-your-visit.png full-bleed, dimmed ~45%, static camera; the Eden Life logo lockup is already centered at t=0 with a soft ambient glow bloom behind it.
-Scene 2 (1.9–4.1s): as the VO says "plan your visit," a `pink-deep` accent underline sweeps beneath the wordmark; a thin tagline "edenlifeng.org" fades in beneath the lockup.
-Scene 3 (4.1–6.0s): as the VO says "see you Sunday" (finishing near 3.3s), the lockup holds fully still to the final frame for the remainder — at most subtle jitter on the glow. This is the video's real exit and its longest held beat, giving the CTA room to land.
+Scene 1 (0.0–1.2s): new-here-plan-your-visit.png full-bleed, dimmed ~45%, a brief continued push (this frame is allowed one one exception to "always moving": the camera settles by ~1.2s, faster than before) as the Eden Life logo lockup builds in with a soft ambient glow bloom behind it.
+Scene 2 (1.2–3.285s): as the VO says "plan your visit," a `pink-deep` accent underline sweeps beneath the wordmark; a thin tagline "edenlifeng.org" fades in beneath the lockup — the VO ends here.
+Scene 3 (3.285–4.0s): a short, genuine settle — at most subtle jitter on the glow. This is the video's one deliberate held beat (per the motion doctrine, the final frame may hold), but capped at 0.7s, not the multi-second stall of the previous cut.
 
-Timing note: this frame's duration is deliberately held at 6.0s — longer than the 3.285s voiceover — as the final, most important hold of the video. Do not extend past 6.0s.
+Timing note: this frame's duration is 4.0s — 0.7s longer than the 3.285s voiceover for a real but brief closing settle, nowhere near the old 6.0s. This is the ONLY frame in the tour allowed any hold at all.

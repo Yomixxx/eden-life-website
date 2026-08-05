@@ -32,32 +32,31 @@
       width: 1920px;
       height: 1080px;
       display: block;
-      transform-origin: 50% 40%;
+      transform-origin: 50% 42%;
       will-change: transform;
     }
 
-    /* Gentle vignette — a depth cue over the real captured page, never a redraw of its UI. */
+    /* Depth cue over the real captured page — never a redraw of its UI. */
     .f3-vignette {
       position: absolute;
       inset: 0;
       pointer-events: none;
       background: radial-gradient(
         ellipse 85% 75% at 50% 46%,
-        rgba(0, 0, 0, 0) 52%,
-        rgba(0, 0, 0, 0.32) 100%
+        rgba(0, 0, 0, 0) 48%,
+        rgba(0, 0, 0, 0.4) 100%
       );
     }
 
-    /* Soft top-left wash so the caption card always reads over the photo, whatever
-       tones sit underneath it — purely a legibility aid, not invented site graphics. */
+    /* Wash so the caption card always reads over the photo — legibility aid only. */
     .f3-wash {
       position: absolute;
       inset: 0;
       pointer-events: none;
       background: linear-gradient(
         135deg,
-        rgba(8, 15, 14, 0.62) 0%,
-        rgba(8, 15, 14, 0.28) 26%,
+        rgba(8, 15, 14, 0.66) 0%,
+        rgba(8, 15, 14, 0.3) 26%,
         rgba(8, 15, 14, 0) 48%
       );
     }
@@ -110,27 +109,28 @@
     }
   </style>
 
-  <div id="root" data-composition-id="03-who-we-are" data-duration="6" data-width="1920" data-height="1080">
-    <!-- Full-bleed background layer: the real captured About / Who We Are page screenshot.
+  <div id="root" data-composition-id="03-who-we-are" data-duration="2.283" data-width="1920" data-height="1080">
+    <!-- Full-bleed background: the real captured About / Who We Are page screenshot.
          Dedicated class="clip" layer on the lowest track — never painted on #root. -->
-    <div class="clip f3-bg-layer" data-start="0" data-duration="6" data-track-index="0">
+    <div class="clip f3-bg-layer" data-start="0" data-duration="2.283" data-track-index="0">
       <div class="f3-bg-inner">
         <img class="f3-bg-img" src="assets/about-who-we-are.png" alt="" />
       </div>
     </div>
 
-    <!-- Vignette: gentle, non-photographic depth cue over the real shot. -->
-    <div class="clip" data-start="0" data-duration="6" data-track-index="1">
+    <!-- Vignette: deepens continuously with the pan, a depth cue over the real shot. -->
+    <div class="clip" data-start="0" data-duration="2.283" data-track-index="1">
       <div class="f3-vignette"></div>
     </div>
 
     <!-- Legibility wash behind the caption card, top-left. -->
-    <div class="clip" data-start="0" data-duration="6" data-track-index="2">
+    <div class="clip" data-start="0" data-duration="2.283" data-track-index="2">
       <div class="f3-wash"></div>
     </div>
 
-    <!-- Caption card: "Who We Are" — fades in once the VO reaches those words (~1.5s). -->
-    <div class="clip f3-card-layer" data-start="0" data-duration="6" data-track-index="3" data-layout-allow-overlap>
+    <!-- Caption card: "Who We Are" — fades in within the first ~0.3s, then keeps
+         drifting for the rest of the shot rather than sitting static. -->
+    <div class="clip f3-card-layer" data-start="0" data-duration="2.283" data-track-index="3" data-layout-allow-overlap>
       <div class="f3-card">
         <p class="f3-card-label">About</p>
         <div class="f3-card-rule"></div>
@@ -146,48 +146,54 @@
 
       var tl = gsap.timeline({ paused: true });
 
-      // Scene 1 (0.0–5.5s): slow continuous Ken Burns pan on the real About page
-      // screenshot — a gentle push + drift, easing to a stop by ~2.8s, then holding
-      // perfectly still so the real page composition is genuinely visible for the
-      // remainder of the 5.5s duration (this is NOT the final frame — no exit tween).
+      // Frame duration is the real, voice-synced 2.283s — the tightest beat in the
+      // tour. Timing note: no hold, no easing to a stop; the whole shot is motion,
+      // so every tween below is linear ("none") across the full window and still
+      // has nonzero velocity at the very last frame (the cut lands mid-motion).
+      var DUR = 2.283;
+
+      // Scene 1 (0.0–2.283s): a fast, clearly-visible continuous pan across the
+      // real About page screenshot — brisk glance, not a lingering Ken Burns hold.
+      // Linear ease the entire duration: it never decelerates to a stop.
       tl.fromTo(
         '.f3-bg-img',
         { scale: 1.0, xPercent: 0, yPercent: 0 },
         {
-          scale: 1.09,
-          xPercent: -2.2,
-          yPercent: -1.1,
-          duration: 2.8,
-          ease: 'power2.out',
+          scale: 1.24,
+          xPercent: -5.5,
+          yPercent: -2.6,
+          duration: DUR,
+          ease: 'none',
         },
         0
       );
 
-      // Vignette deepens very slightly alongside the pan, reinforcing focus without
-      // ever obscuring the real content already on screen.
+      // Vignette deepens in lockstep with the pan — a continuous change, not a
+      // one-shot fade that settles early.
       tl.fromTo(
         '.f3-vignette',
-        { opacity: 0.55 },
-        { opacity: 1, duration: 2.8, ease: 'power2.out' },
+        { opacity: 0.42 },
+        { opacity: 0.9, duration: DUR, ease: 'none' },
         0
       );
 
-      // Caption card ("Who We Are") fades + settles in once the VO says the words
-      // "who we are" — around 1.5s in. Entrance only (fromTo), no exit: the frame
-      // holds silently on the real page after the VO ends near 2.3s.
+      // Caption card ("Who We Are") fades + rises in fast — the packet's ~0.3s
+      // window — so it reads clearly against the still-moving background.
       tl.fromTo(
         '.f3-card',
         { opacity: 0, y: 26 },
-        { opacity: 1, y: 0, duration: 0.7, ease: 'power2.out' },
-        1.5
+        { opacity: 1, y: 0, duration: 0.3, ease: 'power2.out' },
+        0
       );
 
-      // Hold silently through the end of the 5.5s duration — no further motion,
-      // no exit tween; the root transition (crossfade) owns the cut out. The pan
-      // (ending at 2.8s) is the last-finishing tween, so the placeholder starts
-      // there regardless of insertion order (all three tweens above use explicit
-      // absolute start times).
-      tl.to({}, { duration: 5.5 - 2.8 }, 2.8);
+      // Once landed, the card keeps drifting for the remainder of the shot —
+      // a small, continuous linear move so it never sits perfectly static even
+      // after the reveal, right through to the cut at 2.283s.
+      tl.to(
+        '.f3-card',
+        { x: -14, y: -10, duration: DUR - 0.3, ease: 'none' },
+        0.3
+      );
 
       window.__timelines['03-who-we-are'] = tl;
     })();

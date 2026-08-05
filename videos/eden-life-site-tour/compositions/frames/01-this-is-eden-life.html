@@ -22,6 +22,7 @@
       inset: 0;
       width: 100%;
       height: 100%;
+      overflow: hidden;
     }
 
     .f1-bg-img {
@@ -35,8 +36,9 @@
       will-change: transform;
     }
 
-    /* subtle vignette to give the flat screenshot a touch of cinematic depth without
-       repainting any of the real UI */
+    /* Subtle vignette to give the flat screenshot a touch of cinematic depth without
+       repainting any of the real UI. It rides the same continuous timeline as the
+       push so the frame never reads as a static screenshot with a camera bolted on. */
     .f1-vignette {
       position: absolute;
       inset: 0;
@@ -44,22 +46,23 @@
       background: radial-gradient(
         ellipse 80% 70% at 50% 45%,
         rgba(0, 0, 0, 0) 55%,
-        rgba(0, 0, 0, 0.28) 100%
+        rgba(0, 0, 0, 0.34) 100%
       );
+      will-change: opacity;
     }
   </style>
 
-  <div id="root" data-composition-id="01-this-is-eden-life" data-duration="6" data-width="1920" data-height="1080">
+  <div id="root" data-composition-id="01-this-is-eden-life" data-duration="3.392" data-width="1920" data-height="1080">
     <!-- Full-bleed background layer: the real captured homepage hero screenshot.
-         This is a dedicated class="clip" layer on the lowest track, never painted on #root. -->
-    <div class="clip f1-bg-layer" data-start="0" data-duration="6" data-track-index="0">
+         Dedicated class="clip" layer on the lowest track, never painted on #root. -->
+    <div class="clip f1-bg-layer" data-start="0" data-duration="3.392" data-track-index="0">
       <div class="f1-bg-inner">
         <img class="f1-bg-img" src="assets/home-hero.png" alt="" />
       </div>
     </div>
 
-    <!-- Vignette overlay: gentle, non-photographic, purely a depth cue over the real shot -->
-    <div class="clip" data-start="0" data-duration="6" data-track-index="1">
+    <!-- Vignette overlay: gentle, non-photographic depth cue over the real shot -->
+    <div class="clip" data-start="0" data-duration="3.392" data-track-index="1">
       <div class="f1-vignette"></div>
     </div>
   </div>
@@ -71,35 +74,41 @@
 
       var tl = gsap.timeline({ paused: true });
 
-      // Scene 1 (0.0–5.5s): slow continuous push-in (Ken Burns) on the real hero
-      // screenshot, easing to a stop by ~2.3s, then holding perfectly still while the
-      // VO finishes (~3.4s) and for the remainder of the 5.5s duration so the real
-      // page composition is genuinely visible, not just glimpsed.
+      // Scene 1 (0.0–3.392s): the real homepage hero fills the frame full-bleed.
+      // The tagline / buttons captured in the screenshot ARE the opening statement —
+      // no caption card is added on top of them.
+      //
+      // Timing fix: this shot used to ease the push to a stop around the 40% mark and
+      // then hold dead still for the remainder. That is gone. The push+drift now runs
+      // at a single constant (linear) rate across the ENTIRE 3.392s window, so the
+      // camera is still visibly moving on the very last rendered frame before the cut
+      // — there is no deceleration phase and no static hold anywhere in the shot.
+      // A visibly faster rate than a lazy establishing drift: ~24% scale gain and a
+      // real diagonal drift inside 3.4s, not a slow Ken Burns crawl.
       tl.fromTo(
         '.f1-bg-img',
-        { scale: 1.0, xPercent: 0, yPercent: 0 },
+        { scale: 1.08, xPercent: 0, yPercent: 0 },
         {
-          scale: 1.06,
-          duration: 2.3,
-          ease: 'power2.out',
+          scale: 1.32,
+          xPercent: -3.2,
+          yPercent: -2.1,
+          duration: 3.392,
+          ease: 'none',
         },
         0
       );
 
-      // Vignette breathes in very slightly alongside the push, reinforcing focus
-      // without ever obscuring the real tagline / buttons already on screen.
+      // Vignette deepens continuously in lockstep with the push — never settles at a
+      // fixed value, so there is no visual point where the frame reads as "parked".
       tl.fromTo(
         '.f1-vignette',
-        { opacity: 0.6 },
-        { opacity: 1, duration: 2.3, ease: 'power2.out' },
+        { opacity: 0.32 },
+        { opacity: 0.78, duration: 3.392, ease: 'none' },
         0
       );
 
-      // Hold silently from ~2.3s through the end of the 5.5s duration — no further
-      // motion, no exit tween (this is a mid-storyboard frame; the root transition
-      // owns the cut out).
-      tl.to({}, { duration: 5.5 - 2.3 });
-
+      // No hold, no exit tween: motion is live at the final frame and the root
+      // transition (a hard cut) is the exit.
       window.__timelines['01-this-is-eden-life'] = tl;
     })();
   </script>

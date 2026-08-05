@@ -13,10 +13,12 @@
       inset: 0;
     }
 
-    /* Background: real captured screenshot of the Grow / Growth Steps page.
-       Full-bleed, on its own class="clip" layer on the lowest track — never
-       painted on #root. Gentle Ken Burns push-in only; no invented graphics,
-       no redrawing of the real page UI. */
+    /* Background: real captured screenshot of the Grow / Growth Steps detail
+       page. Full-bleed, on its own class="clip" layer on the lowest track —
+       never painted on #root. A single continuous push+pan runs the entire
+       3.861s shot — it never eases to a stop before the cut, so the
+       four-step pathway is glimpsed in motion, not frozen for a static
+       read. No invented graphics, no redrawing of the real page UI. */
     .g4-bg-layer {
       overflow: hidden;
     }
@@ -39,10 +41,11 @@
       will-change: transform;
     }
 
-    /* Caption card layer: single hero word "Grow", per the shot sequence's
-       explicit cue ("caption card ('Grow') fades in once the VO says
-       'flourishing life'"). Solid opaque card so legibility never depends on
-       the underlying photo. Sits top-left, safely inside the 83% keep-out. */
+    /* Caption card layer: single hero word "Grow", cued to the voiceover
+       reaching "flourishing life" (~1.6s in). Solid opaque card so
+       legibility never depends on the underlying photo. Landed inside the
+       top-left, safely inside the 83% keep-out. Once it lands it keeps
+       drifting with the camera push rather than parking still. */
     .g4-caption-layer {
       pointer-events: none;
     }
@@ -62,7 +65,7 @@
       gap: 16px;
       padding: 30px 46px 34px;
       background: #162421;
-      border: 2px solid #25D366;
+      border: 2.5px solid #25D366;
       border-radius: 8px;
     }
 
@@ -75,7 +78,7 @@
     .g4-caption-word {
       font-family: 'Montserrat', sans-serif;
       font-weight: 800;
-      font-size: 92px;
+      font-size: 96px;
       line-height: 0.96;
       letter-spacing: -0.02em;
       color: #25D366;
@@ -83,16 +86,16 @@
     }
   </style>
 
-  <div id="root" data-composition-id="04-grow" data-duration="6" data-width="1920" data-height="1080">
-    <!-- Track 0: full-bleed real screenshot, Ken Burns push-in -->
-    <div class="clip g4-bg-layer" data-start="0" data-duration="6" data-track-index="0">
+  <div id="root" data-composition-id="04-grow" data-duration="3.861" data-width="1920" data-height="1080">
+    <!-- Track 0: full-bleed real screenshot, continuous push+pan for the whole shot -->
+    <div class="clip g4-bg-layer" data-start="0" data-duration="3.861" data-track-index="0">
       <div class="g4-bg-inner">
         <img class="g4-bg-img" src="assets/grow-growth-steps.png" alt="" />
       </div>
     </div>
 
     <!-- Track 1: "Grow" caption card, cued to the VO reaching "flourishing life" -->
-    <div class="clip g4-caption-layer" data-start="0" data-duration="6" data-track-index="1">
+    <div class="clip g4-caption-layer" data-start="0" data-duration="3.861" data-track-index="1">
       <div class="g4-caption-inner">
         <div class="g4-caption-card">
           <div class="g4-caption-rule"></div>
@@ -109,35 +112,44 @@
 
       var tl = gsap.timeline({ paused: true });
 
-      // Scene 1 (0.0–5.5s): the real Growth Steps detail page, full-bleed.
-      // Slow continuous push-in (Ken Burns) beginning at t=0, easing to a
-      // stop by ~2.8s — per the packet's timing note.
+      // Scene 1 (0.0–3.861s): the real Growth Steps detail page, full-bleed.
+      // A single continuous push+pan runs from t=0 straight to the cut —
+      // ease: 'none' keeps velocity constant throughout, so it never
+      // decelerates to a stop before the shot ends. This is the frame's
+      // whole camera move; the four-step pathway is glimpsed moving, never
+      // held still for a "read."
       tl.fromTo(
         '.g4-bg-img',
         { scale: 1.0, xPercent: 0, yPercent: 0 },
         {
-          scale: 1.06,
-          duration: 2.8,
-          ease: 'power2.out',
+          scale: 1.16,
+          xPercent: -2.2,
+          yPercent: -1.4,
+          duration: 3.861,
+          ease: 'none',
         },
         0
       );
 
-      // The "Grow" caption card fades/settles in once the voiceover reaches
-      // "flourishing life" (~2.2s into the 3.861s VO). fromTo throughout, so
-      // there is no CSS-hidden starting state.
+      // The "Grow" caption card lands once the voiceover reaches
+      // "flourishing life" (~1.6s in). Quick pop-in via fromTo (no
+      // CSS-hidden starting state).
       tl.fromTo(
         '.g4-caption-card',
-        { autoAlpha: 0, y: 24 },
-        { autoAlpha: 1, y: 0, duration: 0.5, ease: 'power2.out' },
-        2.2
+        { autoAlpha: 0, y: 30 },
+        { autoAlpha: 1, y: 0, duration: 0.4, ease: 'power2.out' },
+        1.6
       );
 
-      // The VO ends near 3.9s; the frame then holds silently on the real
-      // four-step pathway for the remainder of its 5.5s duration so it can
-      // actually be read. No exit tween — this is a mid-storyboard frame;
-      // the root transition (crossfade) owns the cut out.
-      tl.to({}, { duration: 5.5 - 2.8 });
+      // Once landed, the card keeps drifting with the camera push all the
+      // way to the cut — ease: 'none' again, so it never parks still; the
+      // motion is still running at the very last frame, right up to the
+      // transition-out.
+      tl.to(
+        '.g4-caption-card',
+        { y: -18, x: 6, duration: 3.861 - 2.0, ease: 'none' },
+        2.0
+      );
 
       window.__timelines['04-grow'] = tl;
     })();

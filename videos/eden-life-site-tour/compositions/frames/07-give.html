@@ -28,10 +28,10 @@
 
     .f7-bg-img {
       position: absolute;
-      top: -4%;
-      left: -4%;
-      width: 108%;
-      height: 108%;
+      top: -6%;
+      left: -6%;
+      width: 112%;
+      height: 112%;
       display: block;
       object-fit: cover;
       transform-origin: 50% 46%;
@@ -90,22 +90,22 @@
     }
   </style>
 
-  <div id="root" data-composition-id="07-give" data-duration="5.5" data-width="1920" data-height="1080">
+  <div id="root" data-composition-id="07-give" data-duration="2.219" data-width="1920" data-height="1080">
     <!-- Full-bleed background: real captured Give page screenshot.
          Dedicated class="clip" layer on the lowest track, never painted on #root. -->
-    <div class="clip f7-bg-layer" data-start="0" data-duration="5.5" data-track-index="0">
+    <div class="clip f7-bg-layer" data-start="0" data-duration="2.219" data-track-index="0">
       <div class="f7-bg-inner">
         <img class="f7-bg-img" src="assets/give.png" alt="" />
       </div>
     </div>
 
     <!-- Vignette overlay: gentle, non-photographic depth cue over the real shot -->
-    <div class="clip" data-start="0" data-duration="5.5" data-track-index="1">
+    <div class="clip" data-start="0" data-duration="2.219" data-track-index="1">
       <div class="f7-vignette"></div>
     </div>
 
     <!-- Caption card: single-word emphasis "Give", fades in on the "give online" cue -->
-    <div class="clip" data-start="0" data-duration="5.5" data-track-index="2">
+    <div class="clip" data-start="0" data-duration="2.219" data-track-index="2">
       <div class="f7-card-wrap">
         <div class="f7-card">
           <div class="f7-card-dot"></div>
@@ -120,46 +120,54 @@
     (function () {
       window.__timelines = window.__timelines || {};
 
+      var DURATION = 2.219;
+
       var tl = gsap.timeline({ paused: true });
 
-      // Scene 1 (0.0-5.0s): give.png full-bleed, slow Ken Burns pan begins at t=0
-      // and eases to a stop by ~2.5s (gentle scale + drift, no invented graphics —
-      // this is a real captured screenshot of the live Give page).
+      // Scene 1 (0.0-2.219s): give.png full-bleed. This is the shortest, plainest
+      // beat in the tour and it is built to pass quickly — the pan is LINEAR
+      // (ease: 'none') and runs across the entire clip with no settle: it is still
+      // moving at the very last frame. No power-ease-to-a-stop, no static hold.
       tl.fromTo(
         '.f7-bg-img',
         { scale: 1.0, xPercent: 0, yPercent: 0 },
         {
-          scale: 1.07,
-          xPercent: -2.2,
-          yPercent: -1.4,
-          duration: 2.5,
-          ease: 'power2.out',
+          scale: 1.16,
+          xPercent: -4.2,
+          yPercent: -2.6,
+          duration: DURATION,
+          ease: 'none',
         },
         0
       );
 
-      // Vignette breathes in very slightly alongside the pan, reinforcing focus
-      // without ever obscuring the real page beneath it.
+      // Vignette deepens at the same linear rate as the pan — no early settle.
       tl.fromTo(
         '.f7-vignette',
-        { opacity: 0.55 },
-        { opacity: 1, duration: 2.5, ease: 'power2.out' },
+        { opacity: 0.48 },
+        { opacity: 0.92, duration: DURATION, ease: 'none' },
         0
       );
 
-      // Caption card ("Give") fades in on the "give online" cue near the top of
-      // the voiceover — a short rise + fade, landing well before the VO ends (~2.2s).
+      // Caption card ("Give") fades in fast, within the first ~0.3s, on the
+      // "give online" cue at the top of the voiceover.
       tl.fromTo(
         '.f7-card-wrap',
-        { opacity: 0, y: 18 },
-        { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' },
-        0.3
+        { opacity: 0, y: 30 },
+        { opacity: 1, y: 0, duration: 0.3, ease: 'power2.out' },
+        0
       );
 
-      // Hold silently on the page for the remainder of the 5.0s duration — the VO
-      // ends near 2.2s, the pan has already settled by 2.5s; no further motion,
-      // no exit tween (mid-storyboard frame — the root transition owns the cut out).
-      tl.to({}, { duration: 5.0 - 2.5 }, 2.5);
+      // ...then keeps drifting for the rest of the brief shot instead of landing
+      // and holding still. Linear drift, running all the way to the last frame —
+      // this is the fix: the old cut eased to a stop by 2.5s and sat static for
+      // the remaining padded duration; the real 2.219s beat has no room, and no
+      // reason, for a hold.
+      tl.to(
+        '.f7-card-wrap',
+        { x: 14, y: -30, duration: DURATION - 0.3, ease: 'none' },
+        0.3
+      );
 
       window.__timelines['07-give'] = tl;
     })();

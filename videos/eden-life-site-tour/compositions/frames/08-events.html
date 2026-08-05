@@ -96,24 +96,26 @@
     }
   </style>
 
-  <div id="root" data-composition-id="08-events" data-duration="6" data-width="1920" data-height="1080">
+  <div id="root" data-composition-id="08-events" data-duration="5.227" data-width="1920" data-height="1080">
     <!-- Full-bleed background: real captured Events listing screenshot (Ken Burns push-in only,
          no redrawn UI). Dedicated class="clip" layer on the lowest track — never on #root. -->
-    <div class="clip f8-bg-layer" data-start="0" data-duration="6" data-track-index="0">
+    <div class="clip f8-bg-layer" data-start="0" data-duration="5.227" data-track-index="0">
       <div class="f8-bg-inner">
         <img class="f8-bg-img" src="assets/events-index.png" alt="" />
       </div>
     </div>
 
     <!-- Vignette: gentle, non-photographic depth cue over the real shot -->
-    <div class="clip" data-start="0" data-duration="6" data-track-index="1">
+    <div class="clip" data-start="0" data-duration="5.227" data-track-index="1">
       <div class="f8-vignette"></div>
     </div>
 
-    <!-- "Events" page-label caption card: fades in on the "always something happening" cue,
-         then holds silently to the cut. Content wrapped in a non-clip inner div per project
-         convention (only this inner div is ever tweened). -->
-    <div class="clip f8-tag-layer" data-start="0" data-duration="6" data-track-index="2" data-layout-allow-overlap>
+    <!-- "Events" page-label caption card: fades in within the first ~0.4s, right on the
+         "always something happening" voiceover cue, then holds silently to the cut. The
+         push-in beneath it keeps moving the entire time — this card landing is not a stop
+         cue for the camera. Content wrapped in a non-clip inner div per project convention
+         (only this inner div is ever tweened). -->
+    <div class="clip f8-tag-layer" data-start="0" data-duration="5.227" data-track-index="2" data-layout-allow-overlap>
       <div class="f8-tag" id="f8-tag">
         <div class="f8-tag-kicker">On the calendar</div>
         <div class="f8-tag-rule"></div>
@@ -128,43 +130,42 @@
       window.__timelines = window.__timelines || {};
 
       var tl = gsap.timeline({ paused: true });
+      var FRAME_DURATION = 5.227;
 
-      // Scene 1 (0.0–5.5s): events-index.png full-bleed, slow continuous push-in (Ken Burns)
-      // starting at t=0, easing to a stop by ~3.3s so the real page composition (the God
-      // Moment event card) is genuinely readable, not just glimpsed.
+      // Scene 1 (0.0–5.227s): events-index.png full-bleed, ONE continuous push-in that runs
+      // from t=0 all the way to the cut — no easing to a stop, no static hold once the
+      // caption lands. Linear ease keeps the velocity constant across the entire shot so
+      // there is no point where the motion visibly settles.
       tl.fromTo(
         '.f8-bg-img',
         { scale: 1.0, xPercent: 0, yPercent: 0 },
         {
-          scale: 1.07,
-          duration: 3.3,
-          ease: 'power2.out',
+          scale: 1.13,
+          duration: FRAME_DURATION,
+          ease: 'none',
         },
         0
       );
 
-      // Vignette breathes in alongside the push, matching its pace.
+      // Vignette deepens in lockstep with the push, across the full duration — no early
+      // plateau, so the depth cue keeps building all the way to the cut.
       tl.fromTo(
         '.f8-vignette',
         { opacity: 0.4 },
-        { opacity: 0.85, duration: 3.3, ease: 'power2.out' },
+        { opacity: 0.85, duration: FRAME_DURATION, ease: 'none' },
         0
       );
 
-      // "Events" caption card: fades + rises in right on the "always something happening"
-      // voiceover cue (~1.0s into this frame), then holds to the cut — this is a
-      // mid-storyboard frame, so no exit tween (the root transition owns the cut out).
+      // "Events" caption card: fades + rises in within the first ~0.4s, right on the
+      // "always something happening" voiceover cue. This is a mid-storyboard frame, so no
+      // exit tween (the root transition owns the cut out) — the card simply holds while the
+      // camera push underneath it keeps moving, uninterrupted, to t=5.227s.
       tl.fromTo(
         '#f8-tag',
         { opacity: 0, y: 18 },
-        { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' },
-        1.05
+        { opacity: 1, y: 0, duration: 0.35, ease: 'power2.out' },
+        0.1
       );
-
-      // Hold silently through the remainder of the 5.5s duration. Positioned at the
-      // absolute end of the push-in (not sequentially after the caption tween) so the
-      // timeline's total duration lands exactly on 5.5s.
-      tl.to({}, { duration: 5.5 - 3.3 }, 3.3);
 
       window.__timelines['08-events'] = tl;
     })();
