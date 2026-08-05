@@ -1,0 +1,199 @@
+<template data-composition-id="02-new-here" data-duration="5.8">
+  <style>
+    #root {
+      width: 1920px;
+      height: 1080px;
+      position: relative;
+      overflow: hidden;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    #root .clip {
+      position: absolute;
+      inset: 0;
+    }
+
+    /* ---------- shared full-bleed image-plate mechanics ---------- */
+
+    .f2-plate-inner {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      will-change: transform, filter, opacity;
+    }
+
+    /* Images are staged ~15% larger than the canvas (overscan) so the cut-the-curve
+       x-slide on .f2-plate-inner never exposes an edge, and the Ken Burns push-in on
+       the img itself only ever crops further in, never out. Real captured screenshots —
+       no redrawn UI, only transform/opacity/filter motion on top of the plate. */
+    .f2-plate-img {
+      position: absolute;
+      top: -81px;
+      left: -144px;
+      width: 2208px;
+      height: 1242px;
+      display: block;
+      transform-origin: 50% 46%;
+      will-change: transform;
+    }
+
+    /* ---------- Scene 1: Plan Your Visit ---------- */
+
+    .f2-bgA-layer {
+      overflow: hidden;
+    }
+
+    /* ---------- Scene 2: What to Expect ---------- */
+
+    .f2-bgB-layer {
+      overflow: hidden;
+    }
+
+    /* ---------- caption chip ("New Here") ---------- */
+
+    .f2-chip-layer {
+      overflow: visible;
+    }
+
+    .f2-chip {
+      position: absolute;
+      top: 64px;
+      left: 64px;
+      display: inline-flex;
+      align-items: center;
+      padding: 16px 28px 16px 22px;
+      background: #162421;
+      border-left: 4px solid #25D366;
+      border-radius: 8px;
+      will-change: transform, opacity;
+    }
+
+    .f2-chip-label {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 28px;
+      line-height: 1;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #FFFFFF;
+      white-space: nowrap;
+    }
+
+    /* ---------- vignette (depth cue only, never repaints the real UI) ---------- */
+
+    .f2-vignette {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: radial-gradient(
+        ellipse 82% 72% at 50% 45%,
+        rgba(0, 0, 0, 0) 55%,
+        rgba(0, 0, 0, 0.26) 100%
+      );
+    }
+  </style>
+
+  <!-- Scene 1 (0.0-3.6s): real captured "Plan Your Visit" screenshot, full-bleed.
+       Dedicated class="clip" layer on the lowest content track — never painted on #root. -->
+  <div class="clip f2-bgA-layer" id="f2-bgA" data-start="0" data-duration="3.6" data-track-index="0">
+    <div class="f2-plate-inner" id="f2-bgA-inner">
+      <img class="f2-plate-img" src="assets/new-here-plan-your-visit.png" alt="" />
+    </div>
+  </div>
+
+  <!-- Scene 2 (3.6-5.8s): real captured "What to Expect" screenshot, full-bleed.
+       Separate clip + track so the two plates can overlap during the cut-the-curve seam. -->
+  <div class="clip f2-bgB-layer" id="f2-bgB" data-start="3.6" data-duration="2.2" data-track-index="1">
+    <div class="f2-plate-inner" id="f2-bgB-inner">
+      <img class="f2-plate-img" src="assets/new-here-what-to-expect.png" alt="" />
+    </div>
+  </div>
+
+  <!-- "New Here" caption card: fades in top-left once the VO names "New here?",
+       clear of the real checklist content lower on the page. -->
+  <div class="clip f2-chip-layer" data-start="0" data-duration="3.6" data-track-index="2">
+    <div class="f2-chip" id="f2-chip">
+      <span class="f2-chip-label">New Here</span>
+    </div>
+  </div>
+
+  <!-- Vignette: full-duration depth cue, its own clip layer, never on #root. -->
+  <div class="clip" data-start="0" data-duration="5.8" data-track-index="4">
+    <div class="f2-vignette"></div>
+  </div>
+
+  <script src="assets/vendor/gsap.min.js"></script>
+  <script>
+    (function () {
+      window.__timelines = window.__timelines || {};
+
+      var tl = gsap.timeline({ paused: true });
+
+      // ---- Scene 1 (0.0-3.6s): slow continuous Ken Burns push-in on the real
+      // "Plan Your Visit" screenshot, begins immediately at t=0 so the checklist
+      // and service-time cards are read while genuinely moving, not static.
+      tl.fromTo(
+        '#f2-bgA .f2-plate-img',
+        { scale: 1.0 },
+        { scale: 1.05, duration: 3.3, ease: 'sine.inOut' },
+        0
+      );
+
+      // "New Here" chip: fades/settles in top-left after ~0.6s, once the VO reaches
+      // "New here?" — a fromTo entrance, never a CSS-hidden starting state.
+      tl.fromTo(
+        '#f2-chip',
+        { opacity: 0, y: 16 },
+        { opacity: 1, y: 0, duration: 0.45, ease: 'power2.out' },
+        0.6
+      );
+
+      // ---- Internal seam (cut-the-curve, leftward, velocity-matched): the VO says
+      // "come as you are" as Scene 1 hands off to Scene 2. Nothing travels off-screen —
+      // the overscan on both plates covers the partial slide, and blur+opacity peak
+      // together at the hard cut to sell one continuous camera move across the swap.
+
+      // Exit (Scene 1 plate): accelerates left, blurs and fades out, finishing exactly
+      // at the cut point (t=3.6).
+      tl.to(
+        '#f2-bgA-inner',
+        { x: -130, duration: 0.3, ease: 'power4.in' },
+        3.3
+      );
+      tl.to(
+        '#f2-bgA-inner',
+        { filter: 'blur(20px)', duration: 0.3, ease: 'power4.in' },
+        3.3
+      );
+      tl.to(
+        '#f2-bgA-inner',
+        { opacity: 0, duration: 0.22, ease: 'power1.in' },
+        3.3
+      );
+
+      // Hard cut at t=3.6 — Scene 2 plate picks up mid-motion from the mirrored
+      // pre-cut state (same leftward direction, matched blur/opacity) and decelerates
+      // into place.
+      tl.fromTo(
+        '#f2-bgB-inner',
+        { x: 130, filter: 'blur(20px)', opacity: 0.35 },
+        { x: 0, filter: 'blur(0px)', opacity: 1, duration: 0.45, ease: 'power4.out' },
+        3.6
+      );
+
+      // ---- Scene 2 (3.6-5.8s): gentle Ken Burns push continues under the "What to
+      // Expect" page for the remainder of the shot — holds silently, no exit (this is
+      // a mid-storyboard frame; the root transition owns the cut to Frame 3).
+      tl.fromTo(
+        '#f2-bgB .f2-plate-img',
+        { scale: 1.0 },
+        { scale: 1.04, duration: 2.2, ease: 'sine.inOut' },
+        3.6
+      );
+
+      window.__timelines['02-new-here'] = tl;
+    })();
+  </script>
+</template>
