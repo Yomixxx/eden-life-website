@@ -1,0 +1,174 @@
+<template>
+  <style>
+    #root {
+      width: 1920px;
+      height: 1080px;
+      position: relative;
+      overflow: hidden;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    #root .clip {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+    }
+
+    /* Inner non-clip slide wrapper — carries the cut-the-curve x/opacity motion.
+       Never tweened directly on the .clip element per the exit-tween constraint. */
+    .f6-slide {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+    }
+
+    .f6-live-slide {
+      opacity: 0; /* CSS default so any seek before the cut reads correctly */
+    }
+
+    .f6-img-wrap {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+    }
+
+    .f6-img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 1920px;
+      height: 1080px;
+      display: block;
+      transform-origin: 50% 42%;
+      will-change: transform;
+    }
+
+    /* Gentle vignette to give each flat screenshot a touch of cinematic depth
+       without repainting any of the real captured UI */
+    .f6-vignette {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: radial-gradient(
+        ellipse 80% 70% at 50% 45%,
+        rgba(0, 0, 0, 0) 55%,
+        rgba(0, 0, 0, 0.26) 100%
+      );
+    }
+
+    .f6-caption-card {
+      position: absolute;
+      left: 96px;
+      top: 96px;
+      display: inline-flex;
+      align-items: center;
+      padding: 22px 40px;
+      background-color: #162421;
+      border-radius: 6px;
+      will-change: transform, opacity;
+    }
+
+    .f6-caption-card span {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 56px;
+      line-height: 0.96;
+      letter-spacing: -0.01em;
+      color: #25D366;
+    }
+  </style>
+
+  <div id="root" data-composition-id="06-watch" data-duration="5.8">
+    <!-- Track 0: Sermons library screenshot — Scene 1 hero, full-bleed real capture -->
+    <div class="clip" data-start="0" data-duration="5.8" data-track-index="0">
+      <div class="f6-slide f6-sermons-slide">
+        <div class="f6-img-wrap">
+          <img class="f6-img f6-sermons-img" src="assets/watch-sermons.png" alt="" />
+        </div>
+        <div class="f6-vignette"></div>
+        <div class="f6-caption-card f6-caption-1">
+          <span>Watch</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Track 1: Watch Live screenshot — Scene 2, arrives on the cut-the-curve seam -->
+    <div class="clip" data-start="0" data-duration="5.8" data-track-index="1">
+      <div class="f6-slide f6-live-slide">
+        <div class="f6-img-wrap">
+          <img class="f6-img f6-live-img" src="assets/watch-live.png" alt="" />
+        </div>
+        <div class="f6-vignette"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="assets/vendor/gsap.min.js"></script>
+  <script>
+    (function () {
+      window.__timelines = window.__timelines || {};
+
+      var tl = gsap.timeline({ paused: true });
+
+      var CUT = 3.5; // Scene 1 -> Scene 2 seam, matches the VO's "live or on demand" cue
+
+      // --- Scene 1 (0.0-3.5s): watch-sermons.png full-bleed, slow Ken Burns push-in ---
+      tl.fromTo(
+        '.f6-sermons-img',
+        { scale: 1.0 },
+        { scale: 1.06, duration: 3.2, ease: 'power2.out' },
+        0
+      );
+
+      // Caption card ("Watch") fades in + rises slightly, timed to the "watch every
+      // service" VO cue (~1.6s into the line).
+      tl.fromTo(
+        '.f6-caption-1',
+        { opacity: 0, y: 18 },
+        { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' },
+        1.6
+      );
+
+      // --- Cut the Curve: Scene 1 -> Scene 2, leftward, velocity-matched ---
+      // Exit: sermons slide (carrying its caption card) accelerates left, fading out
+      // well before the cut lands so nothing is visible mid-swap.
+      tl.fromTo(
+        '.f6-sermons-slide',
+        { x: 0 },
+        { x: -230, duration: 0.3, ease: 'power4.in' },
+        CUT - 0.3
+      );
+      tl.fromTo(
+        '.f6-sermons-slide',
+        { opacity: 1 },
+        { opacity: 0, duration: 0.25, ease: 'power1.in' },
+        CUT - 0.3
+      );
+
+      // Entry: live slide continues the same leftward motion from the mirrored offset,
+      // decelerating into place; opacity picks up already mid-fade for velocity match.
+      tl.fromTo(
+        '.f6-live-slide',
+        { x: 230, opacity: 0.35 },
+        { x: 0, opacity: 1, duration: 0.4, ease: 'power4.out' },
+        CUT
+      );
+
+      // Continued gentle push-in on the Watch Live page once it lands, easing to a
+      // stop well before the frame ends, then holding perfectly still — the VO has
+      // already finished (~4.0s) and the remainder is a silent, legible hold.
+      tl.fromTo(
+        '.f6-live-img',
+        { scale: 1.0 },
+        { scale: 1.045, duration: 1.6, ease: 'power2.out' },
+        CUT
+      );
+
+      // Hold silently through the end of the 5.8s duration — no exit tween (this is a
+      // mid-storyboard frame; the root transition owns the cut out).
+      tl.to({}, { duration: 5.8 - (CUT + 1.6) });
+
+      window.__timelines['06-watch'] = tl;
+    })();
+  </script>
+</template>

@@ -1,0 +1,170 @@
+<template>
+  <style>
+    #root {
+      width: 1920px;
+      height: 1080px;
+      position: relative;
+      overflow: hidden;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    #root .clip {
+      position: absolute;
+      inset: 0;
+    }
+
+    /* ---- Track 0: full-bleed real screenshot, Ken Burns pan only ---- */
+    .f9-bg-layer {
+      overflow: hidden;
+    }
+
+    .f9-bg-inner {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .f9-bg-img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 1920px;
+      height: 1080px;
+      display: block;
+      transform-origin: 50% 38%;
+      will-change: transform;
+    }
+
+    /* ---- Track 1: soft legibility scrim, confined to the caption-card corner
+       only — never a full-frame dim, the real page stays fully readable ---- */
+    .f9-scrim {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: linear-gradient(
+        100deg,
+        rgba(8, 15, 14, 0.62) 0%,
+        rgba(8, 15, 14, 0.4) 22%,
+        rgba(8, 15, 14, 0) 42%
+      ),
+      linear-gradient(
+        to top,
+        rgba(8, 15, 14, 0.5) 0%,
+        rgba(8, 15, 14, 0) 46%
+      );
+    }
+
+    /* ---- Track 2: "Testimonies" caption card ---- */
+    .f9-card-layer {
+      overflow: visible;
+    }
+
+    .f9-card {
+      position: absolute;
+      left: 120px;
+      top: 636px;
+      width: 620px;
+      padding: 40px 44px 44px;
+      background: #162421;
+      border-left: 4px solid #25D366;
+      border-radius: 8px;
+      box-sizing: border-box;
+    }
+
+    .f9-card-label {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+      font-size: 22px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #25D366;
+      margin: 0 0 14px;
+    }
+
+    .f9-card-title {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 64px;
+      line-height: 0.98;
+      letter-spacing: -0.02em;
+      color: #FFFFFF;
+      margin: 0;
+    }
+  </style>
+
+  <div id="root" data-composition-id="09-testimonies" data-duration="5.5">
+    <!-- Full-bleed background: real captured Testimonies-page screenshot.
+         Dedicated class="clip" layer on the lowest track, never painted on #root. -->
+    <div class="clip f9-bg-layer" data-start="0" data-duration="5.5" data-track-index="0">
+      <div class="f9-bg-inner">
+        <img class="f9-bg-img" src="assets/testimonies.png" alt="" />
+      </div>
+    </div>
+
+    <!-- Soft legibility scrim, confined to the card's corner of the frame -->
+    <div class="clip" data-start="0" data-duration="5.5" data-track-index="1">
+      <div class="f9-scrim"></div>
+    </div>
+
+    <!-- "Testimonies" caption card: fades in on the "real stories" VO cue -->
+    <div class="clip f9-card-layer" data-start="0" data-duration="5.5" data-track-index="2">
+      <div class="f9-card" id="f9-card">
+        <p class="f9-card-label">Real stories</p>
+        <h1 class="f9-card-title">Testimonies</h1>
+      </div>
+    </div>
+  </div>
+
+  <script src="assets/vendor/gsap.min.js"></script>
+  <script>
+    (function () {
+      window.__timelines = window.__timelines || {};
+
+      var tl = gsap.timeline({ paused: true });
+
+      // Scene 1 (0.0–5.5s): the real Testimonies-page screenshot fills the frame
+      // from t=0 (hero visible immediately). A slow continuous Ken Burns pan/push
+      // begins at t=0 and eases to a stop by ~2.8s — after that the plate holds
+      // perfectly still so the real page is genuinely readable, not just glimpsed.
+      tl.fromTo(
+        '.f9-bg-img',
+        { scale: 1.0, xPercent: 0, yPercent: 0 },
+        {
+          scale: 1.07,
+          xPercent: -1.6,
+          yPercent: -0.8,
+          duration: 2.8,
+          ease: 'power2.out',
+        },
+        0
+      );
+
+      // Scrim breathes in very slightly alongside the push so the caption card
+      // stays legible without dimming the rest of the real UI.
+      tl.fromTo(
+        '.f9-scrim',
+        { opacity: 0.55 },
+        { opacity: 1, duration: 2.8, ease: 'power2.out' },
+        0
+      );
+
+      // Caption card ("Testimonies") fades + settles in on the "real stories" VO
+      // cue — the opening two words of "Real stories, from real people, about
+      // what God has done here." land at roughly t≈0.3–0.9s.
+      tl.fromTo(
+        '#f9-card',
+        { opacity: 0, y: 26 },
+        { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' },
+        0.3
+      );
+
+      // VO finishes ~3.6s; the frame then holds silently on the real page for
+      // the remainder of the fixed 5.5s duration. No exit tween — this is not
+      // the final frame, and the root crossfade transition owns the cut out.
+      tl.to({}, { duration: 5.5 - 2.8 }, 2.8);
+
+      window.__timelines['09-testimonies'] = tl;
+    })();
+  </script>
+</template>
