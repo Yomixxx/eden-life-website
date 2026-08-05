@@ -1,0 +1,179 @@
+<template data-composition-id="03-still-time">
+  <style>
+    #root {
+      position: relative;
+      width: 1080px;
+      height: 1920px;
+      overflow: hidden;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    #root .clip {
+      position: absolute;
+      inset: 0;
+    }
+
+    #root .stillTime-bg {
+      background: #080f0e;
+    }
+
+    #root .stillTime-glow {
+      position: absolute;
+      left: 50%;
+      top: 660px;
+      width: 860px;
+      height: 860px;
+      margin-left: -430px;
+      margin-top: -430px;
+      border-radius: 50%;
+      background: radial-gradient(circle,
+          rgba(244, 222, 58, 0.46) 0%,
+          rgba(244, 222, 58, 0.16) 42%,
+          rgba(244, 222, 58, 0) 74%);
+      filter: blur(6px);
+      opacity: 0;
+      z-index: 1;
+    }
+
+    #root .stillTime-stage {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 388px;
+      z-index: 2;
+    }
+
+    #root .stillTime-logoWrap {
+      width: 340px;
+      height: 340px;
+      border-radius: 50%;
+      overflow: hidden;
+      background: #ffffff;
+      opacity: 0;
+      transform: scale(0);
+      transform-origin: 50% 50%;
+      flex: 0 0 auto;
+    }
+
+    #root .stillTime-logoWrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    #root .stillTime-wordmark {
+      margin-top: 40px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 500;
+      font-size: 54px;
+      line-height: 1;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: #ffffff;
+      text-align: center;
+      opacity: 0;
+      flex: 0 0 auto;
+    }
+
+    #root .stillTime-pill {
+      margin-top: 64px;
+      padding: 18px 40px;
+      border-radius: 999px;
+      background: #f4de3a;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 27px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #080f0e;
+      white-space: nowrap;
+      opacity: 0;
+      flex: 0 0 auto;
+    }
+
+    #root .stillTime-link {
+      margin-top: 44px;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 500;
+      font-size: 32px;
+      letter-spacing: 0.5px;
+      color: #ffffff;
+      text-align: center;
+      opacity: 0;
+      flex: 0 0 auto;
+    }
+  </style>
+
+  <div data-composition-id="03-still-time">
+    <div class="clip stillTime-bg" data-start="0" data-duration="3.435" data-track-index="0"></div>
+
+    <div class="stillTime-glow"></div>
+
+    <div class="stillTime-stage">
+      <div class="stillTime-logoWrap">
+        <img src="../../assets/logo.jpg" alt="Eden Life logo" />
+      </div>
+      <div class="stillTime-wordmark">God Moment</div>
+      <div class="stillTime-pill">3rd&ndash;23rd Aug &middot; Still Open</div>
+      <div class="stillTime-link">Link in bio</div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+  <script>
+    (function () {
+      var logo = document.querySelector('.stillTime-logoWrap');
+      var wordmark = document.querySelector('.stillTime-wordmark');
+      var glow = document.querySelector('.stillTime-glow');
+      var pill = document.querySelector('.stillTime-pill');
+      var link = document.querySelector('.stillTime-link');
+
+      var tl = gsap.timeline({ paused: true });
+
+      // Scene 1 (0.0-1.1s): "There's still time to join" - logo mark spring-blooms from zero, dead-center.
+      tl.fromTo(logo,
+        { scale: 0, opacity: 0 },
+        { scale: 1, opacity: 1, duration: 0.65, ease: 'power3.out' },
+        0.05
+      );
+      tl.fromTo(wordmark,
+        { opacity: 0, y: 16 },
+        { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' },
+        0.32
+      );
+
+      // Scene 2 (1.1-2.2s): "Find us," - coral date pill slides up and settles beneath the lockup;
+      // ambient glow blooms softly behind it (layered depth).
+      tl.fromTo(glow,
+        { opacity: 0, scale: 0.85 },
+        { opacity: 0.85, scale: 1, duration: 0.9, ease: 'sine.inOut' },
+        1.0
+      );
+      tl.fromTo(pill,
+        { opacity: 0, y: 42 },
+        { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out' },
+        1.15
+      );
+
+      // Scene 3 (2.2-3.435s): "link in bio" fades in as the VO speaks it; the lockup holds to the
+      // end with only a subtle glow jitter. This is the video's real exit - a quiet settle, not a
+      // motion exit.
+      tl.fromTo(link,
+        { opacity: 0, y: 10 },
+        { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' },
+        2.3
+      );
+      tl.to(glow, { scale: 1.035, duration: 0.3, ease: 'sine.inOut' }, 2.85);
+      tl.to(glow, { scale: 1.0, duration: 0.285, ease: 'sine.inOut' }, 3.15);
+
+      window.__timelines = window.__timelines || {};
+      window.__timelines['03-still-time'] = tl;
+    })();
+  </script>
+</template>

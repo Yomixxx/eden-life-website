@@ -1,0 +1,120 @@
+<template>
+  <style>
+    /* Root: styled via #root only — a class here would be scoped out at render. */
+    #root {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      font-family: "Poppins", sans-serif;
+    }
+
+    /* Full-bleed background ground — a dedicated clip layer, never painted on #root. */
+    .lfh01-bg {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      background: #080f0e;
+    }
+    .lfh01-bg-img {
+      position: absolute;
+      inset: 0;
+      background-image: url(../../assets/community-prayer-man.jpg);
+      background-size: cover;
+      background-position: 50% 38%;
+      background-repeat: no-repeat;
+      transform-origin: 50% 50%;
+    }
+    /* Dim the still ~35% so foreground copy stays legible over it. */
+    .lfh01-scrim {
+      position: absolute;
+      inset: 0;
+      background: #080f0e;
+      opacity: 0.35;
+    }
+
+    /* The VO's own question, handed back low-center — clear of the caption band (y <= 896px). */
+    .lfh01-text-wrap {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 650px;
+      display: flex;
+      justify-content: center;
+      padding: 0 150px;
+    }
+    .lfh01-text {
+      max-width: 1500px;
+      text-align: center;
+      font-family: "Poppins", sans-serif;
+      font-weight: 600;
+      font-size: 58px;
+      line-height: 1.34;
+      letter-spacing: -0.01em;
+      color: #ffffff;
+    }
+    .lfh01-word {
+      display: inline-block;
+      margin: 0 0.12em;
+    }
+  </style>
+
+  <div
+    id="root"
+    data-composition-id="01-looking-for-home"
+    data-width="1920"
+    data-height="1080"
+  >
+    <!-- Scene 1 (0.0–1.0s+): full-bleed still, dimmed ~35%, slow continuous push-in. -->
+    <div class="clip lfh01-bg" data-start="0" data-duration="2.539" data-track-index="0">
+      <div class="lfh01-bg-img"></div>
+      <div class="lfh01-scrim"></div>
+    </div>
+
+    <!-- Scene 2 (1.0–2.539s): the VO's question fades in low-center, per-word stagger. -->
+    <div
+      class="clip lfh01-text-wrap"
+      data-start="1.0"
+      data-duration="1.539"
+      data-track-index="1"
+    >
+      <div class="lfh01-text">
+        <span class="lfh01-word">Looking</span>
+        <span class="lfh01-word">for</span>
+        <span class="lfh01-word">a</span>
+        <span class="lfh01-word">place</span>
+        <span class="lfh01-word">that</span>
+        <span class="lfh01-word">feels</span>
+        <span class="lfh01-word">like</span>
+        <span class="lfh01-word">home?</span>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+  <script>
+    (function () {
+      window.__timelines = window.__timelines || {};
+      var tl = gsap.timeline({ paused: true });
+
+      // Scene 1: one continuous push-in, eases to a stop well before the back ~30%
+      // of this 2.539s shot (cutoff ~1.78s) so it settles clean under the text hold.
+      tl.fromTo(
+        ".lfh01-bg-img",
+        { scale: 1 },
+        { scale: 1.08, duration: 1.6, ease: "power3.out" },
+        0
+      );
+
+      // Scene 2: the rhetorical question handed back, word by word, starting on the
+      // VO cue at t=1.0s — holds to the cut, no exit (non-final frame).
+      tl.fromTo(
+        ".lfh01-word",
+        { opacity: 0, y: 22 },
+        { opacity: 1, y: 0, duration: 0.46, ease: "power3.out", stagger: 0.09 },
+        1.0
+      );
+
+      window.__timelines["01-looking-for-home"] = tl;
+    })();
+  </script>
+</template>
