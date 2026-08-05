@@ -13,7 +13,7 @@
       inset: 0;
     }
 
-    /* ---- Track 0: full-bleed real screenshot, Ken Burns pan only ---- */
+    /* ---- Track 0: full-bleed real screenshot, continuous pan runs edge-to-edge ---- */
     .f9-bg-layer {
       overflow: hidden;
     }
@@ -93,22 +93,22 @@
     }
   </style>
 
-  <div id="root" data-composition-id="09-testimonies" data-duration="5.9" data-width="1920" data-height="1080">
+  <div id="root" data-composition-id="09-testimonies" data-duration="3.627" data-width="1920" data-height="1080">
     <!-- Full-bleed background: real captured Testimonies-page screenshot.
          Dedicated class="clip" layer on the lowest track, never painted on #root. -->
-    <div class="clip f9-bg-layer" data-start="0" data-duration="5.9" data-track-index="0">
+    <div class="clip f9-bg-layer" data-start="0" data-duration="3.627" data-track-index="0">
       <div class="f9-bg-inner">
         <img class="f9-bg-img" src="assets/testimonies.png" alt="" />
       </div>
     </div>
 
     <!-- Soft legibility scrim, confined to the card's corner of the frame -->
-    <div class="clip" data-start="0" data-duration="5.9" data-track-index="1">
+    <div class="clip" data-start="0" data-duration="3.627" data-track-index="1">
       <div class="f9-scrim"></div>
     </div>
 
     <!-- "Testimonies" caption card: fades in on the "real stories" VO cue -->
-    <div class="clip f9-card-layer" data-start="0" data-duration="5.9" data-track-index="2">
+    <div class="clip f9-card-layer" data-start="0" data-duration="3.627" data-track-index="2">
       <div class="f9-card" id="f9-card">
         <p class="f9-card-label">Real stories</p>
         <h1 class="f9-card-title">Testimonies</h1>
@@ -123,46 +123,53 @@
 
       var tl = gsap.timeline({ paused: true });
 
-      // Scene 1 (0.0–5.5s): the real Testimonies-page screenshot fills the frame
-      // from t=0 (hero visible immediately). A slow continuous Ken Burns pan/push
-      // begins at t=0 and eases to a stop by ~2.8s — after that the plate holds
-      // perfectly still so the real page is genuinely readable, not just glimpsed.
+      // Scene 1 (0.0–3.627s): the real Testimonies-page screenshot fills the frame
+      // from t=0 (hero visible immediately). The camera pan/push runs continuously,
+      // linearly (ease: 'none' — constant velocity, no deceleration) across the
+      // ENTIRE shot duration, landing exactly at the cut. There is no early stop
+      // and no static hold — the plate is still moving on the last rendered frame.
       tl.fromTo(
         '.f9-bg-img',
         { scale: 1.0, xPercent: 0, yPercent: 0 },
         {
-          scale: 1.07,
-          xPercent: -1.6,
-          yPercent: -0.8,
-          duration: 2.8,
-          ease: 'power2.out',
+          scale: 1.09,
+          xPercent: -2.4,
+          yPercent: -1.2,
+          duration: 3.627,
+          ease: 'none',
         },
         0
       );
 
-      // Scrim breathes in very slightly alongside the push so the caption card
-      // stays legible without dimming the rest of the real UI.
+      // Scrim breathes continuously alongside the push, at the same linear pace,
+      // for the same edge-to-edge span — no hold once it reaches a value.
       tl.fromTo(
         '.f9-scrim',
-        { opacity: 0.55 },
-        { opacity: 1, duration: 2.8, ease: 'power2.out' },
+        { opacity: 0.5 },
+        { opacity: 0.62, duration: 3.627, ease: 'none' },
         0
       );
 
       // Caption card ("Testimonies") fades + settles in on the "real stories" VO
       // cue — the opening two words of "Real stories, from real people, about
-      // what God has done here." land at roughly t≈0.3–0.9s.
+      // what God has done here." land at roughly t≈0.15–0.55s (within the first
+      // ~0.4s window called for by the packet).
       tl.fromTo(
         '#f9-card',
         { opacity: 0, y: 26 },
-        { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' },
-        0.3
+        { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out' },
+        0.15
       );
 
-      // VO finishes ~3.6s; the frame then holds silently on the real page for
-      // the remainder of the fixed 5.5s duration. No exit tween — this is not
-      // the final frame, and the root crossfade transition owns the cut out.
-      tl.to({}, { duration: 5.5 - 2.8 }, 2.8);
+      // Once landed, the card keeps drifting — a slow, linear (ease: 'none')
+      // upward drift that runs continuously from the end of the fade all the
+      // way to the cut at 3.627s. No settle-and-freeze: the card is still in
+      // motion on the very last frame, same as the background pan.
+      tl.to(
+        '#f9-card',
+        { y: -16, duration: 3.627 - 0.55, ease: 'none' },
+        0.55
+      );
 
       window.__timelines['09-testimonies'] = tl;
     })();

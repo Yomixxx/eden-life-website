@@ -24,6 +24,7 @@
       inset: 0;
       width: 100%;
       height: 100%;
+      overflow: hidden;
     }
 
     .f5-bg-img {
@@ -47,20 +48,22 @@
         rgba(0, 0, 0, 0) 55%,
         rgba(0, 0, 0, 0.26) 100%
       );
+      will-change: opacity;
     }
 
     /* Caption card — "Connect" — sits inside the caption keep-out (top ~83%, cutoff
-       at y=896 on this 1080-tall canvas). Its own inner (non-clip) wrapper holds the
-       fade-in so nothing tweens directly on the clip-managed layer. */
+       at y=896 on this 1080-tall canvas). The outer box is static (plain CSS
+       position); only the inner box is GSAP-animated, so there is never a fixed
+       CSS transform fighting the tweened transform (x/y) on the same element. */
     .f5-card-outer {
       position: absolute;
-      top: 660px;
+      top: 640px;
       left: 80px;
       width: 560px;
     }
 
     .f5-card-inner {
-      background: #162421; /* colors.green */
+      background: #162421; /* colors.green — solid, no rgba surface */
       border-radius: 8px;
       padding: 32px 40px 36px;
       will-change: transform, opacity;
@@ -69,7 +72,7 @@
     .f5-card-rule {
       width: 64px;
       height: 2px;
-      background: #25D366; /* colors.pink */
+      background: #25d366; /* colors.pink */
       margin: 0 0 18px 0;
     }
 
@@ -79,26 +82,35 @@
       font-size: 72px;
       line-height: 0.98;
       letter-spacing: -0.01em;
-      color: #FFFFFF;
+      color: #ffffff;
       margin: 0;
     }
   </style>
 
-  <div id="root" data-composition-id="05-connect" data-duration="6" data-width="1920" data-height="1080">
-    <!-- Track 0: full-bleed real screenshot, Ken Burns pan easing to a stop ~2.8s -->
-    <div class="clip f5-bg-layer" data-start="0" data-duration="6" data-track-index="0">
+  <div
+    id="root"
+    data-composition-id="05-connect"
+    data-duration="2.731"
+    data-width="1920"
+    data-height="1080"
+  >
+    <!-- Track 0: full-bleed real screenshot. Continuous fast pan+push runs across
+         the ENTIRE 2.731s shot — see script below for why it never eases to a stop. -->
+    <div class="clip f5-bg-layer" data-start="0" data-duration="2.731" data-track-index="0">
       <div class="f5-bg-inner">
         <img class="f5-bg-img" src="assets/connect-community-groups.png" alt="" />
       </div>
     </div>
 
-    <!-- Track 1: vignette, purely a non-photographic depth cue over the real shot -->
-    <div class="clip" data-start="0" data-duration="6" data-track-index="1">
+    <!-- Track 1: vignette, purely a non-photographic depth cue over the real shot,
+         deepening continuously in step with the pan. -->
+    <div class="clip" data-start="0" data-duration="2.731" data-track-index="1">
       <div class="f5-vignette"></div>
     </div>
 
-    <!-- Track 2: "Connect" caption card, fading in on "community groups" -->
-    <div class="clip" data-start="0" data-duration="6" data-track-index="2">
+    <!-- Track 2: "Connect" caption card, fading in on "community groups" then
+         continuing to drift for the rest of the shot (never a static landed hold). -->
+    <div class="clip" data-start="0" data-duration="2.731" data-track-index="2">
       <div class="f5-card-outer">
         <div class="f5-card-inner">
           <div class="f5-card-rule"></div>
@@ -115,50 +127,70 @@
 
       var tl = gsap.timeline({ paused: true });
 
-      // Scene 1 (0.0–5.5s): the real Community Groups page, full-bleed, with a slow
-      // Ken Burns pan+settle that begins immediately at t=0 and eases to a stop by
-      // ~2.8s. The "Connect" caption card fades in early, timed to the VO's opening
-      // words ("community groups"), then the frame holds silently on the real page
-      // for the remainder of the 5.5s duration — no exit, this is a mid-storyboard
-      // frame and the root transition owns the cut out.
+      var TOTAL = 2.731;
 
-      // Ken Burns pan — starts slightly zoomed/offset, eases to a settled resting
-      // frame by 2.8s.
+      // ---------------------------------------------------------------------
+      // Scene 1 (0.0–2.731s): connect-community-groups.png full-bleed, a fast
+      // continuous pan runs the entire shot, no stop. The caption card fades in
+      // within the first ~0.4s on "community groups" and keeps drifting for the
+      // rest of the beat.
+      //
+      // This frame's real duration is only 2.731s (synced to voice) — the old
+      // build eased its pan to a stop by ~2.8s inside a padded 5.5s duration and
+      // then held static for the remainder, which is exactly what read as a
+      // slideshow. There is no padding left to hide a stop in: every tween below
+      // is deliberately sized to TOTAL and uses ease: 'none' so the motion holds
+      // constant, non-zero velocity across the whole shot instead of decelerating
+      // early and sitting still on a "landed" caption.
+      // ---------------------------------------------------------------------
+
+      // Background pan — a brisk continuous zoom + drift for the full duration.
+      // ease: 'none' (linear) is deliberate: any decelerating ease (power/sine/etc.)
+      // would visibly slow toward zero near the tween's end, which is exactly the
+      // "settle to a stop" the reviewer flagged — here the tween's end IS the
+      // shot's end, so it must still be moving at full rate right up to t=2.731.
       tl.fromTo(
         '.f5-bg-img',
-        { scale: 1.09, xPercent: 1.6, yPercent: 1.0 },
+        { scale: 1.0, xPercent: 0, yPercent: 0 },
         {
-          scale: 1.03,
-          xPercent: 0,
-          yPercent: 0,
-          duration: 2.8,
-          ease: 'power2.out',
+          scale: 1.18,
+          xPercent: -4.5,
+          yPercent: -2.5,
+          duration: TOTAL,
+          ease: 'none',
         },
         0
       );
 
-      // Vignette breathes in alongside the pan, reinforcing focus without ever
-      // obscuring the real page content already on screen.
+      // Vignette deepens in lockstep with the pan across the same full duration —
+      // reinforcing the sense of continuous movement rather than adding its own
+      // separate beat.
       tl.fromTo(
         '.f5-vignette',
-        { opacity: 0.55 },
-        { opacity: 1, duration: 2.8, ease: 'power2.out' },
+        { opacity: 0.5 },
+        { opacity: 1, duration: TOTAL, ease: 'none' },
         0
       );
 
-      // "Connect" caption card — fades and rises in gently, cued to the VO's
-      // opening words "community groups" (hero — the real page — is already fully
-      // visible at t=0, well inside the t<=0.5s hero-visibility floor).
+      // "Connect" caption card — entrance: fades + rises in, cued to the VO's
+      // opening words "community groups", landing well within the first ~0.4s
+      // (finishes at 0.42s). A short decelerating ease is fine here — this is a
+      // discrete reveal, not the shot's sustained camera move.
       tl.fromTo(
         '.f5-card-inner',
-        { opacity: 0, yPercent: 12 },
-        { opacity: 1, yPercent: 0, duration: 0.7, ease: 'power2.out' },
-        0.35
+        { opacity: 0, x: 0, y: 22 },
+        { opacity: 1, y: 0, duration: 0.3, ease: 'power2.out' },
+        0.12
       );
 
-      // Hold silently from ~2.8s through the end of the 5.5s duration — VO finishes
-      // near 2.7s, the frame keeps resting on the real page for the rest of its run.
-      tl.to({}, { duration: 5.5 - 2.8 });
+      // ...then the card keeps drifting for the remainder of the shot instead of
+      // landing and holding still — a slow continuous rise + lateral drift that
+      // runs, at constant rate, all the way to the end of the 2.731s duration.
+      tl.to(
+        '.f5-card-inner',
+        { x: -10, y: -18, duration: TOTAL - 0.42, ease: 'none' },
+        0.42
+      );
 
       window.__timelines['05-connect'] = tl;
     })();
