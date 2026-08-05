@@ -73,7 +73,7 @@ Timing note: this frame's real duration is 4.949s (synced to voice). The interna
 - scene: About / Who We Are page
 - voiceover: "Get to know who we are, and what we believe."
 - duration: 2.283s
-- transition_in: crossfade
+- transition_in: crossfade 0.35s
 - status: outline
 - src: compositions/frames/03-who-we-are.html
 - type: benefit_highlight
@@ -123,7 +123,7 @@ Timing note: this frame's real duration is 3.861s (synced to voice). Motion runs
 - scene: Community Groups page
 - voiceover: "Community groups, where real relationships grow."
 - duration: 2.731s
-- transition_in: crossfade
+- transition_in: crossfade 0.35s
 - status: outline
 - src: compositions/frames/05-connect.html
 - type: benefit_highlight
@@ -174,7 +174,7 @@ Timing note: this frame's real duration is 3.989s (synced to voice). Motion runs
 - scene: Give / online giving page
 - voiceover: "Give online, anytime, from anywhere."
 - duration: 2.219s
-- transition_in: crossfade
+- transition_in: crossfade 0.35s
 - status: outline
 - src: compositions/frames/07-give.html
 - type: benefit_highlight
@@ -224,7 +224,7 @@ Timing note: this frame's real duration is 5.227s (synced to voice, effectively 
 - scene: Testimonies page — real member stories
 - voiceover: "Real stories, from real people, about what God has done here."
 - duration: 3.627s
-- transition_in: crossfade
+- transition_in: crossfade 0.35s
 - status: outline
 - src: compositions/frames/09-testimonies.html
 - type: social_proof
