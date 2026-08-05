@@ -5,7 +5,7 @@
       height: 1080px;
       position: relative;
       overflow: hidden;
-      font-family: 'Poppins', sans-serif;
+      font-family: 'Montserrat', sans-serif;
     }
 
     #root .clip {
@@ -24,28 +24,30 @@
       will-change: transform, filter, opacity;
     }
 
-    /* Images are staged ~15% larger than the canvas (overscan) so the cut-the-curve
-       x-slide on .f2-plate-inner never exposes an edge, and the Ken Burns push-in on
-       the img itself only ever crops further in, never out. Real captured screenshots —
+    /* Images are staged 20% larger than the canvas (centered overscan) so the
+       cut-the-curve x-slide on .f2-plate-inner never exposes an edge even at the
+       slide's peak displacement (worst case: slide at max, push-in scale still at
+       its minimum on the incoming plate) — and the continuous push-in on the img
+       itself only ever crops further in, never out. Real captured screenshots —
        no redrawn UI, only transform/opacity/filter motion on top of the plate. */
     .f2-plate-img {
       position: absolute;
-      top: -81px;
-      left: -144px;
-      width: 2208px;
-      height: 1242px;
+      top: -108px;
+      left: -192px;
+      width: 2304px;
+      height: 1296px;
       display: block;
-      transform-origin: 50% 46%;
+      transform-origin: 50% 50%;
       will-change: transform;
     }
 
-    /* ---------- Scene 1: Plan Your Visit ---------- */
+    /* ---------- Scene 1 (0.0-2.4s): Plan Your Visit ---------- */
 
     .f2-bgA-layer {
       overflow: hidden;
     }
 
-    /* ---------- Scene 2: What to Expect ---------- */
+    /* ---------- Scene 2 (2.4-4.949s): What to Expect ---------- */
 
     .f2-bgB-layer {
       overflow: hidden;
@@ -80,49 +82,32 @@
       color: #FFFFFF;
       white-space: nowrap;
     }
-
-    /* ---------- vignette (depth cue only, never repaints the real UI) ---------- */
-
-    .f2-vignette {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      background: radial-gradient(
-        ellipse 82% 72% at 50% 45%,
-        rgba(0, 0, 0, 0) 55%,
-        rgba(0, 0, 0, 0.26) 100%
-      );
-    }
   </style>
 
-  <div id="root" data-composition-id="02-new-here" data-width="1920" data-height="1080" data-duration="6.3">
-    <!-- Scene 1 (0.0-3.6s): real captured "Plan Your Visit" screenshot, full-bleed.
+  <div id="root" data-composition-id="02-new-here" data-width="1920" data-height="1080" data-duration="4.949">
+    <!-- Scene 1 (0.0-2.4s): real captured "Plan Your Visit" screenshot, full-bleed.
          Dedicated class="clip" layer on the lowest content track — never painted on #root. -->
-    <div class="clip f2-bgA-layer" id="f2-bgA" data-start="0" data-duration="3.6" data-track-index="0">
+    <div class="clip f2-bgA-layer" id="f2-bgA" data-start="0" data-duration="2.4" data-track-index="0">
       <div class="f2-plate-inner" id="f2-bgA-inner">
         <img class="f2-plate-img" src="assets/new-here-plan-your-visit.png" alt="" />
       </div>
     </div>
 
-    <!-- Scene 2 (3.6-5.8s): real captured "What to Expect" screenshot, full-bleed.
+    <!-- Scene 2 (2.4-4.949s): real captured "What to Expect" screenshot, full-bleed.
          Separate clip + track so the two plates can overlap during the cut-the-curve seam. -->
-    <div class="clip f2-bgB-layer" id="f2-bgB" data-start="3.6" data-duration="2.7" data-track-index="1">
+    <div class="clip f2-bgB-layer" id="f2-bgB" data-start="2.4" data-duration="2.549" data-track-index="1">
       <div class="f2-plate-inner" id="f2-bgB-inner">
         <img class="f2-plate-img" src="assets/new-here-what-to-expect.png" alt="" />
       </div>
     </div>
 
-    <!-- "New Here" caption card: fades in top-left once the VO names "New here?",
-         clear of the real checklist content lower on the page. -->
-    <div class="clip f2-chip-layer" data-start="0" data-duration="3.6" data-track-index="2">
+    <!-- "New Here" caption card: fades in top-left once the VO names "New here?", then keeps
+         drifting with the camera push for the rest of Scene 1 — never a static hold once landed.
+         Clear of the real checklist content lower on the page. -->
+    <div class="clip f2-chip-layer" data-start="0" data-duration="2.4" data-track-index="2">
       <div class="f2-chip" id="f2-chip">
         <span class="f2-chip-label">New Here</span>
       </div>
-    </div>
-
-    <!-- Vignette: full-duration depth cue, its own clip layer, never on #root. -->
-    <div class="clip" data-start="0" data-duration="6.3" data-track-index="4">
-      <div class="f2-vignette"></div>
     </div>
   </div>
 
@@ -133,64 +118,79 @@
 
       var tl = gsap.timeline({ paused: true });
 
-      // ---- Scene 1 (0.0-3.6s): slow continuous Ken Burns push-in on the real
-      // "Plan Your Visit" screenshot, begins immediately at t=0 so the checklist
-      // and service-time cards are read while genuinely moving, not static.
+      // ---- Scene 1 (0.0-2.4s): continuous push-in on the real "Plan Your Visit"
+      // screenshot. Linear ("none") ease end to end so the move never decelerates
+      // to a stop before the internal cut — it is still running at full rate at t=2.4,
+      // the exact moment the seam tween below takes over.
       tl.fromTo(
         '#f2-bgA .f2-plate-img',
         { scale: 1.0 },
-        { scale: 1.05, duration: 3.3, ease: 'sine.inOut' },
+        { scale: 1.07, duration: 2.4, ease: 'none' },
         0
       );
 
-      // "New Here" chip: fades/settles in top-left after ~0.6s, once the VO reaches
-      // "New here?" — a fromTo entrance, never a CSS-hidden starting state.
+      // "New Here" chip: fades/settles in top-left almost immediately, once the VO
+      // reaches "New here?" — a fromTo entrance, never a CSS-hidden starting state.
       tl.fromTo(
         '#f2-chip',
         { opacity: 0, y: 16 },
-        { opacity: 1, y: 0, duration: 0.45, ease: 'power2.out' },
-        0.6
+        { opacity: 1, y: 0, duration: 0.3, ease: 'power2.out' },
+        0.05
       );
 
-      // ---- Internal seam (cut-the-curve, leftward, velocity-matched): the VO says
-      // "come as you are" as Scene 1 hands off to Scene 2. Nothing travels off-screen —
-      // the overscan on both plates covers the partial slide, and blur+opacity peak
-      // together at the hard cut to sell one continuous camera move across the swap.
+      // Chip keeps drifting with the push for the remainder of Scene 1 — it never
+      // settles into a static hold once landed. Linear ease so it never decelerates
+      // to a stop either; the drift runs right up to the clip's own end at t=2.4.
+      tl.fromTo(
+        '#f2-chip',
+        { x: 0, y: 0 },
+        { x: -6, y: -14, duration: 2.05, ease: 'none' },
+        0.35
+      );
 
-      // Exit (Scene 1 plate): accelerates left, blurs and fades out, finishing exactly
-      // at the cut point (t=3.6). Explicit fromTo start values keep the tween
+      // ---- Internal seam (cut-the-curve, leftward, velocity-matched, full-frame
+      // surface): the VO reaches "come as you are" as Scene 1 hands off to Scene 2.
+      // Nothing travels off-screen — the 20% centered overscan on both plates covers
+      // the partial slide even at worst case, and blur+opacity peak together at the
+      // hard cut to sell one continuous camera move across the swap. Both tweens act
+      // on the inner (non-clip) plate div, never on the class="clip" element itself.
+
+      // Exit (Scene 1 plate): accelerates left, blurs and fades, finishing exactly at
+      // the cut point (t=2.4). Explicit fromTo start values keep the tween
       // deterministic regardless of seek order.
       tl.fromTo(
         '#f2-bgA-inner',
         { x: 0, filter: 'blur(0px)' },
-        { x: -130, filter: 'blur(20px)', duration: 0.3, ease: 'power4.in' },
-        3.3
+        { x: -130, filter: 'blur(20px)', duration: 0.32, ease: 'power4.in' },
+        2.08
       );
       tl.fromTo(
         '#f2-bgA-inner',
         { opacity: 1 },
-        { opacity: 0, duration: 0.22, ease: 'power1.in' },
-        3.3
+        { opacity: 0, duration: 0.26, ease: 'none' },
+        2.08
       );
 
-      // Hard cut at t=3.6 — Scene 2 plate picks up mid-motion from the mirrored
-      // pre-cut state (same leftward direction, matched blur/opacity) and decelerates
-      // into place.
+      // Hard cut at t=2.4 — Scene 2 plate picks up mid-motion from the mirrored
+      // pre-cut state (same leftward direction, matched peak blur) and decelerates
+      // into place. Motion continues straight through the cut on both sides — no
+      // settle, no hold.
       tl.fromTo(
         '#f2-bgB-inner',
         { x: 130, filter: 'blur(20px)', opacity: 0.35 },
-        { x: 0, filter: 'blur(0px)', opacity: 1, duration: 0.45, ease: 'power4.out' },
-        3.6
+        { x: 0, filter: 'blur(0px)', opacity: 1, duration: 0.4, ease: 'power4.out' },
+        2.4
       );
 
-      // ---- Scene 2 (3.6-5.8s): gentle Ken Burns push continues under the "What to
-      // Expect" page for the remainder of the shot — holds silently, no exit (this is
-      // a mid-storyboard frame; the root transition owns the cut to Frame 3).
+      // ---- Scene 2 (2.4-4.949s): the push-in continues on the "What to Expect"
+      // plate all the way to the end of the shot. Linear ("none") ease again — the
+      // camera never eases to a stop before the frame's own cut to the next frame
+      // (owned by the root transition, not authored here).
       tl.fromTo(
         '#f2-bgB .f2-plate-img',
         { scale: 1.0 },
-        { scale: 1.04, duration: 2.2, ease: 'sine.inOut' },
-        3.6
+        { scale: 1.09, duration: 2.549, ease: 'none' },
+        2.4
       );
 
       window.__timelines['02-new-here'] = tl;

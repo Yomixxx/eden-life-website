@@ -78,9 +78,9 @@
     }
   </style>
 
-  <div id="root" data-composition-id="06-watch" data-duration="6.3" data-width="1920" data-height="1080">
-    <!-- Track 0: Sermons library screenshot — Scene 1 hero, full-bleed real capture -->
-    <div class="clip" data-start="0" data-duration="6.3" data-track-index="0">
+  <div id="root" data-composition-id="06-watch" data-duration="3.989" data-width="1920" data-height="1080">
+    <!-- Track 0: Sermons library screenshot — Scene 1 (0.0-2.0s), full-bleed real capture -->
+    <div class="clip" data-start="0" data-duration="3.989" data-track-index="0">
       <div class="f6-slide f6-sermons-slide">
         <div class="f6-img-wrap">
           <img class="f6-img f6-sermons-img" src="assets/watch-sermons.png" alt="" />
@@ -92,8 +92,8 @@
       </div>
     </div>
 
-    <!-- Track 1: Watch Live screenshot — Scene 2, arrives on the cut-the-curve seam -->
-    <div class="clip" data-start="0" data-duration="6.3" data-track-index="1">
+    <!-- Track 1: Watch Live screenshot — Scene 2 (2.0-3.989s), arrives on the cut-the-curve seam -->
+    <div class="clip" data-start="0" data-duration="3.989" data-track-index="1">
       <div class="f6-slide f6-live-slide">
         <div class="f6-img-wrap">
           <img class="f6-img f6-live-img" src="assets/watch-live.png" alt="" />
@@ -110,28 +110,33 @@
 
       var tl = gsap.timeline({ paused: true });
 
-      var CUT = 3.5; // Scene 1 -> Scene 2 seam, matches the VO's "live or on demand" cue
+      var CUT = 2.0; // Scene 1 -> Scene 2 seam, matches the VO's "live or on demand" cue
+      var END = 3.989; // real, voice-synced duration — motion runs edge-to-edge to here
 
-      // --- Scene 1 (0.0-3.5s): watch-sermons.png full-bleed, slow Ken Burns push-in ---
-      tl.fromTo(
-        '.f6-sermons-img',
-        { scale: 1.0 },
-        { scale: 1.06, duration: 3.2, ease: 'power2.out' },
-        0
-      );
+      // --- Scene 1 (0.0-2.0s): watch-sermons.png full-bleed ---
 
-      // Caption card ("Watch") fades in + rises slightly, timed to the "watch every
-      // service" VO cue (~1.6s into the line).
+      // Caption card ("Watch") fades in within the first ~0.3s, landing on
+      // "watch every service" near the top of the VO line.
       tl.fromTo(
         '.f6-caption-1',
         { opacity: 0, y: 18 },
-        { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' },
-        1.6
+        { opacity: 1, y: 0, duration: 0.3, ease: 'power2.out' },
+        0.1
+      );
+
+      // Continuous push-in on the sermons plate: constant velocity (linear, no
+      // ease-out) across the entire Scene 1 window so the camera is still moving,
+      // not settled, the instant it reaches the cut at CUT.
+      tl.fromTo(
+        '.f6-sermons-img',
+        { scale: 1.0 },
+        { scale: 1.09, duration: CUT, ease: 'none' },
+        0
       );
 
       // --- Cut the Curve: Scene 1 -> Scene 2, leftward, velocity-matched ---
       // Exit: sermons slide (carrying its caption card) accelerates left, fading out
-      // well before the cut lands so nothing is visible mid-swap.
+      // before the cut lands so nothing is visible mid-swap.
       tl.fromTo(
         '.f6-sermons-slide',
         { x: 0 },
@@ -145,8 +150,9 @@
         CUT - 0.3
       );
 
-      // Entry: live slide continues the same leftward motion from the mirrored offset,
-      // decelerating into place; opacity picks up already mid-fade for velocity match.
+      // Entry: live slide continues the same leftward motion from the mirrored
+      // offset, decelerating into place; opacity picks up already mid-fade for a
+      // velocity-matched, invisible swap at the cut.
       tl.fromTo(
         '.f6-live-slide',
         { x: 230, opacity: 0.35 },
@@ -154,19 +160,17 @@
         CUT
       );
 
-      // Continued gentle push-in on the Watch Live page once it lands, easing to a
-      // stop well before the frame ends, then holding perfectly still — the VO has
-      // already finished (~4.0s) and the remainder is a silent, legible hold.
+      // --- Scene 2 (2.0-3.989s): watch-live.png, push-in continues right through ---
+      // Same constant-velocity push-in treatment, sized to run for the rest of the
+      // frame's real duration exactly — it is still accelerating the camera in at
+      // the very last frame. No settle, no static hold: this IS the end of the shot,
+      // the root transition (not us) owns the cut out.
       tl.fromTo(
         '.f6-live-img',
         { scale: 1.0 },
-        { scale: 1.045, duration: 1.6, ease: 'power2.out' },
+        { scale: 1.06, duration: END - CUT, ease: 'none' },
         CUT
       );
-
-      // Hold silently through the end of the 5.8s duration — no exit tween (this is a
-      // mid-storyboard frame; the root transition owns the cut out).
-      tl.to({}, { duration: 5.8 - (CUT + 1.6) });
 
       window.__timelines['06-watch'] = tl;
     })();
