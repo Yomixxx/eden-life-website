@@ -1,0 +1,139 @@
+<template data-composition-id="03-real-welcome">
+  <style>
+    #root {
+      width: 1920px;
+      height: 1080px;
+      position: relative;
+      overflow: hidden;
+      container-type: size;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .clip {
+      position: absolute;
+    }
+
+    /* full-bleed safety ground beneath the photo layers */
+    #rw3-ground {
+      inset: 0;
+      background: #080f0e;
+    }
+
+    /* full-bleed photo beats */
+    .rw3-photo {
+      inset: 0;
+      overflow: hidden;
+    }
+
+    .rw3-photo-img {
+      position: absolute;
+      top: 0;
+      left: -230px;
+      width: calc(100% + 460px);
+      height: 100%;
+      object-fit: cover;
+      object-position: center 32%;
+      will-change: transform, opacity;
+    }
+
+    /* low-third caption chip (Scene 3) */
+    .rw3-caption-chip {
+      left: 96px;
+      top: 760px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 20px 32px;
+      background: #203B37;
+      border-radius: 6px;
+      opacity: 0;
+      will-change: transform, opacity;
+    }
+
+    .rw3-caption-accent {
+      display: block;
+      width: 2px;
+      height: 34px;
+      flex: 0 0 auto;
+      background: #5ec957;
+    }
+
+    .rw3-caption-text {
+      display: block;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 500;
+      font-size: 2cqw;
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+      color: #ffffff;
+      white-space: nowrap;
+    }
+  </style>
+
+  <div id="root">
+    <div class="clip" id="rw3-ground" data-start="0" data-duration="3.243" data-track-index="0"></div>
+
+    <div class="clip rw3-photo" id="rw3-a" data-start="0" data-duration="1.08" data-track-index="1">
+      <img class="rw3-photo-img" id="rw3-a-img" src="../../assets/community-arrivals.jpg" alt="" />
+    </div>
+
+    <div class="clip rw3-photo" id="rw3-b" data-start="1.08" data-duration="1.08" data-track-index="2">
+      <img class="rw3-photo-img" id="rw3-b-img" src="../../assets/community-smile.jpg" alt="" />
+    </div>
+
+    <div class="clip rw3-photo" id="rw3-c" data-start="2.16" data-duration="1.083" data-track-index="3">
+      <img class="rw3-photo-img" id="rw3-c-img" src="../../assets/community-mother-baby.jpg" alt="" />
+    </div>
+
+    <div class="clip rw3-caption-chip" id="rw3-caption" data-start="2.5" data-duration="0.743" data-track-index="4">
+      <span class="rw3-caption-accent"></span>
+      <span class="rw3-caption-text">Every week.</span>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script>
+    (function () {
+      var imgA = document.getElementById('rw3-a-img');
+      var imgB = document.getElementById('rw3-b-img');
+      var imgC = document.getElementById('rw3-c-img');
+      var caption = document.getElementById('rw3-caption');
+
+      var tl = gsap.timeline({ paused: true });
+
+      // Scene 1 (0.0-1.08s): community-arrivals.jpg — static hold, "Real people."
+      // (no push; three quick beats shouldn't compete with a camera move)
+
+      // Seam 1 -> Scene 2, cut-the-curve leftward at t=1.08s ("real welcome")
+      tl.to(imgA, { x: -230, ease: 'power4.in', duration: 0.3 }, 0.78);
+      tl.to(imgA, { opacity: 0, ease: 'power1.in', duration: 0.2 }, 0.78);
+      tl.fromTo(
+        imgB,
+        { x: 230, opacity: 0.3 },
+        { x: 0, opacity: 1, ease: 'power4.out', duration: 0.35 },
+        1.08
+      );
+
+      // Seam 2 -> Scene 3, cut-the-curve leftward at t=2.16s ("every single week")
+      tl.to(imgB, { x: -230, ease: 'power4.in', duration: 0.3 }, 1.86);
+      tl.to(imgB, { opacity: 0, ease: 'power1.in', duration: 0.2 }, 1.86);
+      tl.fromTo(
+        imgC,
+        { x: 230, opacity: 0.3 },
+        { x: 0, opacity: 1, ease: 'power4.out', duration: 0.35 },
+        2.16
+      );
+
+      // Low-third caption fades in once the final beat settles, holds to the end.
+      tl.fromTo(
+        caption,
+        { opacity: 0, y: 16 },
+        { opacity: 1, y: 0, ease: 'power2.out', duration: 0.4 },
+        2.5
+      );
+
+      window.__timelines = window.__timelines || {};
+      window.__timelines['03-real-welcome'] = tl;
+    })();
+  </script>
+</template>

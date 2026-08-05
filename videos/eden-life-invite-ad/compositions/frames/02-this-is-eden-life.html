@@ -1,0 +1,151 @@
+<template>
+  <style>
+    /* Root — sized to the 1920x1080 canvas, no background here (contract: ground lives on a .clip layer). */
+    #root {
+      position: relative;
+      width: 1920px;
+      height: 1080px;
+      overflow: hidden;
+    }
+
+    /* Scene 1 — full-bleed establishing shot, static camera, dimmed ~25% for legibility. */
+    .eden02-bg {
+      position: absolute;
+      inset: 0;
+    }
+    .eden02-bg-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: brightness(0.75);
+    }
+
+    /* Scene 2 — the lockup card: cream plate (layer 1) + logo/wordmark image (layer 2). */
+    .eden02-lockup {
+      position: absolute;
+      left: 700px;
+      top: 172px;
+      width: 520px;
+      height: 520px;
+    }
+    .eden02-plate {
+      width: 100%;
+      height: 100%;
+      background: #ffffff;
+      border: 2px solid #294b46;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: none;
+    }
+    .eden02-logo-img {
+      width: 420px;
+      height: 420px;
+      object-fit: contain;
+      display: block;
+    }
+
+    /* Scene 3 — the brand-green underline that self-draws beneath the lockup. */
+    .eden02-underline-wrap {
+      position: absolute;
+      left: 810px;
+      top: 732px;
+      width: 300px;
+      height: 10px;
+    }
+    .eden02-underline-svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+    }
+    .eden02-underline-path {
+      fill: none;
+      stroke: #5ec957;
+      stroke-width: 5;
+      stroke-linecap: round;
+    }
+  </style>
+
+  <div
+    id="root"
+    data-composition-id="02-this-is-eden-life"
+    data-width="1920"
+    data-height="1080"
+  >
+    <div
+      id="eden02-bg"
+      class="clip eden02-bg"
+      data-start="0"
+      data-duration="2.496"
+      data-track-index="0"
+    >
+      <img class="eden02-bg-img" src="../../assets/homepage-hero.jpg" alt="" />
+    </div>
+
+    <div
+      id="eden02-lockup"
+      class="clip eden02-lockup"
+      data-start="0"
+      data-duration="2.496"
+      data-track-index="1"
+    >
+      <div class="eden02-plate">
+        <img class="eden02-logo-img" src="../../assets/logo.jpg" alt="" />
+      </div>
+    </div>
+
+    <div
+      id="eden02-underline-wrap"
+      class="clip eden02-underline-wrap"
+      data-start="0"
+      data-duration="2.496"
+      data-track-index="2"
+    >
+      <svg class="eden02-underline-svg" viewBox="0 0 300 10" xmlns="http://www.w3.org/2000/svg">
+        <path id="eden02-underline-path" class="eden02-underline-path" d="M 0 5 L 300 5" />
+      </svg>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+  <script>
+    (function () {
+      // Measure the underline's real geometry — never a guessed length.
+      var underlinePath = document.getElementById("eden02-underline-path");
+      var underlineLen = underlinePath.getTotalLength();
+      underlinePath.style.strokeDasharray = String(underlineLen);
+      underlinePath.style.strokeDashoffset = String(underlineLen);
+
+      window.__timelines = window.__timelines || {};
+      var tl = gsap.timeline({ paused: true });
+
+      // Scene 1 (0.0–0.83s): the real place fades up, static camera, no push.
+      tl.fromTo(
+        "#eden02-bg",
+        { opacity: 0 },
+        { opacity: 1, duration: 0.7, ease: "power1.out" },
+        0,
+      );
+
+      // Scene 2 (0.83–1.66s): on "This is Eden Life," the lockup fades/scales in (~95%→100%).
+      tl.fromTo(
+        "#eden02-lockup .eden02-plate",
+        { opacity: 0, scale: 0.95 },
+        { opacity: 1, scale: 1, duration: 0.5, ease: "power3.out" },
+        0.83,
+      );
+
+      // Scene 3 (1.66–2.496s): on "come as you are," the underline self-draws; lockup holds.
+      tl.to(
+        underlinePath,
+        { strokeDashoffset: 0, duration: 0.5, ease: "power2.out" },
+        1.66,
+      );
+
+      window.__timelines["02-this-is-eden-life"] = tl;
+    })();
+  </script>
+</template>
