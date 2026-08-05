@@ -1,0 +1,166 @@
+<template>
+  <style>
+    #root {
+      width: 1920px;
+      height: 1080px;
+      position: relative;
+      overflow: hidden;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    #root .clip {
+      position: absolute;
+      inset: 0;
+    }
+
+    /* Full-bleed background: the real captured Community Groups page screenshot.
+       Dedicated class="clip" layer on the lowest track — never painted on #root. */
+    .f5-bg-layer {
+      overflow: hidden;
+    }
+
+    .f5-bg-inner {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .f5-bg-img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 1920px;
+      height: 1080px;
+      display: block;
+      transform-origin: 50% 42%;
+      will-change: transform;
+    }
+
+    /* Subtle vignette — a depth cue over the real shot, no redrawing of the UI. */
+    .f5-vignette {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: radial-gradient(
+        ellipse 82% 72% at 50% 46%,
+        rgba(0, 0, 0, 0) 55%,
+        rgba(0, 0, 0, 0.26) 100%
+      );
+    }
+
+    /* Caption card — "Connect" — sits inside the caption keep-out (top ~83%, cutoff
+       at y=896 on this 1080-tall canvas). Its own inner (non-clip) wrapper holds the
+       fade-in so nothing tweens directly on the clip-managed layer. */
+    .f5-card-outer {
+      position: absolute;
+      top: 660px;
+      left: 80px;
+      width: 560px;
+    }
+
+    .f5-card-inner {
+      background: #162421; /* colors.green */
+      border-radius: 8px;
+      padding: 32px 40px 36px;
+      will-change: transform, opacity;
+    }
+
+    .f5-card-rule {
+      width: 64px;
+      height: 2px;
+      background: #25D366; /* colors.pink */
+      margin: 0 0 18px 0;
+    }
+
+    .f5-card-headline {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 72px;
+      line-height: 0.98;
+      letter-spacing: -0.01em;
+      color: #FFFFFF;
+      margin: 0;
+    }
+  </style>
+
+  <div id="root" data-composition-id="05-connect" data-duration="5.5">
+    <!-- Track 0: full-bleed real screenshot, Ken Burns pan easing to a stop ~2.8s -->
+    <div class="clip f5-bg-layer" data-start="0" data-duration="5.5" data-track-index="0">
+      <div class="f5-bg-inner">
+        <img class="f5-bg-img" src="assets/connect-community-groups.png" alt="" />
+      </div>
+    </div>
+
+    <!-- Track 1: vignette, purely a non-photographic depth cue over the real shot -->
+    <div class="clip" data-start="0" data-duration="5.5" data-track-index="1">
+      <div class="f5-vignette"></div>
+    </div>
+
+    <!-- Track 2: "Connect" caption card, fading in on "community groups" -->
+    <div class="clip" data-start="0" data-duration="5.5" data-track-index="2">
+      <div class="f5-card-outer">
+        <div class="f5-card-inner">
+          <div class="f5-card-rule"></div>
+          <h2 class="f5-card-headline">Connect</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="assets/vendor/gsap.min.js"></script>
+  <script>
+    (function () {
+      window.__timelines = window.__timelines || {};
+
+      var tl = gsap.timeline({ paused: true });
+
+      // Scene 1 (0.0–5.5s): the real Community Groups page, full-bleed, with a slow
+      // Ken Burns pan+settle that begins immediately at t=0 and eases to a stop by
+      // ~2.8s. The "Connect" caption card fades in early, timed to the VO's opening
+      // words ("community groups"), then the frame holds silently on the real page
+      // for the remainder of the 5.5s duration — no exit, this is a mid-storyboard
+      // frame and the root transition owns the cut out.
+
+      // Ken Burns pan — starts slightly zoomed/offset, eases to a settled resting
+      // frame by 2.8s.
+      tl.fromTo(
+        '.f5-bg-img',
+        { scale: 1.09, xPercent: 1.6, yPercent: 1.0 },
+        {
+          scale: 1.03,
+          xPercent: 0,
+          yPercent: 0,
+          duration: 2.8,
+          ease: 'power2.out',
+        },
+        0
+      );
+
+      // Vignette breathes in alongside the pan, reinforcing focus without ever
+      // obscuring the real page content already on screen.
+      tl.fromTo(
+        '.f5-vignette',
+        { opacity: 0.55 },
+        { opacity: 1, duration: 2.8, ease: 'power2.out' },
+        0
+      );
+
+      // "Connect" caption card — fades and rises in gently, cued to the VO's
+      // opening words "community groups" (hero — the real page — is already fully
+      // visible at t=0, well inside the t<=0.5s hero-visibility floor).
+      tl.fromTo(
+        '.f5-card-inner',
+        { opacity: 0, yPercent: 12 },
+        { opacity: 1, yPercent: 0, duration: 0.7, ease: 'power2.out' },
+        0.35
+      );
+
+      // Hold silently from ~2.8s through the end of the 5.5s duration — VO finishes
+      // near 2.7s, the frame keeps resting on the real page for the rest of its run.
+      tl.to({}, { duration: 5.5 - 2.8 });
+
+      window.__timelines['05-connect'] = tl;
+    })();
+  </script>
+</template>

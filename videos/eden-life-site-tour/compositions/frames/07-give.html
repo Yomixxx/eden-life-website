@@ -1,0 +1,167 @@
+<template>
+  <style>
+    #root {
+      width: 1920px;
+      height: 1080px;
+      position: relative;
+      overflow: hidden;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    #root .clip {
+      position: absolute;
+      inset: 0;
+    }
+
+    /* --- background: real captured Give page screenshot, full-bleed --- */
+    .f7-bg-layer {
+      overflow: hidden;
+    }
+
+    .f7-bg-inner {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .f7-bg-img {
+      position: absolute;
+      top: -4%;
+      left: -4%;
+      width: 108%;
+      height: 108%;
+      display: block;
+      object-fit: cover;
+      transform-origin: 50% 46%;
+      will-change: transform;
+    }
+
+    /* subtle vignette so the caption card reads over the real screenshot
+       without repainting any of the page UI */
+    .f7-vignette {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: linear-gradient(
+        180deg,
+        rgba(8, 15, 14, 0.4) 0%,
+        rgba(8, 15, 14, 0) 22%,
+        rgba(8, 15, 14, 0) 62%,
+        rgba(8, 15, 14, 0.42) 100%
+      );
+    }
+
+    /* --- caption card: "Give" --- */
+    .f7-card-wrap {
+      position: absolute;
+      left: 96px;
+      top: 700px;
+      width: auto;
+    }
+
+    .f7-card {
+      display: inline-flex;
+      align-items: center;
+      gap: 22px;
+      background-color: #0d1917;
+      border: 2px solid #25D366;
+      border-radius: 6px;
+      padding: 22px 38px;
+    }
+
+    .f7-card-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background-color: #25D366;
+      flex: none;
+    }
+
+    .f7-card-label {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 56px;
+      line-height: 0.98;
+      letter-spacing: -0.01em;
+      color: #FFFFFF;
+      white-space: nowrap;
+    }
+  </style>
+
+  <div id="root" data-composition-id="07-give" data-duration="5.0">
+    <!-- Full-bleed background: real captured Give page screenshot.
+         Dedicated class="clip" layer on the lowest track, never painted on #root. -->
+    <div class="clip f7-bg-layer" data-start="0" data-duration="5.0" data-track-index="0">
+      <div class="f7-bg-inner">
+        <img class="f7-bg-img" src="assets/give.png" alt="" />
+      </div>
+    </div>
+
+    <!-- Vignette overlay: gentle, non-photographic depth cue over the real shot -->
+    <div class="clip" data-start="0" data-duration="5.0" data-track-index="1">
+      <div class="f7-vignette"></div>
+    </div>
+
+    <!-- Caption card: single-word emphasis "Give", fades in on the "give online" cue -->
+    <div class="clip" data-start="0" data-duration="5.0" data-track-index="2">
+      <div class="f7-card-wrap">
+        <div class="f7-card">
+          <div class="f7-card-dot"></div>
+          <div class="f7-card-label">Give</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="assets/vendor/gsap.min.js"></script>
+  <script>
+    (function () {
+      window.__timelines = window.__timelines || {};
+
+      var tl = gsap.timeline({ paused: true });
+
+      // Scene 1 (0.0-5.0s): give.png full-bleed, slow Ken Burns pan begins at t=0
+      // and eases to a stop by ~2.5s (gentle scale + drift, no invented graphics —
+      // this is a real captured screenshot of the live Give page).
+      tl.fromTo(
+        '.f7-bg-img',
+        { scale: 1.0, xPercent: 0, yPercent: 0 },
+        {
+          scale: 1.07,
+          xPercent: -2.2,
+          yPercent: -1.4,
+          duration: 2.5,
+          ease: 'power2.out',
+        },
+        0
+      );
+
+      // Vignette breathes in very slightly alongside the pan, reinforcing focus
+      // without ever obscuring the real page beneath it.
+      tl.fromTo(
+        '.f7-vignette',
+        { opacity: 0.55 },
+        { opacity: 1, duration: 2.5, ease: 'power2.out' },
+        0
+      );
+
+      // Caption card ("Give") fades in on the "give online" cue near the top of
+      // the voiceover — a short rise + fade, landing well before the VO ends (~2.2s).
+      tl.fromTo(
+        '.f7-card-wrap',
+        { opacity: 0, y: 18 },
+        { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' },
+        0.3
+      );
+
+      // Hold silently on the page for the remainder of the 5.0s duration — the VO
+      // ends near 2.2s, the pan has already settled by 2.5s; no further motion,
+      // no exit tween (mid-storyboard frame — the root transition owns the cut out).
+      tl.to({}, { duration: 5.0 - 2.5 }, 2.5);
+
+      window.__timelines['07-give'] = tl;
+    })();
+  </script>
+</template>
