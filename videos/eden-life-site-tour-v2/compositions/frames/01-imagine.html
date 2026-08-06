@@ -1,0 +1,117 @@
+<template>
+  <style>
+    #root {
+      width: 1920px;
+      height: 1080px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #root .clip {
+      position: absolute;
+      inset: 0;
+    }
+
+    /* Full-bleed background: the real homepage hero, softly blurred so it reads
+       as a half-glimpsed "imagine this" moment rather than the legible page. */
+    .imagine-bg-layer {
+      overflow: hidden;
+    }
+
+    .imagine-bg-inner {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .imagine-bg-img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 1920px;
+      height: 1080px;
+      display: block;
+      object-fit: cover;
+      filter: blur(6px);
+      /* Pivot biased toward the stage/pulpit area of the photo (upper-mid-right)
+         so the continuous push-in reads as drifting TOWARD the stage. */
+      transform-origin: 60% 32%;
+      will-change: transform;
+    }
+
+    /* Dim scrim over the photo — this is the "before" half of the Frame 1/3
+       callback: soft, dark, unresolved. No caption card rides on top of it. */
+    .imagine-dim {
+      position: absolute;
+      inset: 0;
+      background: #000;
+      will-change: opacity;
+    }
+  </style>
+
+  <div
+    id="root"
+    data-composition-id="01-imagine"
+    data-width="1920"
+    data-height="1080"
+    data-duration="1.835"
+  >
+    <!-- Full-bleed background layer: real captured hero photo, lowest track. -->
+    <div class="clip imagine-bg-layer" data-start="0" data-duration="1.835" data-track-index="0">
+      <div class="imagine-bg-inner">
+        <img class="imagine-bg-img" src="assets/home-hero.png" alt="" />
+      </div>
+    </div>
+
+    <!-- Dim scrim, sits above the background on its own track. -->
+    <div class="clip" data-start="0" data-duration="1.835" data-track-index="1">
+      <div class="imagine-dim"></div>
+    </div>
+  </div>
+
+  <script src="assets/vendor/gsap.min.js"></script>
+  <script>
+    (function () {
+      window.__timelines = window.__timelines || {};
+
+      var tl = gsap.timeline({ paused: true });
+
+      var DUR = 1.835;
+
+      // Scene 1 (0.0–1.835s): home-hero.png full-bleed, dimmed and softly blurred.
+      // A continuous, clearly-visible push-in runs at a constant (linear) rate
+      // from t=0 straight through to the cut — never easing to a stop, never
+      // holding still. The pivot is biased toward the stage/pulpit so the drift
+      // reads as moving IN toward the stage. This is the "before" half of the
+      // Frame 1/3 callback; Frame 3 revisits the same photo, full-bright, from a
+      // different crop — handled by a sibling worker.
+      tl.fromTo(
+        '.imagine-bg-img',
+        { scale: 1.04, xPercent: 0, yPercent: 0 },
+        {
+          scale: 1.24,
+          xPercent: -1.6,
+          yPercent: -1.9,
+          duration: DUR,
+          ease: 'none',
+        },
+        0
+      );
+
+      // The scrim deepens continuously in lockstep with the push so the frame
+      // never reads as "parked" at a fixed dim level. Lands around ~55% dim.
+      tl.fromTo(
+        '.imagine-dim',
+        { opacity: 0.46 },
+        { opacity: 0.6, duration: DUR, ease: 'none' },
+        0
+      );
+
+      // No hold, no exit tween: the push is still visibly live on the final
+      // rendered frame and the root transition (a hard cut) is the exit.
+      window.__timelines['01-imagine'] = tl;
+    })();
+  </script>
+</template>
