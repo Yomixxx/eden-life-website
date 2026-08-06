@@ -1,0 +1,190 @@
+<template>
+  <style>
+    #root {
+      position: relative;
+      width: 1920px;
+      height: 1080px;
+      overflow: hidden;
+    }
+
+    #root .clip {
+      position: absolute;
+      inset: 0;
+      width: 1920px;
+      height: 1080px;
+      overflow: hidden;
+    }
+
+    /* Full-bleed ground layer — safety base beneath both screenshots, never on #root itself. */
+    .taught-bg {
+      background: #162421; /* frame.md colors.green */
+    }
+
+    /* Screenshot plates: the .clip only gates visibility; every tween below runs on
+       these inner, non-clip wrappers (never on the .clip element itself) so the
+       internal cut-the-curve seam at t=2.0s never touches a clip-gated node. */
+    .taught-scene1-inner,
+    .taught-scene2-inner {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      transform-origin: 50% 50%;
+      will-change: transform, opacity, filter;
+    }
+
+    /* Scene 2 starts invisible by default; the GSAP fromTo below drives it from
+       here — no reliance on any pre-cut hold value, the clip's own [2.0, 4.181)
+       window keeps it fully hidden before the hard cut regardless. */
+    .taught-scene2-inner {
+      opacity: 0;
+    }
+
+    .taught-scene1-img,
+    .taught-scene2-img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 1920px;
+      height: 1080px;
+      display: block;
+      object-fit: cover;
+    }
+
+    /* Caption card — non-clip wrapper carries the entrance + drift + exit tweens. */
+    .taught-caption-inner {
+      position: absolute;
+      left: 96px; /* 5cqw safe-area, frame.md spacing.slide-pad */
+      top: 588px;
+      width: 760px;
+      opacity: 0;
+      will-change: transform, opacity;
+    }
+
+    .taught-caption-card {
+      background: #162421; /* frame.md colors.green */
+      border-radius: 8px;
+      padding: 40px 52px 44px;
+      box-shadow: none; /* flat, paper-based depth — no shadow per frame.md */
+    }
+
+    .taught-caption-rule {
+      width: 64px;
+      height: 2px;
+      background: #25D366; /* frame.md colors.pink — accent rule on a green ground */
+      margin-bottom: 20px;
+    }
+
+    .taught-caption-text {
+      margin: 0;
+      font-family: Montserrat, sans-serif;
+      font-weight: 800;
+      font-size: 58px;
+      line-height: 1.12;
+      letter-spacing: -0.01em;
+      color: #FFFFFF; /* frame.md colors.ink */
+    }
+  </style>
+
+  <div
+    id="root"
+    data-composition-id="04-taught"
+    data-width="1920"
+    data-height="1080"
+    data-duration="4.181"
+  >
+    <!-- Base ground, lowest track. -->
+    <div class="clip taught-bg" data-start="0" data-duration="4.181" data-track-index="0"></div>
+
+    <!-- Scene 1 (0.0–2.0s): Sermons library, full-bleed, continuous push-in from t=0. -->
+    <div class="clip" data-start="0" data-duration="2.0" data-track-index="1">
+      <div class="taught-scene1-inner">
+        <img class="taught-scene1-img" src="assets/watch-sermons.png" alt="" />
+      </div>
+    </div>
+
+    <!-- Scene 2 (2.0–4.181s): Watch Live, cut-the-curve continuation of the same push-in. -->
+    <div class="clip" data-start="2.0" data-duration="2.181" data-track-index="2">
+      <div class="taught-scene2-inner">
+        <img class="taught-scene2-img" src="assets/watch-live.png" alt="" />
+      </div>
+    </div>
+
+    <!-- Caption card, above both plates, alive only through Scene 1. -->
+    <div class="clip" data-start="0" data-duration="2.0" data-track-index="3">
+      <div class="taught-caption-inner">
+        <div class="taught-caption-card">
+          <div class="taught-caption-rule"></div>
+          <p class="taught-caption-text">You&rsquo;re taught, not talked at.</p>
+        </div>
+      </div>
+    </div>
+
+    <script src="assets/vendor/gsap.min.js"></script>
+    <script>
+    (function () {
+      var root = document.currentScript.closest('#root') || document.getElementById('root');
+      var scene1 = root.querySelector('.taught-scene1-inner');
+      var scene2 = root.querySelector('.taught-scene2-inner');
+      var caption = root.querySelector('.taught-caption-inner');
+
+      var tl = gsap.timeline({ paused: true });
+
+      // ---- Scene 1 (0.0–2.0s): Sermons library --------------------------------
+      // The whole point of this frame: one continuous, constant-rate push-in.
+      // Rate is 0.06 scale-units/second, matched exactly across the internal cut
+      // so the zoom never stutters, eases, or holds at the t=2.0s seam.
+      tl.fromTo(scene1, { scale: 1.0 }, { scale: 1.12, duration: 2.0, ease: 'none' }, 0);
+
+      // Cut-the-curve exit (leftward): accelerates out over the last 0.3s before
+      // the hard cut. Blur is full-frame-surface scale (20px peak) per the cut
+      // catalog; opacity fades out early (0.21s) so it's fully gone before the
+      // curve's translate finishes, "vanishing while still visibly accelerating."
+      tl.fromTo(scene1, { x: 0 }, { x: -220, duration: 0.3, ease: 'power4.in' }, 1.7);
+      tl.fromTo(scene1, { opacity: 1 }, { opacity: 0, duration: 0.21, ease: 'none' }, 1.7);
+      tl.fromTo(
+        scene1,
+        { filter: 'blur(0px)' },
+        { filter: 'blur(20px)', duration: 0.3, ease: 'power4.in' },
+        1.7
+      );
+
+      // ---- Scene 2 (2.0–4.181s): Watch Live -----------------------------------
+      // Entry mirrors the exit exactly: same distance (220px), matched duration
+      // relationship (entry 0.34s >= exit 0.3s), opposite-side start (x:+220),
+      // and the SAME leftward direction so it reads as one continuous carry.
+      tl.fromTo(scene2, { x: 220 }, { x: 0, duration: 0.34, ease: 'power4.out' }, 2.0);
+      tl.fromTo(scene2, { opacity: 0.15 }, { opacity: 1, duration: 0.34, ease: 'power4.out' }, 2.0);
+      tl.fromTo(
+        scene2,
+        { filter: 'blur(20px)' },
+        { filter: 'blur(0px)', duration: 0.34, ease: 'power4.out' },
+        2.0
+      );
+
+      // Continuous push-in continues at the IDENTICAL rate (0.06/s) picking up
+      // exactly where Scene 1 left off (1.12) — this is what makes the zoom read
+      // as one unbroken camera move straight through the cut to 4.181s.
+      tl.fromTo(scene2, { scale: 1.12 }, { scale: 1.251, duration: 2.181, ease: 'none' }, 2.0);
+
+      // ---- Caption card --------------------------------------------------------
+      // Lands within the first 0.4s via a real fromTo entrance (never a CSS-hidden
+      // starting state), then keeps a small continuous linear drift once landed —
+      // never sitting static — and fades out in step with Scene 1's own exit so it
+      // never lingers over the new plate.
+      tl.fromTo(
+        caption,
+        { opacity: 0, y: 16 },
+        { opacity: 1, y: 0, duration: 0.38, ease: 'power2.out' },
+        0
+      );
+      tl.fromTo(caption, { y: 0 }, { y: -14, duration: 1.32, ease: 'none' }, 0.38);
+      tl.fromTo(caption, { opacity: 1, y: -14 }, { opacity: 0, y: -26, duration: 0.25, ease: 'power1.in' }, 1.7);
+
+      window.__timelines = window.__timelines || {};
+      window.__timelines['04-taught'] = tl;
+    })();
+  </script>
+  </div>
+</template>
