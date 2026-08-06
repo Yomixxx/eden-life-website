@@ -1,0 +1,170 @@
+<template><div id="root" data-composition-id="06-next-step" data-width="1920" data-height="1080" data-duration="2.795">
+  <style>
+    #root {
+      position: relative;
+      width: 1920px;
+      height: 1080px;
+      overflow: hidden;
+      container-type: size;
+      font-family: "Poppins", sans-serif;
+    }
+
+    #root .ns06-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 28%;
+      transform-origin: 50% 50%;
+      will-change: transform;
+    }
+
+    #root .ns06-scrim {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg,
+          rgba(8, 15, 14, 0.62) 0%,
+          rgba(8, 15, 14, 0.18) 22%,
+          rgba(8, 15, 14, 0.30) 55%,
+          rgba(8, 15, 14, 0.68) 100%);
+    }
+
+    #root .ns06-topbar {
+      position: absolute;
+      top: 4.6cqh;
+      left: 5cqw;
+      right: 5cqw;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      opacity: 0;
+    }
+
+    #root .ns06-topbar-label {
+      font-family: ui-monospace, "SF Mono", "Courier New", monospace;
+      font-size: 1.25cqw;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #FFFFFF;
+      background: rgba(17, 31, 29, 0.55);
+      border: 2px solid #25D366;
+      border-radius: 6px;
+      padding: 0.55cqw 1.4cqw;
+    }
+
+    #root .ns06-topbar-count {
+      font-family: ui-monospace, "SF Mono", "Courier New", monospace;
+      font-size: 1.25cqw;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      color: #25D366;
+      background: rgba(17, 31, 29, 0.55);
+      border: 2px solid #25D366;
+      border-radius: 6px;
+      padding: 0.55cqw 1.2cqw;
+    }
+
+    #root .ns06-card {
+      position: absolute;
+      left: 5cqw;
+      top: 34cqh;
+      max-width: 40cqw;
+      background: #111f1d;
+      border: 2.5px solid #25D366;
+      border-radius: 8px;
+      padding: 3cqw 3.4cqw;
+      opacity: 0;
+    }
+
+    #root .ns06-card-rule {
+      display: block;
+      width: 3.4cqw;
+      height: 2.5px;
+      background: #25D366;
+      margin-bottom: 1.3cqw;
+    }
+
+    #root .ns06-card-label {
+      display: block;
+      font-family: ui-monospace, "SF Mono", "Courier New", monospace;
+      font-size: 1.3cqw;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #25D366;
+      margin-bottom: 1.1cqw;
+    }
+
+    #root .ns06-card-title {
+      margin: 0;
+      font-family: "Montserrat", sans-serif;
+      font-weight: 800;
+      font-size: 4.1cqw;
+      line-height: 0.98;
+      letter-spacing: -0.01em;
+      color: #FFFFFF;
+    }
+
+    #root .ns06-card-title .ns06-accent {
+      color: #5EC957;
+    }
+  </style>
+
+  <div class="ns06-stage">
+    <img
+      class="clip ns06-bg"
+      src="assets/grow-growth-steps.png"
+      alt=""
+      data-start="0"
+      data-duration="2.795"
+      data-track-index="0"
+    />
+
+    <div class="clip ns06-scrim" data-start="0" data-duration="2.795" data-track-index="1"></div>
+
+    <div class="clip ns06-topbar" data-start="0" data-duration="2.795" data-track-index="2">
+      <span class="ns06-topbar-label">Growth &middot; Discipleship Pathway</span>
+      <span class="ns06-topbar-count">06</span>
+    </div>
+
+    <div class="clip ns06-card" data-start="0" data-duration="2.795" data-track-index="3">
+      <span class="ns06-card-rule"></span>
+      <span class="ns06-card-label">Your Next Step</span>
+      <h2 class="ns06-card-title">There&rsquo;s a <span class="ns06-accent">next step.</span></h2>
+    </div>
+  </div>
+
+  <script src="assets/vendor/gsap.min.js"></script>
+  <script>
+    (function () {
+      var root = document.currentScript.closest("#root");
+      var bg = root.querySelector(".ns06-bg");
+      var topbar = root.querySelector(".ns06-topbar");
+      var card = root.querySelector(".ns06-card");
+
+      var tl = gsap.timeline({ paused: true });
+      window.__timelines = window.__timelines || {};
+      window.__timelines["06-next-step"] = tl;
+
+      // Continuous constant-rate push-in, running unbroken from t=0 to the cut — never eases to a stop.
+      tl.fromTo(bg, { scale: 1.0 }, { scale: 1.2, duration: 2.795, ease: "none" }, 0);
+
+      // Topbar chrome settles in quickly, then holds.
+      tl.fromTo(topbar, { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power1.out" }, 0.05);
+
+      // Caption card fades/lands within the first ~0.4s.
+      tl.fromTo(
+        card,
+        { opacity: 0, y: 26, scale: 0.94 },
+        { opacity: 1, y: 0, scale: 1, duration: 0.4, ease: "power2.out" },
+        0
+      );
+
+      // Small continuous drift once landed — keeps moving straight through to the cut, never static.
+      tl.to(card, { x: 16, y: -12, duration: 2.795 - 0.4, ease: "none" }, 0.4);
+    })();
+  </script>
+</div></template>

@@ -1,0 +1,189 @@
+<template>
+  <style>
+    #root {
+      width: 1920px;
+      height: 1080px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #root .clip {
+      position: absolute;
+      inset: 0;
+    }
+
+    /* Full-bleed background: the real testimonies page. A continuous,
+       clearly-visible pan runs the entire shot at a constant (linear) rate —
+       it never eases to a stop and never holds still, right up to the cut. */
+    .cl-bg-layer {
+      overflow: hidden;
+    }
+
+    .cl-bg-inner {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .cl-bg-img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 1920px;
+      height: 1080px;
+      display: block;
+      object-fit: cover;
+      transform-origin: 50% 42%;
+      will-change: transform;
+    }
+
+    /* Soft scrim so the caption card stays legible over the busy page
+       screenshot; it deepens gently across the shot in lockstep with the
+       pan rather than sitting parked at one value. */
+    .cl-scrim {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        180deg,
+        rgba(8, 15, 14, 0) 40%,
+        rgba(8, 15, 14, 0.55) 78%,
+        rgba(8, 15, 14, 0.72) 100%
+      );
+      will-change: opacity;
+    }
+
+    /* Caption card — sits low-left, fully inside the 83% keep-out line
+       (bottom edge of the card is well above y=896 on this 1080-tall
+       canvas). Positioned with inset/left/bottom so the GSAP-driven
+       transform (opacity/x/y) never collides with a CSS transform. */
+    .cl-card {
+      position: absolute;
+      left: 100px;
+      bottom: 210px;
+      max-width: 760px;
+      padding: 34px 44px;
+      background: #162421;
+      border-radius: 6px;
+      opacity: 0;
+      will-change: opacity, transform;
+    }
+
+    .cl-card-rule {
+      width: 64px;
+      height: 2px;
+      background: #25d366;
+      margin-bottom: 18px;
+    }
+
+    .cl-card-label {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+      font-size: 22px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #ffffff;
+      margin: 0 0 14px 0;
+    }
+
+    .cl-card-headline {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 56px;
+      line-height: 1.05;
+      letter-spacing: -0.01em;
+      color: #25d366;
+      margin: 0;
+    }
+  </style>
+
+  <div
+    id="root"
+    data-composition-id="09-changing-lives"
+    data-width="1920"
+    data-height="1080"
+    data-duration="3.349"
+  >
+    <!-- Full-bleed background: testimonies page screenshot, lowest track. -->
+    <div class="clip cl-bg-layer" data-start="0" data-duration="3.349" data-track-index="0">
+      <div class="cl-bg-inner">
+        <img class="cl-bg-img" src="assets/testimonies.png" alt="" />
+      </div>
+    </div>
+
+    <!-- Scrim, above the background on its own track. -->
+    <div class="clip" data-start="0" data-duration="3.349" data-track-index="1">
+      <div class="cl-scrim"></div>
+    </div>
+
+    <!-- Caption card, top track. -->
+    <div class="clip" data-start="0" data-duration="3.349" data-track-index="2">
+      <div class="cl-card">
+        <div class="cl-card-rule"></div>
+        <p class="cl-card-label">Social proof</p>
+        <p class="cl-card-headline">Real stories.<br />Real people.</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="assets/vendor/gsap.min.js"></script>
+  <script>
+    (function () {
+      window.__timelines = window.__timelines || {};
+
+      var tl = gsap.timeline({ paused: true });
+
+      var DUR = 3.349;
+      var CARD_IN = 0.4;
+
+      // Scene 1 (0.0–3.349s): testimonies.png full-bleed. The pan runs at a
+      // clearly visible, constant (linear) rate for the entire shot — it
+      // starts moving at t=0 and is still moving on the final rendered
+      // frame; it never eases to a stop and never holds still.
+      tl.fromTo(
+        '.cl-bg-img',
+        { scale: 1.16, xPercent: -2.4, yPercent: -1.6 },
+        {
+          scale: 1.26,
+          xPercent: 2.6,
+          yPercent: 2.2,
+          duration: DUR,
+          ease: 'none',
+        },
+        0
+      );
+
+      // Scrim deepens continuously alongside the pan rather than sitting at
+      // one fixed level for the whole shot.
+      tl.fromTo(
+        '.cl-scrim',
+        { opacity: 0.85 },
+        { opacity: 1, duration: DUR, ease: 'none' },
+        0
+      );
+
+      // Caption card fades in within the first ~0.4s...
+      tl.fromTo(
+        '.cl-card',
+        { opacity: 0, y: 26 },
+        { opacity: 1, y: 0, duration: CARD_IN, ease: 'power2.out' },
+        0
+      );
+
+      // ...then keeps a small continuous drift once landed, so the card is
+      // never a static, front-loaded slide for the remainder of the shot.
+      tl.fromTo(
+        '.cl-card',
+        { y: 0 },
+        { y: -14, duration: DUR - CARD_IN, ease: 'none' },
+        CARD_IN
+      );
+
+      // No hold, no exit tween: both the pan and the card drift are still
+      // visibly live on the final rendered frame; the root transition
+      // (crossfade, stamped by the injector) is the exit.
+      window.__timelines['09-changing-lives'] = tl;
+    })();
+  </script>
+</template>

@@ -1,0 +1,200 @@
+<template>
+  <style>
+    #root {
+      width: 1920px;
+      height: 1080px;
+      position: relative;
+      overflow: hidden;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    #root .clip {
+      position: absolute;
+      inset: 0;
+    }
+
+    /* ---- full-bleed real screenshot (background ground, lowest track) ---- */
+    .f07-bg-layer {
+      overflow: hidden;
+    }
+
+    .f07-bg-inner {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .f07-bg-img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 1920px;
+      height: 1080px;
+      display: block;
+      object-fit: cover;
+      transform-origin: 50% 42%;
+      will-change: transform;
+    }
+
+    /* subtle dark scrim — depth cue + legibility for the caption card, never
+       repaints the real captured UI underneath it */
+    .f07-scrim {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: linear-gradient(
+        180deg,
+        rgba(8, 15, 14, 0) 40%,
+        rgba(8, 15, 14, 0.72) 100%
+      );
+    }
+
+    /* ---- "It's happening now." caption card ---- */
+    .f07-card-layer {
+      overflow: hidden;
+    }
+
+    .f07-card {
+      position: absolute;
+      left: 96px;
+      top: 706px;
+      display: inline-flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 28px 44px 32px;
+      background: #111f1d;
+      border: 2px solid #25D366;
+      border-radius: 8px;
+      will-change: transform, opacity;
+    }
+
+    .f07-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 500;
+      font-size: 22px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #cfead6;
+    }
+
+    .f07-kicker-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #25D366;
+      flex: none;
+    }
+
+    .f07-title {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 52px;
+      line-height: 1.05;
+      letter-spacing: -0.01em;
+      color: #ffffff;
+    }
+
+    .f07-title span {
+      color: #25D366;
+    }
+  </style>
+
+  <div
+    id="root"
+    data-composition-id="07-happening"
+    data-width="1920"
+    data-height="1080"
+    data-duration="3.349"
+  >
+    <!-- Full-bleed background: real captured Events listing screenshot (God Moment: 21
+         Days card visible on the page). Dedicated class="clip" layer, lowest track —
+         never painted on #root. -->
+    <div class="clip f07-bg-layer" data-start="0" data-duration="3.349" data-track-index="0">
+      <div class="f07-bg-inner">
+        <img class="f07-bg-img" src="assets/events-index.png" alt="" />
+      </div>
+    </div>
+
+    <!-- Scrim: deepens in lockstep with the push so the frame never reads as parked. -->
+    <div class="clip" data-start="0" data-duration="3.349" data-track-index="1">
+      <div class="f07-scrim"></div>
+    </div>
+
+    <!-- "It's happening now." caption card: fades in within the first ~0.4s on the
+         "always something happening" voiceover cue, then keeps a small continuous
+         drift rather than sitting static once landed. The push-in beneath it never
+         stops or eases out — this card landing is not a camera-stop cue. -->
+    <div class="clip f07-card-layer" data-start="0" data-duration="3.349" data-track-index="2" data-layout-allow-overlap>
+      <div class="f07-card" id="f07-card">
+        <div class="f07-kicker"><span class="f07-kicker-dot"></span>Right now</div>
+        <div class="f07-title">It's happening <span>now.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="assets/vendor/gsap.min.js"></script>
+  <script>
+    (function () {
+      window.__timelines = window.__timelines || {};
+
+      var tl = gsap.timeline({ paused: true });
+      var DUR = 3.349;
+
+      // Scene 1 (0.0–3.349s): events-index.png full-bleed, ONE continuous push-in
+      // that runs from t=0 all the way to the cut at a constant, clearly visible
+      // rate — linear ease throughout so the velocity never eases to a stop and
+      // never plateaus into a hold.
+      tl.fromTo(
+        '.f07-bg-img',
+        { scale: 1.0, xPercent: 0, yPercent: 0 },
+        {
+          scale: 1.16,
+          xPercent: -1.2,
+          yPercent: -1.0,
+          duration: DUR,
+          ease: 'none',
+        },
+        0
+      );
+
+      // Scrim deepens continuously in lockstep with the push, across the full
+      // duration — no early plateau.
+      tl.fromTo(
+        '.f07-scrim',
+        { opacity: 0.55 },
+        { opacity: 0.85, duration: DUR, ease: 'none' },
+        0
+      );
+
+      // Caption card entrance: fades + rises in within the first ~0.4s, right on
+      // the "always something happening" voiceover cue.
+      tl.fromTo(
+        '#f07-card',
+        { opacity: 0, y: 22, x: 0 },
+        { opacity: 1, y: 0, x: 0, duration: 0.38, ease: 'power2.out' },
+        0
+      );
+
+      // Once landed, the card keeps a small continuous drift (never sits static)
+      // for the remainder of the shot — a single linear tween, no repeat/yoyo, so
+      // it stays deterministic and seek-safe.
+      tl.fromTo(
+        '#f07-card',
+        { y: 0, x: 0 },
+        { y: -12, x: 6, duration: DUR - 0.38, ease: 'none' },
+        0.38
+      );
+
+      // No hold, no exit tween: the push and the card drift are both still
+      // visibly live on the final rendered frame; the root transition (crossfade)
+      // is the exit for this mid-storyboard frame.
+      window.__timelines['07-happening'] = tl;
+    })();
+  </script>
+</template>

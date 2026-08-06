@@ -1,0 +1,175 @@
+<template>
+  <style>
+    #root {
+      width: 1920px;
+      height: 1080px;
+      position: relative;
+      overflow: hidden;
+      background: #000;
+    }
+
+    #root .clip {
+      position: absolute;
+      inset: 0;
+    }
+
+    /* Full-bleed background: the real giving page, on its own clip layer per
+       the contract (never painted on #root). */
+    .giving-bg-layer {
+      overflow: hidden;
+    }
+
+    .giving-bg-inner {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .giving-bg-img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 1920px;
+      height: 1080px;
+      display: block;
+      object-fit: cover;
+      transform-origin: 50% 50%;
+      will-change: transform;
+    }
+
+    /* Scrim so the caption card stays legible over the real screenshot
+       (product-launch background rule: dim a full-bleed background ~30-50%). */
+    .giving-dim {
+      position: absolute;
+      inset: 0;
+      background: #000;
+      will-change: opacity;
+    }
+
+    /* Caption card wrapper -- centered horizontally with no static transform,
+       so the drift tween below is the only thing ever touching its transform. */
+    .giving-card-wrap {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 220px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .giving-card {
+      background: #0d1917;
+      border: 2px solid #25D366;
+      border-radius: 8px;
+      padding: 28px 56px;
+      opacity: 0;
+      will-change: opacity, transform;
+    }
+
+    .giving-card-text {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 54px;
+      line-height: 1.05;
+      letter-spacing: -0.01em;
+      color: #FFFFFF;
+      text-align: center;
+      white-space: nowrap;
+      margin: 0;
+    }
+  </style>
+
+  <div
+    id="root"
+    data-composition-id="08-giving"
+    data-width="1920"
+    data-height="1080"
+    data-duration="2.283"
+  >
+    <!-- Track 0: full-bleed background -- the real giving page screenshot. -->
+    <div class="clip giving-bg-layer" data-start="0" data-duration="2.283" data-track-index="0">
+      <div class="giving-bg-inner">
+        <img class="giving-bg-img" src="assets/give.png" alt="" />
+      </div>
+    </div>
+
+    <!-- Track 1: dim scrim over the screenshot for card legibility. -->
+    <div class="clip" data-start="0" data-duration="2.283" data-track-index="1">
+      <div class="giving-dim"></div>
+    </div>
+
+    <!-- Track 2: caption card, "Whenever you're ready." -->
+    <div class="clip" data-start="0" data-duration="2.283" data-track-index="2">
+      <div class="giving-card-wrap">
+        <div class="giving-card">
+          <p class="giving-card-text">Whenever you're ready.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="assets/vendor/gsap.min.js"></script>
+  <script>
+    (function () {
+      window.__timelines = window.__timelines || {};
+
+      var tl = gsap.timeline({ paused: true });
+
+      var DUR = 2.283;
+
+      // Scene 1 (0.0-2.283s): give.png full-bleed, a fast, clearly-visible pan
+      // running at a constant (linear) rate straight from t=0 to the cut --
+      // never easing to a stop, never holding still. This is a brief,
+      // low-pressure beat that should pass quickly, so the sweep is faster and
+      // more directional than a slow Ken Burns push: mostly lateral translate,
+      // with only a hair of scale change to keep the frame covered at the
+      // translation extremes.
+      tl.fromTo(
+        '.giving-bg-img',
+        { scale: 1.18, xPercent: 4.5, yPercent: 2 },
+        {
+          scale: 1.2,
+          xPercent: -5.5,
+          yPercent: -3,
+          duration: DUR,
+          ease: 'none',
+        },
+        0
+      );
+
+      // Scrim deepens in lockstep with the pan (never parked at a fixed dim
+      // level), keeping the card legible over the bright real screenshot.
+      tl.fromTo(
+        '.giving-dim',
+        { opacity: 0.38 },
+        { opacity: 0.46, duration: DUR, ease: 'none' },
+        0
+      );
+
+      // Caption card fades in within the first ~0.4s...
+      tl.fromTo(
+        '.giving-card',
+        { opacity: 0 },
+        { opacity: 1, duration: 0.4, ease: 'power1.out' },
+        0
+      );
+
+      // ...then keeps a small continuous drift for the rest of the shot so it
+      // never reads as landed-and-frozen. Runs the full duration (overlapping
+      // the fade) at a constant rate -- no ease, no hold.
+      tl.fromTo(
+        '.giving-card',
+        { x: 0, y: 0 },
+        { x: 14, y: -8, duration: DUR, ease: 'none' },
+        0
+      );
+
+      // No exit tween: this is a non-final frame, the pan and drift are still
+      // visibly live on the last rendered frame, and the root transition
+      // (zoom-through, stamped by the injector) is the exit.
+      window.__timelines['08-giving'] = tl;
+    })();
+  </script>
+</template>

@@ -1,0 +1,112 @@
+<template><div id="root" data-composition-id="05-not-alone" data-width="1920" data-height="1080" data-duration="2.88">
+  <style>
+    #root {
+      position: relative;
+      width: 1920px;
+      height: 1080px;
+      overflow: hidden;
+      font-family: "Poppins", sans-serif;
+    }
+
+    .f05na-bg-wrap {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+    }
+
+    .f05na-bg-img {
+      position: absolute;
+      top: -8%;
+      left: -8%;
+      width: 116%;
+      height: 116%;
+      object-fit: cover;
+      object-position: center top;
+      transform-origin: center center;
+      will-change: transform;
+    }
+
+    .f05na-scrim {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        155deg,
+        rgba(8, 15, 14, 0.22) 0%,
+        rgba(8, 15, 14, 0.52) 45%,
+        rgba(8, 15, 14, 0.84) 100%
+      );
+    }
+
+    .f05na-card {
+      position: absolute;
+      left: 130px;
+      top: 560px;
+      width: 860px;
+      padding: 38px 56px;
+      background: rgba(13, 25, 23, 0.88);
+      border: 2px solid #25d366;
+      border-radius: 8px;
+      transform-origin: left center;
+      will-change: transform, opacity;
+    }
+
+    .f05na-card-text {
+      margin: 0;
+      font-family: "Montserrat", sans-serif;
+      font-weight: 800;
+      font-size: 84px;
+      line-height: 1.02;
+      letter-spacing: -0.02em;
+      color: #ffffff;
+    }
+
+    .f05na-accent {
+      color: #25d366;
+    }
+  </style>
+
+  <div class="clip f05na-bg-wrap" data-start="0" data-duration="2.88" data-track-index="0">
+    <img class="f05na-bg-img" src="assets/connect-community-groups.png" alt="" />
+  </div>
+
+  <div class="clip f05na-scrim" data-start="0" data-duration="2.88" data-track-index="1"></div>
+
+  <div class="clip f05na-card" data-start="0" data-duration="2.88" data-track-index="2">
+    <p class="f05na-card-text">You don't leave<br /><span class="f05na-accent">alone.</span></p>
+  </div>
+
+  <script src="assets/vendor/gsap.min.js"></script>
+  <script>
+    (function () {
+      window.__timelines = window.__timelines || {};
+      var tl = gsap.timeline({ paused: true });
+
+      // Continuous constant-rate push/pan on the background, running the entire
+      // 2.88s shot at a flat linear rate — no ease-in, no ease-out, never holds still.
+      tl.fromTo(
+        ".f05na-bg-img",
+        { x: 0, y: 0, scale: 1.0 },
+        { x: -46, y: -30, scale: 1.16, duration: 2.88, ease: "none" },
+        0
+      );
+
+      // Caption card entrance: fades + settles in within the first ~0.4s.
+      tl.fromTo(
+        ".f05na-card",
+        { opacity: 0, y: 26 },
+        { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" },
+        0
+      );
+
+      // Once landed, the card keeps a small continuous linear drift through the
+      // cut rather than sitting static (separate props from the entrance tween).
+      tl.to(
+        ".f05na-card",
+        { x: 20, scale: 1.035, duration: 2.48, ease: "none" },
+        0.4
+      );
+
+      window.__timelines["05-not-alone"] = tl;
+    })();
+  </script>
+</div></template>
