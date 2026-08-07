@@ -65,111 +65,56 @@
     .f05-dots span:nth-child(2) { background: #B7E4C7; }
     .f05-dots span:nth-child(3) { background: #E2E8E5; }
 
-    .f05-stack-wrap {
+    /* ---- Laptop device mockup, right side (single device — no browser chrome, no
+       stacked echo windows; the real page fills the screen edge-to-edge) ---- */
+    .f05-device-wrap {
       position: absolute;
-      right: -80px;
-      top: 0;
-      width: 1550px;
-      height: 1080px;
-      perspective: 1500px;
+      right: -20px;
+      top: 120px;
+      width: 1500px;
+      height: 900px;
+      perspective: 1800px;
     }
 
-    .f05-window {
+    .f05-laptop {
       position: absolute;
+      left: 140px;
+      top: 0;
+      width: 1240px;
       transform-style: preserve-3d;
-      border-radius: 14px;
-      overflow: hidden;
-      background: #FFFFFF;
-      box-shadow: 0 50px 90px rgba(13, 25, 23, 0.20);
-      will-change: transform, opacity;
+      transform-origin: 50% 100%;
+      will-change: transform;
     }
 
-    .f05-window--echo2 {
-      width: 1000px;
-      height: 645px;
-      left: 470px;
-      top: -40px;
-      opacity: 0.28;
-      transform: rotateY(24deg) rotateX(5deg) translateZ(-320px);
+    .f05-screen-bezel {
+      position: relative;
+      background: linear-gradient(180deg, #2E2E31, #17171A);
+      border-radius: 18px 18px 6px 6px;
+      padding: 20px 20px 30px 20px;
+      box-shadow: 0 60px 100px rgba(13, 25, 23, 0.24);
     }
 
-    .f05-window--echo1 {
-      width: 1060px;
-      height: 684px;
-      left: 340px;
-      top: 60px;
-      opacity: 0.52;
-      transform: rotateY(20deg) rotateX(4deg) translateZ(-160px);
-    }
-
-    .f05-window--primary {
-      width: 1100px;
-      height: 710px;
-      left: 190px;
-      top: 160px;
-      opacity: 1;
-      transform: rotateY(16deg) rotateX(3deg) translateZ(0px);
-    }
-
-    .f05-chrome {
+    .f05-camera {
       position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 44px;
-      background: #FFFFFF;
-      border-bottom: 1px solid #E2E8E5;
-      display: flex;
-      align-items: center;
-      padding: 0 18px;
-      gap: 20px;
-    }
-
-    .f05-chrome-dots {
-      display: flex;
-      gap: 8px;
-      flex-shrink: 0;
-    }
-
-    .f05-chrome-dots span {
-      width: 12px;
-      height: 12px;
+      left: 50%;
+      top: 9px;
+      width: 6px;
+      height: 6px;
+      margin-left: -3px;
       border-radius: 50%;
-      display: block;
+      background: #46464A;
     }
 
-    .f05-chrome-dots span:nth-child(1) { background: #FF5F57; }
-    .f05-chrome-dots span:nth-child(2) { background: #FEBC2E; }
-    .f05-chrome-dots span:nth-child(3) { background: #28C840; }
-
-    .f05-chrome-url {
-      flex: 1;
-      display: flex;
-      justify-content: center;
-    }
-
-    .f05-chrome-url span {
-      display: inline-block;
-      background: #F0F3F2;
-      border-radius: 999px;
-      padding: 5px 22px;
-      font-family: "Poppins", sans-serif;
-      font-weight: 500;
-      font-size: 14px;
-      color: #42504C;
-      letter-spacing: 0.01em;
-    }
-
-    .f05-content {
-      position: absolute;
-      top: 44px;
-      left: 0;
-      right: 0;
-      bottom: 0;
+    .f05-screen {
+      position: relative;
+      width: 100%;
+      height: 700px;
       overflow: hidden;
+      border-radius: 3px;
+      background: #FFFFFF;
     }
 
-    .f05-content img {
+    .f05-screen img {
       position: absolute;
       top: -6%;
       left: -6%;
@@ -179,6 +124,26 @@
       object-position: center top;
       transform-origin: 50% 74%;
       will-change: transform;
+    }
+
+    .f05-base {
+      position: relative;
+      height: 26px;
+      margin: 0 -34px;
+      background: linear-gradient(180deg, #DADCDB, #B7BAB8);
+      border-radius: 0 0 14px 14px;
+    }
+
+    .f05-base::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 0;
+      width: 140px;
+      height: 8px;
+      margin-left: -70px;
+      background: #A7AAA8;
+      border-radius: 0 0 6px 6px;
     }
 
     .f05-click {
@@ -313,26 +278,20 @@
     </div>
   </div>
 
-  <div class="clip f05-stack-wrap" data-start="0" data-duration="1.729" data-track-index="0">
-    <div class="f05-window f05-window--echo2">
-      <div class="f05-content"><img src="assets/grow-growth-steps.png" alt="" /></div>
-    </div>
-    <div class="f05-window f05-window--echo1">
-      <div class="f05-content"><img src="assets/give.png" alt="" /></div>
-    </div>
-    <div class="f05-window f05-window--primary">
-      <div class="f05-chrome">
-        <div class="f05-chrome-dots"><span></span><span></span><span></span></div>
-        <div class="f05-chrome-url"><span>edenlifeng.org/connect/community-groups</span></div>
-      </div>
-      <div class="f05-content">
-        <img src="assets/connect-community-groups.png" alt="" data-layout-allow-overflow />
+  <div class="clip f05-device-wrap" data-start="0" data-duration="1.729" data-track-index="0">
+    <div class="f05-laptop">
+      <div class="f05-screen-bezel">
+        <div class="f05-camera"></div>
+        <div class="f05-screen">
+          <img src="assets/connect-community-groups.png" alt="" data-layout-allow-overflow />
         <div class="f05-click-ring"></div>
         <div class="f05-click">
           <svg class="f05-click-cursor" viewBox="0 0 24 24"><path d="M4 2L4 20L9 15.5L12.5 22L15.5 20.5L12 14L19 14L4 2Z" fill="#0D1917" stroke="#FFFFFF" stroke-width="1.2"/></svg>
           <span class="f05-click-label">Connect</span>
         </div>
+        </div>
       </div>
+      <div class="f05-base"></div>
     </div>
   </div>
 
@@ -356,13 +315,11 @@
       var tl = gsap.timeline({ paused: true });
       var DUR = 1.429;
 
-      tl.fromTo('.f05-window--primary', { rotateY: 16, rotateX: 3 }, { rotateY: 10, rotateX: 1.5, duration: DUR, ease: 'none' }, 0);
-      tl.fromTo('.f05-window--echo1', { rotateY: 20, rotateX: 4 }, { rotateY: 14, rotateX: 2, duration: DUR, ease: 'none' }, 0);
-      tl.fromTo('.f05-window--echo2', { rotateY: 24, rotateX: 5 }, { rotateY: 18, rotateX: 2.5, duration: DUR, ease: 'none' }, 0);
+      tl.fromTo('.f05-laptop', { rotateY: 10, rotateX: 2 }, { rotateY: 5, rotateX: 0.5, duration: DUR, ease: 'none' }, 0);
 
       // Client shot list: push into "You Were Made to Belong" + the real group photo
       // (the real content — see STORYBOARD.md's content-fidelity note on this frame).
-      tl.fromTo('.f05-window--primary .f05-content img', { scale: 1.0 }, { scale: 1.2, duration: DUR, ease: 'none' }, 0);
+      tl.fromTo('.f05-screen img', { scale: 1.0 }, { scale: 1.2, duration: DUR, ease: 'none' }, 0);
 
       tl.fromTo('.f05-eyebrow', { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.2, ease: 'power2.out' }, 0.02);
       tl.fromTo('.f05-headline', { opacity: 0, y: 24, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.28, ease: 'back.out(1.6)' }, 0.08);
