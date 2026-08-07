@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://js.paystack.co https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://*.google-analytics.com https://*.googletagmanager.com; frame-src https://www.youtube.com https://www.google.com https://*.paystack.co; connect-src 'self' https://*.paystack.co https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com; form-action 'self' https://formsubmit.co; object-src 'none'; base-uri 'self'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://js.flutterwave.com https://checkout.flutterwave.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://*.google-analytics.com https://*.googletagmanager.com; frame-src https://www.youtube.com https://www.google.com https://checkout.flutterwave.com; connect-src 'self' https://api.flutterwave.com https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com; form-action 'self' https://formsubmit.co; object-src 'none'; base-uri 'self'">
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <title>Give | Eden Life Experience Centre</title>
-  <meta name="description" content="Support the mission of Eden Life. Give securely online via Paystack or by direct bank transfer to Stanbic IBTC.">
+  <meta name="description" content="Support the mission of Eden Life. Give securely online via Flutterwave or by direct bank transfer to Stanbic IBTC.">
   <link rel="canonical" href="https://www.edenlifeng.org/give.html">
   <link rel="stylesheet" href="assets/styles.css">
   <!-- Google tag (gtag.js) -->
@@ -100,7 +100,7 @@
         <div id="giveWidget">
           <span class="section-label">Make a Gift</span>
           <h2 style="font-family:var(--font-display);font-size:clamp(1.5rem,3vw,2rem);font-weight:800;color:var(--text-hi);letter-spacing:-0.025em;margin-bottom:.5rem;">Secure &amp; encrypted</h2>
-          <p style="font-family:var(--font-body);font-size:.875rem;font-weight:300;color:var(--text-lo);margin-bottom:1.875rem;">Payments powered by Paystack. Your transaction is protected end-to-end.</p>
+          <p style="font-family:var(--font-body);font-size:.875rem;font-weight:300;color:var(--text-lo);margin-bottom:1.875rem;">Payments powered by Flutterwave. Your transaction is protected end-to-end.</p>
 
           <div class="giving-tabs" role="tablist" aria-label="Giving method">
             <button class="giving-tab active" role="tab" aria-selected="true" data-target="panelOnline" id="tabOnline">Pay Online</button>
@@ -141,7 +141,7 @@
               </div>
               <div id="noticeArea" aria-live="polite" aria-atomic="true"></div>
               <button type="button" id="payBtn" class="btn btn-primary btn-lg full-width" disabled style="opacity:.55;margin-top:.5rem;">Give Now — Secure Payment</button>
-              <p style="font-family:var(--font-body);font-size:.75rem;color:var(--text-lo);text-align:center;margin-top:.75rem;font-weight:300;">Secured by <strong style="color:var(--text-md);">Paystack</strong>. We do not store your card details.</p>
+              <p style="font-family:var(--font-body);font-size:.75rem;color:var(--text-lo);text-align:center;margin-top:.75rem;font-weight:300;">Secured by <strong style="color:var(--text-md);">Flutterwave</strong>. We do not store your card details.</p>
             </form>
           </div>
 
@@ -221,7 +221,7 @@
     </div>
   </footer>
 
-  <script src="https://js.paystack.co/v1/inline.js"></script>
+  <script src="https://checkout.flutterwave.com/v3.js"></script>
   <script src="assets/site.js" defer></script>
 </body>
 </html>

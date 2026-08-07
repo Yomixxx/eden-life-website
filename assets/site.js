@@ -284,7 +284,11 @@
       });
     });
 
-    // Paystack payment
+    // Flutterwave payment
+    // Replace with your real Flutterwave public key from Settings → API Keys on
+    // your Flutterwave dashboard (starts with FLWPUBK- live, FLWPUBK_TEST- test).
+    const FLW_PUBLIC_KEY = 'FLWPUBK-REPLACE_WITH_YOUR_FLUTTERWAVE_PUBLIC_KEY-X';
+
     if (payBtn) {
       payBtn.addEventListener('click', () => {
         const email  = emailInput?.value?.trim();
@@ -301,8 +305,14 @@
           return;
         }
 
-        // Check Paystack loaded
-        if (typeof PaystackPop === 'undefined') {
+        // Fail loud instead of silently attempting a charge with a bad key.
+        if (FLW_PUBLIC_KEY.includes('REPLACE_WITH_YOUR')) {
+          showNotice("Online giving isn't set up yet — please use Bank Transfer, or contact the church office.", 'warning');
+          return;
+        }
+
+        // Check Flutterwave loaded
+        if (typeof FlutterwaveCheckout === 'undefined') {
           showNotice('Payment service is loading. Please try again in a moment.', 'warning');
           return;
         }
@@ -312,33 +322,42 @@
 
         const reference = 'EL_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9).toUpperCase();
 
-        const handler = PaystackPop.setup({
-          key:       'pk_live_YOUR_PAYSTACK_PUBLIC_KEY', // Replace with your actual Paystack public key
-          email:     email,
-          amount:    amount * 100, // Paystack uses kobo (smallest unit)
-          currency:  'NGN',
-          ref:       reference,
-          metadata: {
-            custom_fields: [
-              { display_name: 'Giving Type', variable_name: 'giving_type', value: type },
-              { display_name: 'Church',      variable_name: 'church',      value: 'Eden Life Experience Centre' }
-            ]
+        FlutterwaveCheckout({
+          public_key: FLW_PUBLIC_KEY,
+          tx_ref: reference,
+          amount: amount,
+          currency: 'NGN',
+          payment_options: 'card,banktransfer,ussd',
+          customer: {
+            email: email,
+          },
+          customizations: {
+            title: 'Eden Life Experience Centre',
+            description: type + ' — Eden Life Experience Centre',
+            logo: window.location.origin + '/assets/logo.jpg',
+          },
+          meta: {
+            giving_type: type,
+            church: 'Eden Life Experience Centre',
           },
           callback: function (response) {
             payBtn.classList.remove('btn-loading');
             payBtn.textContent = 'Give Now';
-            showNotice('Thank you! Your gift of ₦' + amount.toLocaleString() + ' has been received. Reference: ' + response.reference, 'success');
-            giveForm.reset();
-            amountBtns.forEach((b) => b.classList.remove('selected'));
-            selectedAmount = 0;
-            updatePayBtn();
+            if (response && (response.status === 'successful' || response.status === 'completed')) {
+              showNotice('Thank you! Your gift of ₦' + amount.toLocaleString() + ' has been received. Reference: ' + (response.tx_ref || reference), 'success');
+              giveForm.reset();
+              amountBtns.forEach((b) => b.classList.remove('selected'));
+              selectedAmount = 0;
+              updatePayBtn();
+            } else {
+              showNotice('We could not confirm your payment. If you were charged, please contact the church office with reference ' + reference + '.', 'warning');
+            }
           },
-          onClose: function () {
+          onclose: function () {
             payBtn.classList.remove('btn-loading');
             payBtn.textContent = 'Give Now';
-          }
+          },
         });
-        handler.openIframe();
       });
     }
 
