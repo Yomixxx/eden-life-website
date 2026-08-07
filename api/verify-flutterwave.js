@@ -53,6 +53,9 @@ module.exports = async function handler(req, res) {
       console.warn('Flutterwave verification did not pass', {
         transaction_id,
         tx_ref,
+        httpStatus: flwRes.status,
+        apiStatus: flwJson && flwJson.status,
+        apiMessage: flwJson && flwJson.message,
         flwStatus: data && data.status,
       });
     }
