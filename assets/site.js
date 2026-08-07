@@ -287,7 +287,7 @@
     // Flutterwave payment
     // Replace with your real Flutterwave public key from Settings → API Keys on
     // your Flutterwave dashboard (starts with FLWPUBK- live, FLWPUBK_TEST- test).
-    const FLW_PUBLIC_KEY = 'FLWPUBK-4018da565558293bd8ccd1014764e447-X';
+    const FLW_PUBLIC_KEY = 'FLWPUBK-958c81a77b337a58b3fb66b8fd44fef3-X';
 
     if (payBtn) {
       payBtn.addEventListener('click', () => {
