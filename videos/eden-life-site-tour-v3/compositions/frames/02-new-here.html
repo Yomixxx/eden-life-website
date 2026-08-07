@@ -1,0 +1,236 @@
+<template><div id="root" data-composition-id="02-new-here" data-width="1920" data-height="1080" data-duration="1.9">
+  <style>
+    #root {
+      position: relative;
+      width: 1920px;
+      height: 1080px;
+      overflow: hidden;
+      background: #F7F9F8;
+      font-family: "Poppins", sans-serif;
+    }
+
+    /* ---- Headline, left third ---- */
+    .f02-headline-wrap {
+      position: absolute;
+      left: 110px;
+      top: 400px;
+      width: 520px;
+    }
+
+    .f02-eyebrow {
+      font-family: "Poppins", sans-serif;
+      font-weight: 600;
+      font-size: 20px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #0B6B34;
+      margin: 0 0 18px 0;
+      opacity: 0;
+      will-change: opacity, transform;
+    }
+
+    .f02-headline {
+      margin: 0;
+      font-family: "Montserrat", sans-serif;
+      font-weight: 800;
+      font-size: 74px;
+      line-height: 1.05;
+      letter-spacing: -0.01em;
+      color: #0D1917;
+      opacity: 0;
+      will-change: opacity, transform;
+    }
+
+    .f02-headline .f02-accent {
+      color: #0B6B34;
+    }
+
+    .f02-dots {
+      position: absolute;
+      left: 110px;
+      top: 900px;
+      display: flex;
+      gap: 12px;
+      opacity: 0;
+      will-change: opacity;
+    }
+
+    .f02-dots span {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #1FAE55;
+      display: block;
+    }
+
+    .f02-dots span:nth-child(2) { background: #B7E4C7; }
+    .f02-dots span:nth-child(3) { background: #E2E8E5; }
+
+    /* ---- 3D browser-window stack, right side ---- */
+    .f02-stack-wrap {
+      position: absolute;
+      right: -80px;
+      top: 0;
+      width: 1550px;
+      height: 1080px;
+      perspective: 1500px;
+    }
+
+    .f02-window {
+      position: absolute;
+      transform-style: preserve-3d;
+      border-radius: 14px;
+      overflow: hidden;
+      background: #FFFFFF;
+      box-shadow: 0 50px 90px rgba(13, 25, 23, 0.20);
+      will-change: transform, opacity;
+    }
+
+    .f02-window--echo2 {
+      width: 1000px;
+      height: 645px;
+      left: 470px;
+      top: -40px;
+      opacity: 0.28;
+      transform: rotateY(24deg) rotateX(5deg) translateZ(-320px);
+    }
+
+    .f02-window--echo1 {
+      width: 1060px;
+      height: 684px;
+      left: 340px;
+      top: 60px;
+      opacity: 0.52;
+      transform: rotateY(20deg) rotateX(4deg) translateZ(-160px);
+    }
+
+    .f02-window--primary {
+      width: 1100px;
+      height: 710px;
+      left: 190px;
+      top: 160px;
+      opacity: 1;
+      transform: rotateY(16deg) rotateX(3deg) translateZ(0px);
+    }
+
+    .f02-chrome {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 44px;
+      background: #FFFFFF;
+      border-bottom: 1px solid #E2E8E5;
+      display: flex;
+      align-items: center;
+      padding: 0 18px;
+      gap: 20px;
+    }
+
+    .f02-chrome-dots {
+      display: flex;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .f02-chrome-dots span {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      display: block;
+    }
+
+    .f02-chrome-dots span:nth-child(1) { background: #FF5F57; }
+    .f02-chrome-dots span:nth-child(2) { background: #FEBC2E; }
+    .f02-chrome-dots span:nth-child(3) { background: #28C840; }
+
+    .f02-chrome-url {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+    }
+
+    .f02-chrome-url span {
+      display: inline-block;
+      background: #F0F3F2;
+      border-radius: 999px;
+      padding: 5px 22px;
+      font-family: "Poppins", sans-serif;
+      font-weight: 500;
+      font-size: 14px;
+      color: #42504C;
+      letter-spacing: 0.01em;
+    }
+
+    .f02-content {
+      position: absolute;
+      top: 44px;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      overflow: hidden;
+    }
+
+    .f02-content img {
+      position: absolute;
+      top: -6%;
+      left: -6%;
+      width: 112%;
+      height: 112%;
+      object-fit: cover;
+      object-position: center top;
+      will-change: transform;
+    }
+  </style>
+
+  <div class="clip f02-stack-wrap" data-start="0" data-duration="1.9" data-track-index="0">
+    <div class="f02-window f02-window--echo2">
+      <div class="f02-content"><img src="assets/home-hero.png" alt="" /></div>
+    </div>
+    <div class="f02-window f02-window--echo1">
+      <div class="f02-content"><img src="assets/new-here-what-to-expect.png" alt="" /></div>
+    </div>
+    <div class="f02-window f02-window--primary">
+      <div class="f02-chrome">
+        <div class="f02-chrome-dots"><span></span><span></span><span></span></div>
+        <div class="f02-chrome-url"><span>edenlifeng.org/new-here/plan-your-visit</span></div>
+      </div>
+      <div class="f02-content"><img src="assets/new-here-plan-your-visit.png" alt="" data-layout-allow-overflow /></div>
+    </div>
+  </div>
+
+  <div class="clip f02-headline-wrap" data-start="0" data-duration="1.9" data-track-index="1">
+    <p class="f02-eyebrow">NEW HERE</p>
+    <h1 class="f02-headline">New here? <span class="f02-accent">Come as you are.</span></h1>
+  </div>
+
+  <div class="clip f02-dots" data-start="0" data-duration="1.9" data-track-index="2">
+    <span></span><span></span><span></span>
+  </div>
+
+  <script src="assets/vendor/gsap.min.js"></script>
+  <script>
+    (function () {
+      window.__timelines = window.__timelines || {};
+      var tl = gsap.timeline({ paused: true });
+      var DUR = 1.6;
+
+      // Continuous constant-rate 3D drift on the whole stack, running edge-to-edge —
+      // never eases to a stop, never holds still.
+      tl.fromTo('.f02-window--primary', { rotateY: 16, rotateX: 3 }, { rotateY: 10, rotateX: 1.5, duration: DUR, ease: 'none' }, 0);
+      tl.fromTo('.f02-window--echo1', { rotateY: 20, rotateX: 4 }, { rotateY: 14, rotateX: 2, duration: DUR, ease: 'none' }, 0);
+      tl.fromTo('.f02-window--echo2', { rotateY: 24, rotateX: 5 }, { rotateY: 18, rotateX: 2.5, duration: DUR, ease: 'none' }, 0);
+
+      // Internal screenshot pans slightly within its crop, same constant rate, whole shot.
+      tl.fromTo('.f02-window--primary .f02-content img', { x: 0, y: 0 }, { x: -18, y: -10, duration: DUR, ease: 'none' }, 0);
+
+      // Headline + dots build in fast (first ~0.22s), then hold their landed state
+      // (they don't drift further — only the stack itself keeps moving).
+      tl.fromTo('.f02-eyebrow', { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.2, ease: 'power2.out' }, 0.02);
+      tl.fromTo('.f02-headline', { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.22, ease: 'power2.out' }, 0.08);
+      tl.fromTo('.f02-dots', { opacity: 0 }, { opacity: 1, duration: 0.2, ease: 'power1.out' }, 0.18);
+
+      window.__timelines['02-new-here'] = tl;
+    })();
+  </script>
+</div></template>

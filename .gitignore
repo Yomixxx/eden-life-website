@@ -9,3 +9,5 @@ videos/*/.media/
 videos/*/.hyperframes/
 videos/*/node_modules/
 videos/*/snapshots/
+videos/*/renders/work-*/
+videos/*/renders/.*-transaction-*/

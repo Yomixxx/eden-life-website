@@ -1,0 +1,247 @@
+<template><div id="root" data-composition-id="10-cta" data-width="1920" data-height="1080" data-duration="1.98">
+  <style>
+    #root {
+      position: relative;
+      width: 1920px;
+      height: 1080px;
+      overflow: hidden;
+      background: #F7F9F8;
+      font-family: "Poppins", sans-serif;
+    }
+
+    /* ---- Single centered browser-window, one echo behind ---- */
+    .cta-stack-wrap {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 1700px;
+      height: 1080px;
+      margin-left: -850px;
+      margin-top: -540px;
+      perspective: 1700px;
+    }
+
+    .cta-window {
+      position: absolute;
+      transform-style: preserve-3d;
+      border-radius: 16px;
+      overflow: hidden;
+      background: #FFFFFF;
+      box-shadow: 0 60px 100px rgba(13, 25, 23, 0.20);
+      will-change: transform, opacity;
+    }
+
+    .cta-window--echo {
+      width: 1260px;
+      height: 792px;
+      left: 220px;
+      top: 96px;
+      opacity: 0.24;
+      transform: rotateY(10deg) rotateX(2deg) translateZ(-200px);
+    }
+
+    .cta-window--primary {
+      width: 1360px;
+      height: 856px;
+      left: 170px;
+      top: 68px;
+      opacity: 1;
+      transform: rotateY(6deg) rotateX(1.5deg) translateZ(0px);
+    }
+
+    .cta-chrome {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 48px;
+      background: #FFFFFF;
+      border-bottom: 1px solid #E2E8E5;
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+      gap: 22px;
+    }
+
+    .cta-chrome-dots {
+      display: flex;
+      gap: 9px;
+      flex-shrink: 0;
+    }
+
+    .cta-chrome-dots span {
+      width: 13px;
+      height: 13px;
+      border-radius: 50%;
+      display: block;
+    }
+
+    .cta-chrome-dots span:nth-child(1) { background: #FF5F57; }
+    .cta-chrome-dots span:nth-child(2) { background: #FEBC2E; }
+    .cta-chrome-dots span:nth-child(3) { background: #28C840; }
+
+    .cta-chrome-url {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+    }
+
+    .cta-chrome-url span {
+      display: inline-block;
+      background: #F0F3F2;
+      border-radius: 999px;
+      padding: 6px 24px;
+      font-family: "Poppins", sans-serif;
+      font-weight: 500;
+      font-size: 15px;
+      color: #42504C;
+      letter-spacing: 0.01em;
+    }
+
+    .cta-content {
+      position: absolute;
+      top: 48px;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: #FBFCFB;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .cta-mark {
+      width: 110px;
+      height: 110px;
+      border-radius: 10px;
+      overflow: hidden;
+      opacity: 0;
+      transform-origin: 50% 50%;
+      will-change: opacity, transform;
+      margin-bottom: 22px;
+    }
+
+    .cta-mark img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .cta-wordmark {
+      font-family: "Montserrat", sans-serif;
+      font-weight: 800;
+      font-size: 30px;
+      letter-spacing: -0.01em;
+      color: #0D1917;
+      opacity: 0;
+      will-change: opacity, transform;
+      margin: 0 0 26px 0;
+    }
+
+    .cta-headline {
+      margin: 0 0 34px 0;
+      font-family: "Montserrat", sans-serif;
+      font-weight: 800;
+      font-size: 64px;
+      line-height: 1.05;
+      letter-spacing: -0.01em;
+      color: #0D1917;
+      text-align: center;
+      opacity: 0;
+      will-change: opacity, transform;
+    }
+
+    .cta-headline .cta-accent {
+      color: #0B6B34;
+    }
+
+    .cta-pill {
+      display: inline-block;
+      padding: 16px 38px;
+      border: 2px solid #1FAE55;
+      border-radius: 999px;
+      background: rgba(31, 174, 85, 0.08);
+      font-family: "Poppins", sans-serif;
+      font-weight: 600;
+      font-size: 22px;
+      letter-spacing: 0.05em;
+      color: #0B6B34;
+      opacity: 0;
+      will-change: opacity, transform;
+      margin-bottom: 36px;
+    }
+
+    .cta-qr {
+      width: 130px;
+      height: 130px;
+      padding: 10px;
+      background: #FFFFFF;
+      border: 1px solid #E2E8E5;
+      border-radius: 12px;
+      opacity: 0;
+      will-change: opacity, transform;
+    }
+
+    .cta-qr img {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+
+  <div class="clip cta-stack-wrap" data-start="0" data-duration="1.98" data-track-index="0">
+    <div class="cta-window cta-window--echo">
+      <div class="cta-content" style="background:#F0F3F2;"></div>
+    </div>
+    <div class="cta-window cta-window--primary">
+      <div class="cta-chrome">
+        <div class="cta-chrome-dots"><span></span><span></span><span></span></div>
+        <div class="cta-chrome-url"><span>edenlifeng.org</span></div>
+      </div>
+      <div class="cta-content">
+        <div class="cta-mark"><img src="assets/logo.jpg" alt="" /></div>
+        <p class="cta-wordmark">EDEN LIFE</p>
+        <h1 class="cta-headline">Come See <span class="cta-accent">For Yourself.</span></h1>
+        <span class="cta-pill">EDENLIFENG.ORG</span>
+        <div class="cta-qr"><img src="assets/qr-website.png" alt="" /></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="assets/vendor/gsap.min.js"></script>
+  <script>
+    (function () {
+      window.__timelines = window.__timelines || {};
+      var tl = gsap.timeline({ paused: true });
+
+      // ---- Scene 1 (0.0-0.6s): the stack settles into place — the video's one
+      // sanctioned camera settle (per the motion doctrine, only the CTA gets this).
+      tl.fromTo('.cta-window--primary', { rotateY: 11, rotateX: 3 }, { rotateY: 6, rotateX: 1.5, duration: 0.6, ease: 'power2.out' }, 0);
+      tl.fromTo('.cta-window--echo', { rotateY: 15, rotateX: 4 }, { rotateY: 10, rotateX: 2, duration: 0.6, ease: 'power2.out' }, 0);
+
+      // Content builds in fast, landed well before the 1.28s VO ends.
+      tl.fromTo('.cta-mark', { opacity: 0, scale: 0.8, y: 14 }, { opacity: 1, scale: 1, y: 0, duration: 0.36, ease: 'back.out(1.6)' }, 0.05);
+      tl.fromTo('.cta-wordmark', { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.3, ease: 'power2.out' }, 0.24);
+      tl.fromTo('.cta-headline', { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.36, ease: 'power2.out' }, 0.4);
+      tl.fromTo('.cta-pill', { opacity: 0, y: 12, scale: 0.96 }, { opacity: 1, y: 0, scale: 1, duration: 0.32, ease: 'power2.out' }, 0.72);
+      tl.fromTo('.cta-qr', { opacity: 0, scale: 0.85 }, { opacity: 1, scale: 1, duration: 0.34, ease: 'back.out(1.6)' }, 0.98);
+
+      // ---- Scene 2 (1.32-1.98s, ~0.66s): the video's one deliberate held beat,
+      // capped tight — a short deterministic glow-free settle (subtle scale
+      // breathing on the window itself so it never reads as a dead freeze-frame).
+      tl.to('.cta-window--primary', {
+        keyframes: {
+          '0%': { scale: 1.0 },
+          '50%': { scale: 1.008 },
+          '100%': { scale: 1.0 },
+        },
+        duration: 0.66,
+        ease: 'sine.inOut',
+      }, 1.32);
+
+      window.__timelines['10-cta'] = tl;
+    })();
+  </script>
+</div></template>

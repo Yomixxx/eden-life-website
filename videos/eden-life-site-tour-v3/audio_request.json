@@ -1,0 +1,53 @@
+{
+  "provider": "kokoro",
+  "speed": 1,
+  "lines": [
+    {
+      "id": "01",
+      "text": "This is Eden Life."
+    },
+    {
+      "id": "02",
+      "text": "New here? Come as you are."
+    },
+    {
+      "id": "03",
+      "text": "Real people. Real faith."
+    },
+    {
+      "id": "04",
+      "text": "Can't make it in? Watch anyway."
+    },
+    {
+      "id": "05",
+      "text": "Find your people in a community group."
+    },
+    {
+      "id": "06",
+      "text": "Take your next step toward a flourishing life."
+    },
+    {
+      "id": "07",
+      "text": "There's always something happening."
+    },
+    {
+      "id": "08",
+      "text": "Giving back is simple."
+    },
+    {
+      "id": "09",
+      "text": "Real stories. Real life change."
+    },
+    {
+      "id": "10",
+      "text": "Come see for yourself."
+    }
+  ],
+  "bgm": {
+    "mode": "retrieve",
+    "query": "calm cinematic underscore",
+    "blob": "",
+    "arc": ""
+  },
+  "voice": "af_heart"
+}
