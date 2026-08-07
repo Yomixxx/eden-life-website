@@ -1,53 +1,70 @@
 {
-  "provider": "auto",
-  "speed": 1,
   "lines": [
     {
-      "id": "01",
-      "text": "Feeling like you need a fresh start? This is Eden Life."
-    },
-    {
       "id": "02",
-      "text": "New here? Come as you are — get service times and directions in one tap."
+      "sfx": [
+        "whoosh-short",
+        "click-soft"
+      ]
     },
     {
       "id": "03",
-      "text": "Meet us on Who We Are: real people, real faith."
+      "sfx": [
+        "whoosh-short",
+        "click-soft"
+      ]
     },
     {
       "id": "04",
-      "text": "Can't make it in? Watch anyway — messages on demand."
+      "sfx": [
+        "whoosh-short",
+        "click-soft"
+      ]
     },
     {
       "id": "05",
-      "text": "Ready for community? Connect into a group,"
+      "sfx": [
+        "whoosh-short",
+        "click-soft"
+      ]
     },
     {
       "id": "06",
-      "text": "then grow with next steps toward a flourishing life."
+      "sfx": [
+        "whoosh-short",
+        "click-soft"
+      ]
     },
     {
       "id": "07",
-      "text": "Check Events — there's always something happening."
+      "sfx": [
+        "whoosh-short",
+        "click-soft"
+      ]
     },
     {
       "id": "08",
-      "text": "And giving back is simple and secure."
+      "sfx": [
+        "whoosh-short",
+        "click-soft"
+      ]
     },
     {
       "id": "09",
-      "text": "Hear Testimonies — real stories, real life change."
+      "sfx": [
+        "whoosh-short",
+        "click-soft"
+      ]
     },
     {
       "id": "10",
-      "text": "Come see for yourself."
+      "sfx": [
+        "whoosh-short",
+        "click-soft"
+      ]
     }
   ],
   "bgm": {
-    "mode": "retrieve",
-    "query": "Come see Eden Life for yourself — the whole church, at a glance",
-    "blob": "Come see Eden Life for yourself — the whole church, at a glance",
-    "arc": "Home → New Here → Who We Are → Watch → Connect → Grow → Events → Give → Testimonies → CTA"
-  },
-  "voice": "af_heart"
+    "mode": "none"
+  }
 }

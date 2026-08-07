@@ -179,6 +179,7 @@
       height: 112%;
       object-fit: cover;
       object-position: center top;
+      transform-origin: 26% 80%;
       will-change: transform;
     }
   </style>
@@ -221,8 +222,10 @@
       tl.fromTo('.f01-window--echo1', { rotateY: 20, rotateX: 4 }, { rotateY: 14, rotateX: 2, duration: DUR, ease: 'none' }, 0);
       tl.fromTo('.f01-window--echo2', { rotateY: 24, rotateX: 5 }, { rotateY: 18, rotateX: 2.5, duration: DUR, ease: 'none' }, 0);
 
-      // Internal screenshot pans slightly within its crop, same constant rate, whole shot.
-      tl.fromTo('.f01-window--primary .f01-content img', { x: 0, y: 0 }, { x: -18, y: -10, duration: DUR, ease: 'none' }, 0);
+      // Client shot list: "quick zoom on headline + primary button" — the internal screenshot
+      // pushes in toward the bottom-left of the hero (where "We Equip Disciples." and the
+      // Plan Your Visit / Watch Live buttons sit), constant rate, whole shot.
+      tl.fromTo('.f01-window--primary .f01-content img', { scale: 1.0 }, { scale: 1.34, duration: DUR, ease: 'none' }, 0);
 
       // Headline + dots build in fast (first ~0.22s), then hold their landed state
       // (they don't drift further — only the stack itself keeps moving).

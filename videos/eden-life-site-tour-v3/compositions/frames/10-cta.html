@@ -173,6 +173,29 @@
       margin-bottom: 36px;
     }
 
+    .cta-pill-wrap {
+      position: relative;
+      margin-bottom: 36px;
+    }
+
+    .cta-pill-wrap .cta-pill {
+      margin-bottom: 0;
+    }
+
+    .cta-click-ring {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 40px;
+      height: 40px;
+      margin: -20px 0 0 -20px;
+      border-radius: 50%;
+      border: 2px solid #25D366;
+      opacity: 0;
+      transform: scale(0.5);
+      will-change: opacity, transform;
+    }
+
     .cta-qr {
       width: 130px;
       height: 130px;
@@ -204,7 +227,10 @@
         <div class="cta-mark"><img src="assets/logo.jpg" alt="" /></div>
         <p class="cta-wordmark">EDEN LIFE</p>
         <h1 class="cta-headline">Come See <span class="cta-accent">For Yourself.</span></h1>
-        <span class="cta-pill">EDENLIFENG.ORG</span>
+        <span class="cta-pill-wrap">
+          <span class="cta-pill">EDENLIFENG.ORG</span>
+          <span class="cta-click-ring"></span>
+        </span>
         <div class="cta-qr"><img src="assets/qr-website.png" alt="" /></div>
       </div>
     </div>
@@ -227,6 +253,10 @@
       tl.fromTo('.cta-headline', { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.36, ease: 'power2.out' }, 0.4);
       tl.fromTo('.cta-pill', { opacity: 0, y: 12, scale: 0.96 }, { opacity: 1, y: 0, scale: 1, duration: 0.32, ease: 'power2.out' }, 0.72);
       tl.fromTo('.cta-qr', { opacity: 0, scale: 0.85 }, { opacity: 1, scale: 1, duration: 0.34, ease: 'back.out(1.6)' }, 0.98);
+
+      // Client shot list: "hold on ... + primary button" — a click-pulse on the URL pill
+      // (this frame's primary button) right as it lands, echoing the nav-click device.
+      tl.fromTo('.cta-click-ring', { opacity: 0.9, scale: 0.5 }, { opacity: 0, scale: 2.0, duration: 0.36, ease: 'power1.out' }, 1.0);
 
       // ---- Scene 2 (1.32-1.98s, ~0.66s): the video's one deliberate held beat,
       // capped tight — a short deterministic glow-free settle (subtle scale

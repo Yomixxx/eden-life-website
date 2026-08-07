@@ -179,7 +179,53 @@
       height: 112%;
       object-fit: cover;
       object-position: center top;
+      transform-origin: 50% 67%;
       will-change: transform;
+    }
+
+    /* ---- Nav-click chip: cursor + ripple + label, gone by ~0.35s ---- */
+    .f02-click {
+      position: absolute;
+      top: 60px;
+      left: 24px;
+      z-index: 5;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      opacity: 0;
+      will-change: opacity, transform;
+    }
+
+    .f02-click-cursor {
+      width: 20px;
+      height: 20px;
+      display: block;
+      filter: drop-shadow(0 2px 4px rgba(13, 25, 23, 0.35));
+    }
+
+    .f02-click-label {
+      background: #0D1917;
+      color: #FFFFFF;
+      font-family: "Poppins", sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      padding: 5px 14px;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+
+    .f02-click-ring {
+      position: absolute;
+      top: 66px;
+      left: 30px;
+      z-index: 4;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 2px solid #25D366;
+      opacity: 0;
+      transform: scale(0.4);
+      will-change: opacity, transform;
     }
   </style>
 
@@ -195,7 +241,14 @@
         <div class="f02-chrome-dots"><span></span><span></span><span></span></div>
         <div class="f02-chrome-url"><span>edenlifeng.org/new-here/plan-your-visit</span></div>
       </div>
-      <div class="f02-content"><img src="assets/new-here-plan-your-visit.png" alt="" data-layout-allow-overflow /></div>
+      <div class="f02-content">
+        <img src="assets/new-here-plan-your-visit.png" alt="" data-layout-allow-overflow />
+        <div class="f02-click-ring"></div>
+        <div class="f02-click">
+          <svg class="f02-click-cursor" viewBox="0 0 24 24"><path d="M4 2L4 20L9 15.5L12.5 22L15.5 20.5L12 14L19 14L4 2Z" fill="#0D1917" stroke="#FFFFFF" stroke-width="1.2"/></svg>
+          <span class="f02-click-label">New Here</span>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -221,14 +274,21 @@
       tl.fromTo('.f02-window--echo1', { rotateY: 20, rotateX: 4 }, { rotateY: 14, rotateX: 2, duration: DUR, ease: 'none' }, 0);
       tl.fromTo('.f02-window--echo2', { rotateY: 24, rotateX: 5 }, { rotateY: 18, rotateX: 2.5, duration: DUR, ease: 'none' }, 0);
 
-      // Internal screenshot pans slightly within its crop, same constant rate, whole shot.
-      tl.fromTo('.f02-window--primary .f02-content img', { x: 0, y: 0 }, { x: -18, y: -10, duration: DUR, ease: 'none' }, 0);
+      // Client shot list: push toward "Come as You Are" + the service-times card — constant
+      // rate, whole shot, converging on the transform-origin set in the CSS above.
+      tl.fromTo('.f02-window--primary .f02-content img', { scale: 1.0 }, { scale: 1.18, duration: DUR, ease: 'none' }, 0);
 
       // Headline + dots build in fast (first ~0.22s), then hold their landed state
       // (they don't drift further — only the stack itself keeps moving).
       tl.fromTo('.f02-eyebrow', { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.2, ease: 'power2.out' }, 0.02);
       tl.fromTo('.f02-headline', { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.22, ease: 'power2.out' }, 0.08);
       tl.fromTo('.f02-dots', { opacity: 0 }, { opacity: 1, duration: 0.2, ease: 'power1.out' }, 0.18);
+
+      // Nav-click chip: cursor + label pop in immediately, a click-ring pulses out, then both
+      // fade — reads as "we just clicked into New Here," paired with the click-soft SFX cue.
+      tl.fromTo('.f02-click', { opacity: 0, x: -8 }, { opacity: 1, x: 0, duration: 0.12, ease: 'power1.out' }, 0.02);
+      tl.fromTo('.f02-click-ring', { opacity: 0.9, scale: 0.4 }, { opacity: 0, scale: 1.8, duration: 0.32, ease: 'power1.out' }, 0.08);
+      tl.to('.f02-click', { opacity: 0, duration: 0.15, ease: 'power1.in' }, 0.32);
 
       window.__timelines['02-new-here'] = tl;
     })();

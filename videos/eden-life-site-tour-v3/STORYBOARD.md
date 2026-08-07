@@ -31,6 +31,25 @@ mode: autonomous
   up to the cut on both sides — never a hard cut that also happens to be the only motion change.
 - **Duration source of truth:** the `duration:` bullet below was set from the synced voice
   length (`sync-durations` already applied) — treat it as real, not an estimate.
+- **Nav-click cue (from client shot list):** every frame from Frame 2 on opens with a small
+  "click" chip — a cursor glyph + a click-ripple pulse + the nav label being "clicked" (e.g.
+  "New Here"), living top-left of the primary window's content area, gone by ~0.35s. Paired
+  with the `click-soft` SFX cue. This is a stylized UI affordance, not a pixel-accurate cursor
+  on the real nav bar — trying to track the real nav coordinates through each window's own
+  crop/zoom is fragile across ten different window sizes; the chip reads clearly regardless.
+- **Highlight pan (from client shot list):** each frame's internal image pan is retargeted so
+  it pushes toward the SPECIFIC element the client's shot list named for that page (not a
+  generic center pan) — see each frame's `highlight:` bullet.
+- **SFX (from client shot list):** `whoosh-short` on every cut (frames 2-10, offset 0 = the
+  cut itself) + `click-soft` alongside it on the same frames (the nav-click chip's sound).
+  Frame 1 has neither (opening frame, no preceding cut, no click). Resolved from the bundled
+  offline SFX library (`click-soft.mp3`, `whoosh-short.mp3`) — no HeyGen credential needed.
+  Music bed (piano/soft-beat) from the client's brief is NOT included: BGM in this pipeline is
+  retrieve-only from HeyGen's hosted library, which needs a credential this sandbox doesn't
+  have — flagged as a gap, not silently dropped.
+- **Content-fidelity notes:** three of the client's named elements don't exist in the real
+  captured pages, so each is swapped for the closest real content on that same page rather
+  than inventing anything fake — noted on the affected frames (3, 5, 9).
 
 ---
 
@@ -41,6 +60,9 @@ mode: autonomous
 - transition_in: cut
 - status: outline
 - voiceover: "Feeling like you need a fresh start? This is Eden Life."
+- highlight: quick push into the headline + "Plan Your Visit" / "Watch Live →" buttons
+  (bottom-left of the hero capture) — client shot list: "quick zoom on headline + primary
+  button." No nav-click chip (this is the opening frame, we start here, nothing was clicked).
 - src: compositions/frames/01-home.html
 
 Primary window: `assets/home-hero.png` (the real hero — worship stage, "We Equip Disciples."
@@ -58,6 +80,11 @@ primary window's internal screenshot pans slightly within its crop.
 - transition_in: crossfade 0.3s
 - status: outline
 - voiceover: "New here? Come as you are — get service times and directions in one tap."
+- click_label: "New Here"
+- highlight: push toward the lower content band — "Come as You Are" checklist (right column)
+  and "Find the Campus Closest to You" service-time card (left column), the two things the
+  client's shot list named ("Come as you are" + service times/location).
+- sfx: whoosh-short, click-soft
 - src: compositions/frames/02-new-here.html
 
 Primary window: `assets/new-here-plan-your-visit.png`. Echo window behind:
@@ -71,6 +98,13 @@ Continuous stack drift throughout, no stop.
 - transition_in: crossfade 0.3s
 - status: outline
 - voiceover: "Meet us on Who We Are: real people, real faith."
+- click_label: "About"
+- highlight: push into "Founded on Faith. Built on Community." + the 15+/2/1/∞ stats grid.
+  CONTENT-FIDELITY NOTE: the client's shot list asked for "pastor/leadership photo + mission
+  line" — the real captured page has no distinct leadership photo (only a dim, blurred face in
+  the hero background), so the trust-moment beat lands on the real mission statement + stats
+  instead of a photo that doesn't exist on the page.
+- sfx: whoosh-short, click-soft
 - src: compositions/frames/03-who-we-are.html
 
 Primary window: `assets/about-who-we-are.png`. One echo window (soft, mostly-hidden) behind.
@@ -83,6 +117,13 @@ Headline: "**Real people.** Real faith." — the shortest beat in the tour, bris
 - transition_in: crossfade 0.3s
 - status: outline
 - voiceover: "Can't make it in? Watch anyway — messages on demand."
+- click_label: "Watch"
+- highlight: push into the first sermon card in "Teaching That Transforms." CONTENT-FIDELITY
+  NOTE: the real sermon thumbnails are broken images on the live site (a gray placeholder box,
+  no actual video still) — added a synthetic circular play-button glyph over the first card so
+  the beat still reads as "watch a sermon," without pretending the broken image is a real
+  thumbnail.
+- sfx: whoosh-short, click-soft
 - src: compositions/frames/04-watch.html
 
 Primary window: `assets/watch-live.png`. Echo window: `assets/watch-sermons.png`.
@@ -95,6 +136,12 @@ Headline: "Can't make it in? **Watch anyway.**"
 - transition_in: crossfade 0.3s
 - status: outline
 - voiceover: "Ready for community? Connect into a group,"
+- click_label: "Connect"
+- highlight: push into "You Were Made to Belong" + the real photo of the group gathered.
+  CONTENT-FIDELITY NOTE: the client's shot list asked for "community groups tile/cards" — the
+  real Belong Groups page (at the viewport height we captured) shows a hero + one photo + copy,
+  not a tile/card grid, so the highlight lands on that real photo + headline instead.
+- sfx: whoosh-short, click-soft
 - src: compositions/frames/05-connect.html
 
 Primary window: `assets/connect-community-groups.png`. Headline: "**Find your people.**"
@@ -109,6 +156,10 @@ exhale, not a hard topic change.
 - transition_in: crossfade 0.3s
 - status: outline
 - voiceover: "then grow with next steps toward a flourishing life."
+- click_label: "Grow"
+- highlight: push into "Start Your Journey Here" + the "What You Will Learn" checklist
+  (Salvation, The Bible, Prayer…) — the real next-steps pathway content on the page.
+- sfx: whoosh-short, click-soft
 - src: compositions/frames/06-grow.html
 
 Primary window: `assets/grow-growth-steps.png` (the four-step pathway is glimpsed in motion via
@@ -121,6 +172,10 @@ the internal pan, not frozen for a static read). Headline: "Take your **next ste
 - transition_in: crossfade 0.3s
 - status: outline
 - voiceover: "Check Events — there's always something happening."
+- click_label: "Events"
+- highlight: push in and settle on the featured "God Moment: 21 Days of Prayer & Fasting" event
+  card — client shot list: "pause on one featured event."
+- sfx: whoosh-short, click-soft
 - src: compositions/frames/07-events.html
 
 Primary window: `assets/events-index.png` (God Moment: 21 Days of Prayer & Fasting card
@@ -134,6 +189,10 @@ sentence across the cut, same as Frames 5→6 — keep the crossfade feeling lik
 - transition_in: crossfade 0.3s
 - status: outline
 - voiceover: "And giving back is simple and secure."
+- click_label: "Give"
+- highlight: push into "Secure & encrypted" + the real "Pay Online / Bank Transfer" toggle and
+  amount grid — client shot list: "simple giving form + one-time/recurring toggle."
+- sfx: whoosh-short, click-soft
 - src: compositions/frames/08-give.html
 
 Primary window: `assets/give.png`. Headline: "Giving, **made simple.**"
@@ -145,6 +204,13 @@ Primary window: `assets/give.png`. Headline: "Giving, **made simple.**"
 - transition_in: crossfade 0.3s
 - status: outline
 - voiceover: "Hear Testimonies — real stories, real life change."
+- click_label: "Testimonies"
+- highlight: push into "Stories of His Faithfulness" and pan across the row of three quote
+  cards (Ngozi A. → Emeka O. → Babatunde F.) — a real "swipe to another story" motion.
+  CONTENT-FIDELITY NOTE: the client's shot list asked for "a quote card + smiling photo" — the
+  real testimony cards are text-only (no member headshots), so the beat is the quote-card pan
+  itself rather than a photo that isn't on the page.
+- sfx: whoosh-short, click-soft
 - src: compositions/frames/09-testimonies.html
 
 Primary window: `assets/testimonies.png`. Headline: "**Real stories.** Real life change."
@@ -156,6 +222,10 @@ Primary window: `assets/testimonies.png`. Headline: "**Real stories.** Real life
 - transition_in: crossfade 0.3s
 - status: outline
 - voiceover: "Come see for yourself."
+- highlight: hold on the headline + the `EDENLIFENG.ORG` pill (the "primary button" in this
+  frame's design) — client shot list: "hold on 'Come see for yourself' + primary button." A
+  click-pulse plays on the pill right as it lands, echoing the nav-click device one last time.
+- sfx: whoosh-short, click-soft
 - src: compositions/frames/10-cta.html
 
 Same browser-window component, but this time the window itself IS the message: a light
