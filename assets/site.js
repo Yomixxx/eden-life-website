@@ -340,11 +340,37 @@
             giving_type: type,
             church: 'Eden Life Experience Centre',
           },
-          callback: function (response) {
+          callback: async function (response) {
+            const looksSuccessful = response && (response.status === 'successful' || response.status === 'completed');
+            if (!looksSuccessful) {
+              payBtn.classList.remove('btn-loading');
+              payBtn.textContent = 'Give Now';
+              showNotice('We could not confirm your payment. If you were charged, please contact the church office with reference ' + reference + '.', 'warning');
+              return;
+            }
+
+            // The browser callback alone isn't proof a charge cleared — confirm
+            // server-side against Flutterwave's own records before telling the
+            // donor their gift was received.
+            payBtn.textContent = 'Verifying payment…';
+            let verified = false;
+            try {
+              const verifyRes = await fetch('/api/verify-flutterwave', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ transaction_id: response.transaction_id, tx_ref: reference }),
+              });
+              const verifyData = await verifyRes.json();
+              verified = !!verifyData.verified;
+            } catch (err) {
+              verified = false;
+            }
+
             payBtn.classList.remove('btn-loading');
             payBtn.textContent = 'Give Now';
-            if (response && (response.status === 'successful' || response.status === 'completed')) {
-              showNotice('Thank you! Your gift of ₦' + amount.toLocaleString() + ' has been received. Reference: ' + (response.tx_ref || reference), 'success');
+
+            if (verified) {
+              showNotice('Thank you! Your gift of ₦' + amount.toLocaleString() + ' has been received. Reference: ' + reference, 'success');
               giveForm.reset();
               amountBtns.forEach((b) => b.classList.remove('selected'));
               selectedAmount = 0;
