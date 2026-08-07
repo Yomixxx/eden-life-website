@@ -14,55 +14,55 @@
     {
       "id": "01",
       "path": "assets/voice/01.wav",
-      "duration_s": 2.987,
+      "duration_s": 3.115,
       "words": []
     },
     {
       "id": "02",
       "path": "assets/voice/02.wav",
-      "duration_s": 3.904,
+      "duration_s": 4.203,
       "words": []
     },
     {
       "id": "03",
       "path": "assets/voice/03.wav",
-      "duration_s": 3.051,
+      "duration_s": 3.307,
       "words": []
     },
     {
       "id": "04",
       "path": "assets/voice/04.wav",
-      "duration_s": 3.136,
+      "duration_s": 2.795,
       "words": []
     },
     {
       "id": "05",
       "path": "assets/voice/05.wav",
-      "duration_s": 2.432,
+      "duration_s": 1.429,
       "words": []
     },
     {
       "id": "06",
       "path": "assets/voice/06.wav",
-      "duration_s": 2.795,
+      "duration_s": 2.603,
       "words": []
     },
     {
       "id": "07",
       "path": "assets/voice/07.wav",
-      "duration_s": 2.453,
+      "duration_s": 1.472,
       "words": []
     },
     {
       "id": "08",
       "path": "assets/voice/08.wav",
-      "duration_s": 2.005,
+      "duration_s": 2.112,
       "words": []
     },
     {
       "id": "09",
       "path": "assets/voice/09.wav",
-      "duration_s": 3.136,
+      "duration_s": 3.307,
       "words": []
     },
     {
@@ -236,5 +236,5 @@
       "volume": 0.35
     }
   ],
-  "total_duration_s": 27.179
+  "total_duration_s": 25.623
 }

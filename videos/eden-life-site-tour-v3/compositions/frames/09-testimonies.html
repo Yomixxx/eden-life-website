@@ -1,4 +1,4 @@
-<template><div id="root" data-composition-id="09-testimonies" data-width="1920" data-height="1080" data-duration="3.436">
+<template><div id="root" data-composition-id="09-testimonies" data-width="1920" data-height="1080" data-duration="3.607">
   <style>
     #root {
       position: relative;
@@ -37,7 +37,6 @@
       line-height: 1.05;
       letter-spacing: -0.01em;
       color: #0D1917;
-      opacity: 0;
       will-change: opacity, transform;
     }
 
@@ -171,15 +170,25 @@
       overflow: hidden;
     }
 
-    .f09-content img {
+    /* ---- Testimony carousel: three discrete card "slides" cross-fading in sequence
+       (client shot list: "fast carousel of 2-3 testimony cards"), not a single pan. ---- */
+    .f09-slide {
       position: absolute;
-      top: -6%;
-      left: -6%;
-      width: 112%;
-      height: 112%;
-      object-fit: cover;
-      object-position: center top;
-      transform-origin: 50% 62%;
+      inset: 0;
+      background: #0D1712;
+      opacity: 0;
+      will-change: opacity;
+    }
+
+    .f09-slide img {
+      position: absolute;
+      top: 6%;
+      left: 6%;
+      width: 88%;
+      height: 88%;
+      object-fit: contain;
+      object-position: center;
+      transform-origin: 50% 50%;
       will-change: transform;
     }
 
@@ -226,9 +235,96 @@
       transform: scale(0.4);
       will-change: opacity, transform;
     }
+
+    /* ---- Ring decoration + floating accent badge + light-leak sweep
+       (Envato "Web Promo" reference techniques, re-themed to Eden Life green) ---- */
+    .f09-ring {
+      position: absolute;
+      right: 40px;
+      top: 50%;
+      width: 900px;
+      height: 900px;
+      margin-top: -450px;
+      border-radius: 50%;
+      border: 36px solid rgba(31, 174, 85, 0.07);
+      opacity: 0;
+      will-change: opacity, transform;
+    }
+
+    .f09-ring--inner {
+      position: absolute;
+      right: 220px;
+      top: 50%;
+      width: 560px;
+      height: 560px;
+      margin-top: -280px;
+      border-radius: 50%;
+      border: 22px solid rgba(31, 174, 85, 0.1);
+      opacity: 0;
+      will-change: opacity, transform;
+    }
+
+    .f09-badge {
+      position: absolute;
+      left: 110px;
+      top: 300px;
+      width: 64px;
+      height: 64px;
+      opacity: 0;
+      will-change: opacity, transform;
+    }
+
+    .f09-badge-sq {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      background: #1FAE55;
+    }
+
+    .f09-badge-circle {
+      position: absolute;
+      left: 32px;
+      top: 28px;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: #B7E4C7;
+    }
+
+    .f09-leak {
+      position: absolute;
+      inset: -20% -60%;
+      background: linear-gradient(
+        100deg,
+        rgba(255, 255, 255, 0) 42%,
+        rgba(255, 255, 255, 0.85) 50%,
+        rgba(255, 255, 255, 0) 58%
+      );
+      opacity: 0;
+      pointer-events: none;
+      will-change: opacity, transform;
+    }
+
+    .f09-lead {
+      display: inline-block;
+      opacity: 0;
+      will-change: opacity, transform;
+    }
   </style>
 
-  <div class="clip f09-stack-wrap" data-start="0" data-duration="3.436" data-track-index="0">
+    <div class="clip" data-start="0" data-duration="3.607" data-track-index="3">
+    <div class="f09-ring"></div>
+    <div class="f09-ring--inner"></div>
+    <div class="f09-badge">
+      <div class="f09-badge-sq"></div>
+      <div class="f09-badge-circle"></div>
+    </div>
+  </div>
+
+  <div class="clip f09-stack-wrap" data-start="0" data-duration="3.607" data-track-index="0">
     <div class="f09-window f09-window--echo2">
       <div class="f09-content"><img src="assets/about-who-we-are.png" alt="" /></div>
     </div>
@@ -241,7 +337,9 @@
         <div class="f09-chrome-url"><span>edenlifeng.org/testimonies</span></div>
       </div>
       <div class="f09-content">
-        <img src="assets/testimonies.png" alt="" data-layout-allow-overflow />
+        <div class="f09-slide f09-slide--1"><img src="assets/testimony-card-1.png" alt="" data-layout-allow-overflow /></div>
+        <div class="f09-slide f09-slide--2"><img src="assets/testimony-card-2.png" alt="" data-layout-allow-overflow /></div>
+        <div class="f09-slide f09-slide--3"><img src="assets/testimony-card-3.png" alt="" data-layout-allow-overflow /></div>
         <div class="f09-click-ring"></div>
         <div class="f09-click">
           <svg class="f09-click-cursor" viewBox="0 0 24 24"><path d="M4 2L4 20L9 15.5L12.5 22L15.5 20.5L12 14L19 14L4 2Z" fill="#0D1917" stroke="#FFFFFF" stroke-width="1.2"/></svg>
@@ -251,13 +349,17 @@
     </div>
   </div>
 
-  <div class="clip f09-headline-wrap" data-start="0" data-duration="3.436" data-track-index="1">
+  <div class="clip f09-headline-wrap" data-start="0" data-duration="3.607" data-track-index="1">
     <p class="f09-eyebrow">TESTIMONIES</p>
-    <h1 class="f09-headline"><span class="f09-accent">Real stories.</span> Real life change.</h1>
+    <h1 class="f09-headline"><span class="f09-accent">Real stories.</span> <span class="f09-lead">Real life change.</span></h1>
   </div>
 
-  <div class="clip f09-dots" data-start="0" data-duration="3.436" data-track-index="2">
+  <div class="clip f09-dots" data-start="0" data-duration="3.607" data-track-index="2">
     <span></span><span></span><span></span>
+  </div>
+
+    <div class="clip" data-start="0" data-duration="3.607" data-track-index="9">
+    <div class="f09-leak"></div>
   </div>
 
   <script src="assets/vendor/gsap.min.js"></script>
@@ -265,7 +367,7 @@
     (function () {
       window.__timelines = window.__timelines || {};
       var tl = gsap.timeline({ paused: true });
-      var DUR = 3.136;
+      var DUR = 3.307;
 
       // Continuous constant-rate 3D drift on the whole stack, running edge-to-edge —
       // never eases to a stop, never holds still.
@@ -273,22 +375,45 @@
       tl.fromTo('.f09-window--echo1', { rotateY: 20, rotateX: 4 }, { rotateY: 14, rotateX: 2, duration: DUR, ease: 'none' }, 0);
       tl.fromTo('.f09-window--echo2', { rotateY: 24, rotateX: 5 }, { rotateY: 18, rotateX: 2.5, duration: DUR, ease: 'none' }, 0);
 
-      // Client shot list: "quick swipe to another story" — push into the quote-card row, then
-      // pan left-to-right across it (Ngozi A. → Emeka O. → Babatunde F.), a real swipe motion
-      // rather than a static hold. Constant rate, whole shot.
-      tl.fromTo('.f09-window--primary .f09-content img', { scale: 1.15, x: 24 }, { scale: 1.15, x: -70, duration: DUR, ease: 'none' }, 0);
+      // Client shot list: "fast carousel of 2-3 testimony cards" — three discrete slides
+      // (Ngozi A. → Emeka O. → Babatunde F.) cross-fade in sequence; each slide keeps a small
+      // continuous zoom while visible so nothing ever sits static.
+      var seg = DUR / 3;
+      var xfade = 0.18;
+      tl.set('.f09-slide--1', { opacity: 1 }, 0);
+      tl.fromTo('.f09-slide--1 img', { scale: 1.0 }, { scale: 1.08, duration: seg + xfade, ease: 'none' }, 0);
+      tl.to('.f09-slide--1', { opacity: 0, duration: xfade, ease: 'power1.inOut' }, seg);
+
+      tl.fromTo('.f09-slide--2', { opacity: 0 }, { opacity: 1, duration: xfade, ease: 'power1.inOut' }, seg);
+      tl.fromTo('.f09-slide--2 img', { scale: 1.0 }, { scale: 1.08, duration: seg + xfade, ease: 'none' }, seg);
+      tl.to('.f09-slide--2', { opacity: 0, duration: xfade, ease: 'power1.inOut' }, seg * 2);
+
+      tl.fromTo('.f09-slide--3', { opacity: 0 }, { opacity: 1, duration: xfade, ease: 'power1.inOut' }, seg * 2);
+      tl.fromTo('.f09-slide--3 img', { scale: 1.0 }, { scale: 1.1, duration: DUR - seg * 2, ease: 'none' }, seg * 2);
 
       // Headline + dots build in fast (first ~0.22s), then hold their landed state
       // (they don't drift further — only the stack itself keeps moving).
       tl.fromTo('.f09-eyebrow', { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.2, ease: 'power2.out' }, 0.02);
-      tl.fromTo('.f09-headline', { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.22, ease: 'power2.out' }, 0.08);
+      tl.fromTo('.f09-accent', { opacity: 0, y: 22 }, { opacity: 1, y: 0, duration: 0.2, ease: 'power2.out' }, 0.08);
+      tl.fromTo('.f09-lead', { opacity: 0, y: 26 }, { opacity: 1, y: 0, duration: 0.24, ease: 'back.out(1.5)' }, 0.17);
       tl.fromTo('.f09-dots', { opacity: 0 }, { opacity: 1, duration: 0.2, ease: 'power1.out' }, 0.18);
 
       tl.fromTo('.f09-click', { opacity: 0, x: -8 }, { opacity: 1, x: 0, duration: 0.12, ease: 'power1.out' }, 0.02);
       tl.fromTo('.f09-click-ring', { opacity: 0.9, scale: 0.4 }, { opacity: 0, scale: 1.8, duration: 0.32, ease: 'power1.out' }, 0.08);
       tl.to('.f09-click', { opacity: 0, duration: 0.15, ease: 'power1.in' }, 0.32);
 
-      window.__timelines['09-testimonies'] = tl;
+      
+      // Ring + badge decoration (Envato reference technique) — fade/settle in fast, then a
+      // slow constant rotation for the whole shot so they never sit dead-static.
+      tl.fromTo('.f09-ring', { opacity: 0, rotate: 0 }, { opacity: 1, rotate: 8, duration: DUR, ease: 'none' }, 0);
+      tl.fromTo('.f09-ring--inner', { opacity: 0, rotate: 0 }, { opacity: 1, rotate: -10, duration: DUR, ease: 'none' }, 0);
+      tl.fromTo('.f09-badge', { opacity: 0, y: 10, scale: 0.85 }, { opacity: 1, y: 0, scale: 1, duration: 0.3, ease: 'back.out(1.7)' }, 0.04);
+
+      // Light-leak sweep across the cut — a soft diagonal streak, gone by ~0.4s.
+      tl.fromTo('.f09-leak', { opacity: 0, x: '-60%' }, { opacity: 1, x: '10%', duration: 0.32, ease: 'power1.in' }, 0);
+      tl.to('.f09-leak', { opacity: 0, x: '60%', duration: 0.18, ease: 'power1.out' }, 0.32);
+
+window.__timelines['09-testimonies'] = tl;
     })();
   </script>
 </div></template>

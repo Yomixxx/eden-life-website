@@ -50,16 +50,42 @@ mode: autonomous
 - **Content-fidelity notes:** three of the client's named elements don't exist in the real
   captured pages, so each is swapped for the closest real content on that same page rather
   than inventing anything fake — noted on the affected frames (3, 5, 9).
+- **Round 2 — "Envato Web Promo" reference (from the client's second reference video):** that
+  clip is a generic Envato Elements template preview for an unrelated WordPress theme
+  (laptop/tablet mockups, lorem ipsum, GDPR/feature badges) — its literal content doesn't
+  belong in a church ad, but its motion techniques do. Layered onto the existing browser-stack
+  system rather than replacing it (kept the browser-chrome look, not a laptop/tablet bezel —
+  a cosmetic device choice, not a technique, and re-tooling ten frames' chrome for no added
+  storytelling value wasn't worth the risk of breaking the working stack):
+  - **Ring decorations:** soft, pale-green concentric ring(s) in the background, behind the
+    window stack, on every frame — the reference's signature "agency" backdrop texture.
+  - **Floating accent badge:** a small cluster of geometric shapes (rounded square + circle)
+    near the headline, echoing the reference's icon-badge motif, in brand green.
+  - **Kinetic caption reveal:** headline words animate in with a slight stagger + upward
+    motion (not a single fade-up block) — reads more "premium."
+  - **Rectangle focus-box:** a thin bordered rectangle draws itself around the specific
+    highlighted UI element (replacing a plain zoom-only push) on frames 2, 6, 8 where the
+    target is a distinct boxed module (service-times card, checklist, giving toggle).
+  - **Light-leak sweep:** a soft diagonal white streak sweeps across at each cut, layered on
+    top of the existing crossfade (transitions.mjs untouched — this is a per-frame overlay).
+  - **Testimony carousel (Frame 9):** rebuilt from a single pan into three discrete card
+    "slides" cross-fading in sequence — a real carousel, not a pan across one image.
+  - **CTA button locked to real site text (Frame 10):** per the client's ask, the pill now
+    reads the real primary button label from the live homepage hero — **"PLAN YOUR VISIT"**
+    (confirmed from `assets/home-hero.png`) — instead of a generic URL-only pill, "so the ad
+    and the click behavior match perfectly."
+  - **"Built with Claude" dropped again:** the client's second script re-included this line
+    verbatim; per their own earlier explicit choice (drop the AI-tool mention), it stays out.
 
 ---
 
 ## Frame 1 — Home
 
 - scene: Home hero screenshot in a tilted browser window, two echo windows stacked behind
-- duration: 2.987s
+- duration: 3.115s
 - transition_in: cut
 - status: outline
-- voiceover: "Feeling like you need a fresh start? This is Eden Life."
+- voiceover: "This is Eden Life, where a fresh start feels possible."
 - highlight: quick push into the headline + "Plan Your Visit" / "Watch Live →" buttons
   (bottom-left of the hero capture) — client shot list: "quick zoom on headline + primary
   button." No nav-click chip (this is the opening frame, we start here, nothing was clicked).
@@ -76,10 +102,10 @@ primary window's internal screenshot pans slightly within its crop.
 ## Frame 2 — New Here
 
 - scene: Plan Your Visit screenshot primary, What to Expect echo behind
-- duration: 3.904s
+- duration: 4.203s
 - transition_in: crossfade 0.3s
 - status: outline
-- voiceover: "New here? Come as you are — get service times and directions in one tap."
+- voiceover: "New here? Come as you are. Service times, directions, what to expect."
 - click_label: "New Here"
 - highlight: push toward the lower content band — "Come as You Are" checklist (right column)
   and "Find the Campus Closest to You" service-time card (left column), the two things the
@@ -94,10 +120,10 @@ Continuous stack drift throughout, no stop.
 ## Frame 3 — Who We Are
 
 - scene: Who We Are screenshot, one echo window, brisk beat
-- duration: 3.051s
+- duration: 3.307s
 - transition_in: crossfade 0.3s
 - status: outline
-- voiceover: "Meet us on Who We Are: real people, real faith."
+- voiceover: "Real people. Real faith. Meet the heart behind it."
 - click_label: "About"
 - highlight: push into "Founded on Faith. Built on Community." + the 15+/2/1/∞ stats grid.
   CONTENT-FIDELITY NOTE: the client's shot list asked for "pastor/leadership photo + mission
@@ -113,10 +139,10 @@ Headline: "**Real people.** Real faith." — the shortest beat in the tour, bris
 ## Frame 4 — Watch
 
 - scene: Watch Live screenshot primary, Sermons echo behind
-- duration: 3.136s
+- duration: 2.795s
 - transition_in: crossfade 0.3s
 - status: outline
-- voiceover: "Can't make it in? Watch anyway — messages on demand."
+- voiceover: "Can't make it in? Watch anyway, on your schedule."
 - click_label: "Watch"
 - highlight: push into the first sermon card in "Teaching That Transforms." CONTENT-FIDELITY
   NOTE: the real sermon thumbnails are broken images on the live site (a gray placeholder box,
@@ -132,10 +158,10 @@ Headline: "Can't make it in? **Watch anyway.**"
 ## Frame 5 — Connect
 
 - scene: Community Groups screenshot, single window emphasis
-- duration: 2.432s
+- duration: 1.429s
 - transition_in: crossfade 0.3s
 - status: outline
-- voiceover: "Ready for community? Connect into a group,"
+- voiceover: "Then connect into a group,"
 - click_label: "Connect"
 - highlight: push into "You Were Made to Belong" + the real photo of the group gathered.
   CONTENT-FIDELITY NOTE: the client's shot list asked for "community groups tile/cards" — the
@@ -152,10 +178,10 @@ exhale, not a hard topic change.
 ## Frame 6 — Grow
 
 - scene: Growth Steps screenshot, four-step pathway glimpsed via internal pan
-- duration: 2.795s
+- duration: 2.603s
 - transition_in: crossfade 0.3s
 - status: outline
-- voiceover: "then grow with next steps toward a flourishing life."
+- voiceover: "and grow with next steps toward a flourishing life."
 - click_label: "Grow"
 - highlight: push into "Start Your Journey Here" + the "What You Will Learn" checklist
   (Salvation, The Bible, Prayer…) — the real next-steps pathway content on the page.
@@ -168,10 +194,10 @@ the internal pan, not frozen for a static read). Headline: "Take your **next ste
 ## Frame 7 — Events
 
 - scene: Events index screenshot with God Moment card visible
-- duration: 2.453s
+- duration: 1.472s
 - transition_in: crossfade 0.3s
 - status: outline
-- voiceover: "Check Events — there's always something happening."
+- voiceover: "See what's next in Events."
 - click_label: "Events"
 - highlight: push in and settle on the featured "God Moment: 21 Days of Prayer & Fasting" event
   card — client shot list: "pause on one featured event."
@@ -185,10 +211,10 @@ sentence across the cut, same as Frames 5→6 — keep the crossfade feeling lik
 ## Frame 8 — Give
 
 - scene: Give screenshot, plainest and shortest beat
-- duration: 2.005s
+- duration: 2.112s
 - transition_in: crossfade 0.3s
 - status: outline
-- voiceover: "And giving back is simple and secure."
+- voiceover: "And when you're ready, giving back is simple."
 - click_label: "Give"
 - highlight: push into "Secure & encrypted" + the real "Pay Online / Bank Transfer" toggle and
   amount grid — client shot list: "simple giving form + one-time/recurring toggle."
@@ -200,10 +226,10 @@ Primary window: `assets/give.png`. Headline: "Giving, **made simple.**"
 ## Frame 9 — Testimonies
 
 - scene: Testimonies screenshot
-- duration: 3.136s
+- duration: 3.307s
 - transition_in: crossfade 0.3s
 - status: outline
-- voiceover: "Hear Testimonies — real stories, real life change."
+- voiceover: "Watch testimonies, real stories, real life change."
 - click_label: "Testimonies"
 - highlight: push into "Stories of His Faithfulness" and pan across the row of three quote
   cards (Ngozi A. → Emeka O. → Babatunde F.) — a real "swipe to another story" motion.

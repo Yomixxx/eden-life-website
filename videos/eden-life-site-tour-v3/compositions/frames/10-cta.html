@@ -212,7 +212,65 @@
       width: 100%;
       height: 100%;
     }
+
+    .cta-url-caption {
+      margin: 14px 0 0 0;
+      font-family: "Poppins", sans-serif;
+      font-weight: 500;
+      font-size: 16px;
+      letter-spacing: 0.02em;
+      color: #6B7A75;
+      opacity: 0;
+      will-change: opacity, transform;
+    }
+
+    /* ---- Ring decoration + light-leak sweep (same Envato-reference technique as the
+       other 9 frames, re-centered since the CTA window itself is centered, not offset). ---- */
+    .cta-ring {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 1500px;
+      height: 1500px;
+      margin: -750px 0 0 -750px;
+      border-radius: 50%;
+      border: 40px solid rgba(31, 174, 85, 0.06);
+      opacity: 0;
+      will-change: opacity, transform;
+    }
+
+    .cta-ring--inner {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 1020px;
+      height: 1020px;
+      margin: -510px 0 0 -510px;
+      border-radius: 50%;
+      border: 24px solid rgba(31, 174, 85, 0.09);
+      opacity: 0;
+      will-change: opacity, transform;
+    }
+
+    .cta-leak {
+      position: absolute;
+      inset: -20% -60%;
+      background: linear-gradient(
+        100deg,
+        rgba(255, 255, 255, 0) 42%,
+        rgba(255, 255, 255, 0.85) 50%,
+        rgba(255, 255, 255, 0) 58%
+      );
+      opacity: 0;
+      pointer-events: none;
+      will-change: opacity, transform;
+    }
   </style>
+
+  <div class="clip" data-start="0" data-duration="1.98" data-track-index="3">
+    <div class="cta-ring"></div>
+    <div class="cta-ring--inner"></div>
+  </div>
 
   <div class="clip cta-stack-wrap" data-start="0" data-duration="1.98" data-track-index="0">
     <div class="cta-window cta-window--echo">
@@ -228,12 +286,17 @@
         <p class="cta-wordmark">EDEN LIFE</p>
         <h1 class="cta-headline">Come See <span class="cta-accent">For Yourself.</span></h1>
         <span class="cta-pill-wrap">
-          <span class="cta-pill">EDENLIFENG.ORG</span>
+          <span class="cta-pill">PLAN YOUR VISIT</span>
           <span class="cta-click-ring"></span>
         </span>
+        <p class="cta-url-caption">edenlifeng.org</p>
         <div class="cta-qr"><img src="assets/qr-website.png" alt="" /></div>
       </div>
     </div>
+  </div>
+
+  <div class="clip" data-start="0" data-duration="1.98" data-track-index="9">
+    <div class="cta-leak"></div>
   </div>
 
   <script src="assets/vendor/gsap.min.js"></script>
@@ -252,11 +315,20 @@
       tl.fromTo('.cta-wordmark', { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.3, ease: 'power2.out' }, 0.24);
       tl.fromTo('.cta-headline', { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.36, ease: 'power2.out' }, 0.4);
       tl.fromTo('.cta-pill', { opacity: 0, y: 12, scale: 0.96 }, { opacity: 1, y: 0, scale: 1, duration: 0.32, ease: 'power2.out' }, 0.72);
+      tl.fromTo('.cta-url-caption', { opacity: 0 }, { opacity: 1, duration: 0.28, ease: 'power1.out' }, 0.86);
       tl.fromTo('.cta-qr', { opacity: 0, scale: 0.85 }, { opacity: 1, scale: 1, duration: 0.34, ease: 'back.out(1.6)' }, 0.98);
 
-      // Client shot list: "hold on ... + primary button" — a click-pulse on the URL pill
-      // (this frame's primary button) right as it lands, echoing the nav-click device.
+      // Client shot list: "hold on ... + primary button" — a click-pulse on the real
+      // "Plan Your Visit" button label right as it lands, echoing the nav-click device.
       tl.fromTo('.cta-click-ring', { opacity: 0.9, scale: 0.5 }, { opacity: 0, scale: 2.0, duration: 0.36, ease: 'power1.out' }, 1.0);
+
+      // Ring backdrop — same slow constant rotation as the other 9 frames.
+      tl.fromTo('.cta-ring', { opacity: 0, rotate: 0 }, { opacity: 1, rotate: 5, duration: 1.98, ease: 'none' }, 0);
+      tl.fromTo('.cta-ring--inner', { opacity: 0, rotate: 0 }, { opacity: 1, rotate: -6, duration: 1.98, ease: 'none' }, 0);
+
+      // Light-leak sweep on the cut in.
+      tl.fromTo('.cta-leak', { opacity: 0, x: '-60%' }, { opacity: 1, x: '10%', duration: 0.32, ease: 'power1.in' }, 0);
+      tl.to('.cta-leak', { opacity: 0, x: '60%', duration: 0.18, ease: 'power1.out' }, 0.32);
 
       // ---- Scene 2 (1.32-1.98s, ~0.66s): the video's one deliberate held beat,
       // capped tight — a short deterministic glow-free settle (subtle scale

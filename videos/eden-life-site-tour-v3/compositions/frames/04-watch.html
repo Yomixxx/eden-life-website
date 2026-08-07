@@ -1,4 +1,4 @@
-<template><div id="root" data-composition-id="04-watch" data-width="1920" data-height="1080" data-duration="3.436">
+<template><div id="root" data-composition-id="04-watch" data-width="1920" data-height="1080" data-duration="3.095">
   <style>
     #root {
       position: relative;
@@ -37,7 +37,6 @@
       line-height: 1.05;
       letter-spacing: -0.01em;
       color: #0D1917;
-      opacity: 0;
       will-change: opacity, transform;
     }
 
@@ -253,9 +252,96 @@
       height: 34px;
       margin-left: 4px;
     }
+
+    /* ---- Ring decoration + floating accent badge + light-leak sweep
+       (Envato "Web Promo" reference techniques, re-themed to Eden Life green) ---- */
+    .f04-ring {
+      position: absolute;
+      right: 40px;
+      top: 50%;
+      width: 900px;
+      height: 900px;
+      margin-top: -450px;
+      border-radius: 50%;
+      border: 36px solid rgba(31, 174, 85, 0.07);
+      opacity: 0;
+      will-change: opacity, transform;
+    }
+
+    .f04-ring--inner {
+      position: absolute;
+      right: 220px;
+      top: 50%;
+      width: 560px;
+      height: 560px;
+      margin-top: -280px;
+      border-radius: 50%;
+      border: 22px solid rgba(31, 174, 85, 0.1);
+      opacity: 0;
+      will-change: opacity, transform;
+    }
+
+    .f04-badge {
+      position: absolute;
+      left: 110px;
+      top: 300px;
+      width: 64px;
+      height: 64px;
+      opacity: 0;
+      will-change: opacity, transform;
+    }
+
+    .f04-badge-sq {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      background: #1FAE55;
+    }
+
+    .f04-badge-circle {
+      position: absolute;
+      left: 32px;
+      top: 28px;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: #B7E4C7;
+    }
+
+    .f04-leak {
+      position: absolute;
+      inset: -20% -60%;
+      background: linear-gradient(
+        100deg,
+        rgba(255, 255, 255, 0) 42%,
+        rgba(255, 255, 255, 0.85) 50%,
+        rgba(255, 255, 255, 0) 58%
+      );
+      opacity: 0;
+      pointer-events: none;
+      will-change: opacity, transform;
+    }
+
+    .f04-lead {
+      display: inline-block;
+      opacity: 0;
+      will-change: opacity, transform;
+    }
   </style>
 
-  <div class="clip f04-stack-wrap" data-start="0" data-duration="3.436" data-track-index="0">
+    <div class="clip" data-start="0" data-duration="3.095" data-track-index="3">
+    <div class="f04-ring"></div>
+    <div class="f04-ring--inner"></div>
+    <div class="f04-badge">
+      <div class="f04-badge-sq"></div>
+      <div class="f04-badge-circle"></div>
+    </div>
+  </div>
+
+  <div class="clip f04-stack-wrap" data-start="0" data-duration="3.095" data-track-index="0">
     <div class="f04-window f04-window--echo2">
       <div class="f04-content"><img src="assets/events-index.png" alt="" /></div>
     </div>
@@ -281,13 +367,17 @@
     </div>
   </div>
 
-  <div class="clip f04-headline-wrap" data-start="0" data-duration="3.436" data-track-index="1">
+  <div class="clip f04-headline-wrap" data-start="0" data-duration="3.095" data-track-index="1">
     <p class="f04-eyebrow">WATCH</p>
-    <h1 class="f04-headline">Can't make it in? <span class="f04-accent">Watch anyway.</span></h1>
+    <h1 class="f04-headline"><span class="f04-lead">Can't make it in?</span> <span class="f04-accent">Watch anyway.</span></h1>
   </div>
 
-  <div class="clip f04-dots" data-start="0" data-duration="3.436" data-track-index="2">
+  <div class="clip f04-dots" data-start="0" data-duration="3.095" data-track-index="2">
     <span></span><span></span><span></span>
+  </div>
+
+    <div class="clip" data-start="0" data-duration="3.095" data-track-index="9">
+    <div class="f04-leak"></div>
   </div>
 
   <script src="assets/vendor/gsap.min.js"></script>
@@ -295,7 +385,7 @@
     (function () {
       window.__timelines = window.__timelines || {};
       var tl = gsap.timeline({ paused: true });
-      var DUR = 3.136;
+      var DUR = 2.795;
 
       // Continuous constant-rate 3D drift on the whole stack, running edge-to-edge —
       // never eases to a stop, never holds still.
@@ -310,7 +400,8 @@
       // Headline + dots build in fast (first ~0.22s), then hold their landed state
       // (they don't drift further — only the stack itself keeps moving).
       tl.fromTo('.f04-eyebrow', { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.2, ease: 'power2.out' }, 0.02);
-      tl.fromTo('.f04-headline', { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.22, ease: 'power2.out' }, 0.08);
+      tl.fromTo('.f04-lead', { opacity: 0, y: 22 }, { opacity: 1, y: 0, duration: 0.2, ease: 'power2.out' }, 0.08);
+      tl.fromTo('.f04-accent', { opacity: 0, y: 26 }, { opacity: 1, y: 0, duration: 0.24, ease: 'back.out(1.5)' }, 0.17);
       tl.fromTo('.f04-dots', { opacity: 0 }, { opacity: 1, duration: 0.2, ease: 'power1.out' }, 0.18);
 
       tl.fromTo('.f04-click', { opacity: 0, x: -8 }, { opacity: 1, x: 0, duration: 0.12, ease: 'power1.out' }, 0.02);
@@ -320,7 +411,18 @@
       // Play button fades in right after the click, then holds (it's the payoff of the click).
       tl.fromTo('.f04-play', { opacity: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.28, ease: 'back.out(1.6)' }, 0.28);
 
-      window.__timelines['04-watch'] = tl;
+      
+      // Ring + badge decoration (Envato reference technique) — fade/settle in fast, then a
+      // slow constant rotation for the whole shot so they never sit dead-static.
+      tl.fromTo('.f04-ring', { opacity: 0, rotate: 0 }, { opacity: 1, rotate: 8, duration: DUR, ease: 'none' }, 0);
+      tl.fromTo('.f04-ring--inner', { opacity: 0, rotate: 0 }, { opacity: 1, rotate: -10, duration: DUR, ease: 'none' }, 0);
+      tl.fromTo('.f04-badge', { opacity: 0, y: 10, scale: 0.85 }, { opacity: 1, y: 0, scale: 1, duration: 0.3, ease: 'back.out(1.7)' }, 0.04);
+
+      // Light-leak sweep across the cut — a soft diagonal streak, gone by ~0.4s.
+      tl.fromTo('.f04-leak', { opacity: 0, x: '-60%' }, { opacity: 1, x: '10%', duration: 0.32, ease: 'power1.in' }, 0);
+      tl.to('.f04-leak', { opacity: 0, x: '60%', duration: 0.18, ease: 'power1.out' }, 0.32);
+
+window.__timelines['04-watch'] = tl;
     })();
   </script>
 </div></template>
