@@ -1,6 +1,6 @@
 ---
 format: 1920x1080
-duration: 35s
+duration: ~27s (post sync-durations; final cut trims slightly for crossfade overlap)
 message: "Come see Eden Life for yourself — the whole church, at a glance"
 arc: Home → New Here → Who We Are → Watch → Connect → Grow → Events → Give → Testimonies → CTA
 audience: church congregation (played during service) + website visitors
@@ -37,10 +37,10 @@ mode: autonomous
 ## Frame 1 — Home
 
 - scene: Home hero screenshot in a tilted browser window, two echo windows stacked behind
-- duration: 1.28s
+- duration: 2.987s
 - transition_in: cut
 - status: outline
-- voiceover: "This is Eden Life."
+- voiceover: "Feeling like you need a fresh start? This is Eden Life."
 - src: compositions/frames/01-home.html
 
 Primary window: `assets/home-hero.png` (the real hero — worship stage, "We Equip Disciples."
@@ -54,10 +54,10 @@ primary window's internal screenshot pans slightly within its crop.
 ## Frame 2 — New Here
 
 - scene: Plan Your Visit screenshot primary, What to Expect echo behind
-- duration: 1.6s
+- duration: 3.904s
 - transition_in: crossfade 0.3s
 - status: outline
-- voiceover: "New here? Come as you are."
+- voiceover: "New here? Come as you are — get service times and directions in one tap."
 - src: compositions/frames/02-new-here.html
 
 Primary window: `assets/new-here-plan-your-visit.png`. Echo window behind:
@@ -67,10 +67,10 @@ Continuous stack drift throughout, no stop.
 ## Frame 3 — Who We Are
 
 - scene: Who We Are screenshot, one echo window, brisk beat
-- duration: 1.792s
+- duration: 3.051s
 - transition_in: crossfade 0.3s
 - status: outline
-- voiceover: "Real people. Real faith."
+- voiceover: "Meet us on Who We Are: real people, real faith."
 - src: compositions/frames/03-who-we-are.html
 
 Primary window: `assets/about-who-we-are.png`. One echo window (soft, mostly-hidden) behind.
@@ -79,10 +79,10 @@ Headline: "**Real people.** Real faith." — the shortest beat in the tour, bris
 ## Frame 4 — Watch
 
 - scene: Watch Live screenshot primary, Sermons echo behind
-- duration: 1.941s
+- duration: 3.136s
 - transition_in: crossfade 0.3s
 - status: outline
-- voiceover: "Can't make it in? Watch anyway."
+- voiceover: "Can't make it in? Watch anyway — messages on demand."
 - src: compositions/frames/04-watch.html
 
 Primary window: `assets/watch-live.png`. Echo window: `assets/watch-sermons.png`.
@@ -91,21 +91,24 @@ Headline: "Can't make it in? **Watch anyway.**"
 ## Frame 5 — Connect
 
 - scene: Community Groups screenshot, single window emphasis
-- duration: 2.005s
+- duration: 2.432s
 - transition_in: crossfade 0.3s
 - status: outline
-- voiceover: "Find your people in a community group."
+- voiceover: "Ready for community? Connect into a group,"
 - src: compositions/frames/05-connect.html
 
 Primary window: `assets/connect-community-groups.png`. Headline: "**Find your people.**"
+This line and Frame 6's share one continuous sentence, split at the natural clause break —
+Frame 6 continues the thought mid-breath, so the crossfade between them should feel like one
+exhale, not a hard topic change.
 
 ## Frame 6 — Grow
 
 - scene: Growth Steps screenshot, four-step pathway glimpsed via internal pan
-- duration: 2.453s
+- duration: 2.795s
 - transition_in: crossfade 0.3s
 - status: outline
-- voiceover: "Take your next step toward a flourishing life."
+- voiceover: "then grow with next steps toward a flourishing life."
 - src: compositions/frames/06-grow.html
 
 Primary window: `assets/grow-growth-steps.png` (the four-step pathway is glimpsed in motion via
@@ -114,22 +117,23 @@ the internal pan, not frozen for a static read). Headline: "Take your **next ste
 ## Frame 7 — Events
 
 - scene: Events index screenshot with God Moment card visible
-- duration: 1.643s
+- duration: 2.453s
 - transition_in: crossfade 0.3s
 - status: outline
-- voiceover: "There's always something happening."
+- voiceover: "Check Events — there's always something happening."
 - src: compositions/frames/07-events.html
 
 Primary window: `assets/events-index.png` (God Moment: 21 Days of Prayer & Fasting card
-visible). Headline: "Always **something happening.**"
+visible). Headline: "Always **something happening.**" This line and Frame 8's continue one
+sentence across the cut, same as Frames 5→6 — keep the crossfade feeling like one breath.
 
 ## Frame 8 — Give
 
 - scene: Give screenshot, plainest and shortest beat
-- duration: 1.28s
+- duration: 2.005s
 - transition_in: crossfade 0.3s
 - status: outline
-- voiceover: "Giving back is simple."
+- voiceover: "And giving back is simple and secure."
 - src: compositions/frames/08-give.html
 
 Primary window: `assets/give.png`. Headline: "Giving, **made simple.**"
@@ -137,10 +141,10 @@ Primary window: `assets/give.png`. Headline: "Giving, **made simple.**"
 ## Frame 9 — Testimonies
 
 - scene: Testimonies screenshot
-- duration: 2.283s
+- duration: 3.136s
 - transition_in: crossfade 0.3s
 - status: outline
-- voiceover: "Real stories. Real life change."
+- voiceover: "Hear Testimonies — real stories, real life change."
 - src: compositions/frames/09-testimonies.html
 
 Primary window: `assets/testimonies.png`. Headline: "**Real stories.** Real life change."

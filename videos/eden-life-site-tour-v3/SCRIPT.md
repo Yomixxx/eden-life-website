@@ -1,65 +1,67 @@
 # SCRIPT — eden-life-site-tour-v3
 
-**Voice:** Kokoro (offline) — af_heart, warm and inviting (same voice as v1, distinct from v2's am_adam)
+**Voice:** Kokoro (offline) — af_heart, warm and inviting
 **Voice settings:** default
-**Voice direction:** Plain, confident, brisk — a proud walk-through, not a sales pitch. Every line
-is short enough to land while its browser-window is still visibly settling in.
+**Voice direction:** A guided story, not a feature list — one throughline of an invitation,
+each beat answering the question the last one raised. Warm, present-tense, a little brisk
+(agency pacing), but every line should sound like it's talking to one person, not reciting
+a menu.
 
 ---
 
 ## Line 1 — Home (Frame 1)
 
-**Delivery:** Warm, declarative open.
+**Delivery:** A quiet, direct question, then the warm reveal.
 
-    This is Eden Life.
+    Feeling like you need a fresh start? This is Eden Life.
 
 ## Line 2 — New Here (Frame 2)
 
-**Delivery:** Inviting, reassuring.
+**Delivery:** Inviting, practical — answers the hook immediately.
 
-    New here? Come as you are.
+    New here? Come as you are — get service times and directions in one tap.
 
 ## Line 3 — Who We Are (Frame 3)
 
-**Delivery:** Grounded, proud.
+**Delivery:** Grounded, proud — a trust beat.
 
-    Real people. Real faith.
+    Meet us on Who We Are: real people, real faith.
 
 ## Line 4 — Watch (Frame 4)
 
-**Delivery:** Practical, easy.
+**Delivery:** Practical, easy, no pressure.
 
-    Can't make it in? Watch anyway.
+    Can't make it in? Watch anyway — messages on demand.
 
 ## Line 5 — Connect (Frame 5)
 
-**Delivery:** Warm.
+**Delivery:** Warm, a question that leads into the next beat.
 
-    Find your people in a community group.
+    Ready for community? Connect into a group,
 
 ## Line 6 — Grow (Frame 6)
 
-**Delivery:** Encouraging.
+**Delivery:** Encouraging, continuing the same breath as Line 5.
 
-    Take your next step toward a flourishing life.
+    then grow with next steps toward a flourishing life.
 
 ## Line 7 — Events (Frame 7)
 
 **Delivery:** A little urgent, present-tense.
 
-    There's always something happening.
+    Check Events — there's always something happening.
 
 ## Line 8 — Give (Frame 8)
 
-**Delivery:** Plain, no pressure.
+**Delivery:** Plain, no pressure, continuing the same breath as Line 7.
 
-    Giving back is simple.
+    And giving back is simple and secure.
 
 ## Line 9 — Testimonies (Frame 9)
 
 **Delivery:** Sincere, a touch of awe.
 
-    Real stories. Real life change.
+    Hear Testimonies — real stories, real life change.
 
 ## Line 10 — CTA (Frame 10)
 

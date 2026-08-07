@@ -1,42 +1,42 @@
 {
-  "provider": "kokoro",
+  "provider": "auto",
   "speed": 1,
   "lines": [
     {
       "id": "01",
-      "text": "This is Eden Life."
+      "text": "Feeling like you need a fresh start? This is Eden Life."
     },
     {
       "id": "02",
-      "text": "New here? Come as you are."
+      "text": "New here? Come as you are — get service times and directions in one tap."
     },
     {
       "id": "03",
-      "text": "Real people. Real faith."
+      "text": "Meet us on Who We Are: real people, real faith."
     },
     {
       "id": "04",
-      "text": "Can't make it in? Watch anyway."
+      "text": "Can't make it in? Watch anyway — messages on demand."
     },
     {
       "id": "05",
-      "text": "Find your people in a community group."
+      "text": "Ready for community? Connect into a group,"
     },
     {
       "id": "06",
-      "text": "Take your next step toward a flourishing life."
+      "text": "then grow with next steps toward a flourishing life."
     },
     {
       "id": "07",
-      "text": "There's always something happening."
+      "text": "Check Events — there's always something happening."
     },
     {
       "id": "08",
-      "text": "Giving back is simple."
+      "text": "And giving back is simple and secure."
     },
     {
       "id": "09",
-      "text": "Real stories. Real life change."
+      "text": "Hear Testimonies — real stories, real life change."
     },
     {
       "id": "10",
@@ -45,9 +45,9 @@
   ],
   "bgm": {
     "mode": "retrieve",
-    "query": "calm cinematic underscore",
-    "blob": "",
-    "arc": ""
+    "query": "Come see Eden Life for yourself — the whole church, at a glance",
+    "blob": "Come see Eden Life for yourself — the whole church, at a glance",
+    "arc": "Home → New Here → Who We Are → Watch → Connect → Grow → Events → Give → Testimonies → CTA"
   },
   "voice": "af_heart"
 }
