@@ -332,6 +332,17 @@
             amountBtns.forEach((b) => b.classList.remove('selected'));
             selectedAmount = 0;
             updatePayBtn();
+
+            // Trigger Google Ads conversion event
+            if (typeof gtag === 'function') {
+              gtag('event', 'ads_conversion_Give_1', {
+                value: amount,
+                currency: 'NGN',
+                transaction_id: response.reference
+              });
+            } else {
+              console.warn('gtag is not defined. Google Tag must be installed to track conversions.');
+            }
           },
           onClose: function () {
             payBtn.classList.remove('btn-loading');
@@ -413,7 +424,7 @@
   /* ---- EVENT REGISTRATION + PRAYER FORMS ----
      Moved out of inline <script> blocks so pages run under a CSP with no
      'unsafe-inline' for scripts. Submission is simulated, same as before. */
-  function simulateSubmit(formId, busyText, doneHTML) {
+  function simulateSubmit(formId, busyText, doneHTML, conversionEvent) {
     const form = document.getElementById(formId);
     if (!form) return;
     form.addEventListener('submit', function (e) {
@@ -422,7 +433,7 @@
       if (btn) { btn.disabled = true; btn.textContent = busyText; }
       const formData = new FormData(this);
       formData.append('_form_id', formId);
-      
+
       fetch('https://getform.io/f/193xsfzr8om', {
         method: 'POST',
         body: formData,
@@ -430,6 +441,14 @@
       })
       .then(response => {
         this.innerHTML = doneHTML;
+
+        if (conversionEvent) {
+          if (typeof gtag === 'function') {
+            gtag('event', conversionEvent, {});
+          } else {
+            console.warn('gtag is not defined. Google Tag must be installed to track conversions.');
+          }
+        }
       })
       .catch(error => {
         if (btn) { btn.disabled = false; btn.textContent = 'Error. Try again.'; }
@@ -451,7 +470,8 @@
   simulateSubmit('prayerForm',   'Submitting…',
     '<div style="text-align:center;padding:3rem 1rem">' + CHECK_SVG +
     '<h3 style="font-family:var(--font-display);font-size:1.5rem;font-weight:800;color:#fff;margin-top:1.25rem;margin-bottom:.75rem">Prayer Received</h3>' +
-    '<p style="font-family:var(--font-body);color:rgba(255,255,255,.6);font-size:.9rem">Thank you for sharing. Our prayer team will lift you up.</p></div>');
+    '<p style="font-family:var(--font-body);color:rgba(255,255,255,.6);font-size:.9rem">Thank you for sharing. Our prayer team will lift you up.</p></div>',
+    'ads_conversion_Prayer_Request_1');
 
   /* ---- COMMUNITY SLIDESHOW ---- */
   const slideshowTrack = document.getElementById('slideshowTrack');
