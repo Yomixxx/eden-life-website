@@ -442,9 +442,10 @@
         contactForm.reset();
         if (btn) { btn.textContent = 'Send Message'; btn.disabled = false; }
         
-        // Trigger Google Ads conversion event
+        // Trigger Google Ads conversion events
         if (typeof gtag === 'function') {
           gtag('event', 'ads_conversion_Contact_Us_1', {});
+          gtag('event', 'conversion_event_book_appointment', {});
         } else {
           console.warn('gtag is not defined. Google Tag must be installed to track conversions.');
         }
